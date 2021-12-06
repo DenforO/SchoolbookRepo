@@ -7,5 +7,16 @@ namespace SchoolbookApp.Models
 {
     public class SchoolClass
     {
+        public int Id { get; set; }
+
+        public int Num { get; set; }
+
+        public char Letter { get; set; }
+
+        public SchoolClass()
+        {
+
+        }
+
     }
 }

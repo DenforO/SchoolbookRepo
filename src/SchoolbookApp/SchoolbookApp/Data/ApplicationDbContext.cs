@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SchoolbookApp.Models;
 
 namespace SchoolbookApp.Data
 {
@@ -12,5 +13,6 @@ namespace SchoolbookApp.Data
             : base(options)
         {
         }
+        public DbSet<SchoolbookApp.Models.SchoolClass> SchoolClass { get; set; }
     }
 }
