@@ -18,5 +18,6 @@ namespace SchoolbookApp.Data
         public DbSet<SchoolbookApp.Models.SubjectType> SubjectType { get; set; }
         public DbSet<SchoolbookApp.Models.Absence> Absence { get; set; }
         public DbSet<SchoolbookApp.Models.Note> Note { get; set; }
+        public DbSet<SchoolbookApp.Models.Grade> Grade { get; set; }
     }
 }

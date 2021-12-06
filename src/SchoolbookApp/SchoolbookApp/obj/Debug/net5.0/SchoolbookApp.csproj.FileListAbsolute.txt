@@ -182,3 +182,8 @@ E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\Scho
 E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Notes\Details.cshtml.g.cs
 E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Notes\Edit.cshtml.g.cs
 E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Notes\Index.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Grades\Create.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Grades\Delete.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Grades\Details.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Grades\Edit.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Grades\Index.cshtml.g.cs
