@@ -14,5 +14,6 @@ namespace SchoolbookApp.Data
         {
         }
         public DbSet<SchoolbookApp.Models.SchoolClass> SchoolClass { get; set; }
+        public DbSet<SchoolbookApp.Models.Subject> Subject { get; set; }
     }
 }

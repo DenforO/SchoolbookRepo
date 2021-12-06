@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolbookApp.Data;
 
 namespace SchoolbookApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211206184044_SchoolClass")]
+    partial class SchoolClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,35 +240,6 @@ namespace SchoolbookApp.Data.Migrations
                     b.ToTable("SchoolClass");
                 });
 
-            modelBuilder.Entity("SchoolbookApp.Models.Subject", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Day")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SchoolClassId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TeacherId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("time");
-
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SchoolClassId");
-
-                    b.ToTable("Subject");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -316,15 +289,6 @@ namespace SchoolbookApp.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("SchoolbookApp.Models.Subject", b =>
-                {
-                    b.HasOne("SchoolbookApp.Models.SchoolClass", "SchoolClass")
-                        .WithMany()
-                        .HasForeignKey("SchoolClassId");
-
-                    b.Navigation("SchoolClass");
                 });
 #pragma warning restore 612, 618
         }

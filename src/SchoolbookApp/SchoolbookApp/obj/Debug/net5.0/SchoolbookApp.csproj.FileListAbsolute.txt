@@ -157,3 +157,13 @@ E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\Scho
 E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\bin\Debug\net5.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\bin\Debug\net5.0\runtimes\win-arm\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\SchoolClasses\Create.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\SchoolClasses\Delete.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\SchoolClasses\Details.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\SchoolClasses\Edit.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\SchoolClasses\Index.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Subjects\Create.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Subjects\Delete.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Subjects\Details.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Subjects\Edit.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Subjects\Index.cshtml.g.cs
