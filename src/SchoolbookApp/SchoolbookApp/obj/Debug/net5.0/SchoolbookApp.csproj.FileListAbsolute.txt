@@ -177,3 +177,8 @@ E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\Scho
 E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Absences\Details.cshtml.g.cs
 E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Absences\Edit.cshtml.g.cs
 E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Absences\Index.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Notes\Create.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Notes\Delete.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Notes\Details.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Notes\Edit.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Notes\Index.cshtml.g.cs
