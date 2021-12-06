@@ -10,7 +10,7 @@ namespace SchoolbookApp.Models
         public int Id { get; set; }
         public DayOfWeek Day { get; set; }
         public TimeSpan Time { get; set; }
-        public int TypeId { get; set; }
+        public SubjectType SubjectType { get; set; }
         public string TeacherId { get; set; }
         public SchoolClass SchoolClass { get; set; }
 

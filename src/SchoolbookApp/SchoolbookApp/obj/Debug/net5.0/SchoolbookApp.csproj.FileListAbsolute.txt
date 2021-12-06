@@ -167,3 +167,8 @@ E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\Scho
 E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Subjects\Details.cshtml.g.cs
 E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Subjects\Edit.cshtml.g.cs
 E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\Subjects\Index.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\SubjectTypes\Create.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\SubjectTypes\Delete.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\SubjectTypes\Details.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\SubjectTypes\Edit.cshtml.g.cs
+E:\Учене\3 курс\СТ\Проект\SchoolbookRepo\src\SchoolbookApp\SchoolbookApp\obj\Debug\net5.0\Razor\Views\SubjectTypes\Index.cshtml.g.cs

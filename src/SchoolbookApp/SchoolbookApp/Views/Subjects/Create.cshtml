@@ -15,13 +15,13 @@
             <div class="form-group">
                 <label asp-for="Day" class="control-label"></label>
                 <select asp-for="Day" class="form-control">
-                    <option value="Понеделник">Понеделник</option>
-                    <option value="Вторник">Вторник</option>
-                    <option value="Сряда">Сряда</option>
-                    <option value="Четвъртък">Четвъртък</option>
-                    <option value="Петък">Петък</option>
-                    <option value="Събота">Събота</option>
-                    <option value="Неделя">Неделя</option>
+                    <option value="1">Понеделник</option>
+                    <option value="2">Вторник</option>
+                    <option value="3">Сряда</option>
+                    <option value="4">Четвъртък</option>
+                    <option value="5">Петък</option>
+                    <option value="6">Събота</option>
+                    <option value="0">Неделя</option>
                 </select>
                 <span asp-validation-for="Day" class="text-danger"></span>
             </div>
@@ -29,11 +29,6 @@
                 <label asp-for="Time" class="control-label"></label>
                 <input asp-for="Time" type="time" class="form-control" />
                 <span asp-validation-for="Time" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TypeId" class="control-label"></label>
-                <input asp-for="TypeId" class="form-control" />
-                <span asp-validation-for="TypeId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TeacherId" class="control-label"></label>
