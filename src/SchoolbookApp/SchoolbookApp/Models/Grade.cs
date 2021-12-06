@@ -9,7 +9,6 @@ namespace SchoolbookApp.Models
     {
         public int Value { get; set; }
         public string Basis { get; set; }
-        public int MyProperty { get; set; }
         public bool IsSemesterGrade { get; set; }
         public bool IsFinalGrade { get; set; }
 
