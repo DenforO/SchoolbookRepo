@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolbookApp.Data;
 
 namespace SchoolbookApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211206225629_Absence")]
+    partial class Absence
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,18 +234,18 @@ namespace SchoolbookApp.Data.Migrations
                     b.Property<bool>("Half")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("SchoolClassId")
+                        .HasColumnType("int");
+
                     b.Property<string>("StudentId")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("SubjectId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("isExcused")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubjectId");
+                    b.HasIndex("SchoolClassId");
 
                     b.ToTable("Absence");
                 });
@@ -366,11 +368,11 @@ namespace SchoolbookApp.Data.Migrations
 
             modelBuilder.Entity("SchoolbookApp.Models.Absence", b =>
                 {
-                    b.HasOne("SchoolbookApp.Models.Subject", "Subject")
+                    b.HasOne("SchoolbookApp.Models.SchoolClass", "SchoolClass")
                         .WithMany()
-                        .HasForeignKey("SubjectId");
+                        .HasForeignKey("SchoolClassId");
 
-                    b.Navigation("Subject");
+                    b.Navigation("SchoolClass");
                 });
 
             modelBuilder.Entity("SchoolbookApp.Models.Subject", b =>
