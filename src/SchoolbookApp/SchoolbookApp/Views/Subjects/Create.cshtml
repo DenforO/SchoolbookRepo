@@ -14,12 +14,20 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Day" class="control-label"></label>
-                <select asp-for="Day" class="form-control"></select>
+                <select asp-for="Day" class="form-control">
+                    <option value="Понеделник">Понеделник</option>
+                    <option value="Вторник">Вторник</option>
+                    <option value="Сряда">Сряда</option>
+                    <option value="Четвъртък">Четвъртък</option>
+                    <option value="Петък">Петък</option>
+                    <option value="Събота">Събота</option>
+                    <option value="Неделя">Неделя</option>
+                </select>
                 <span asp-validation-for="Day" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Time" class="control-label"></label>
-                <input asp-for="Time" class="form-control" />
+                <input asp-for="Time" type="time" class="form-control" />
                 <span asp-validation-for="Time" class="text-danger"></span>
             </div>
             <div class="form-group">
