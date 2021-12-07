@@ -54,7 +54,7 @@ namespace SchoolbookApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Day,Time,SubjectType,TeacherId")] Subject subject)
+        public async Task<IActionResult> Create([Bind("Id,Day,Time,SubjectTypeId,TeacherId")] Subject subject)
         {
             if (ModelState.IsValid)
             {

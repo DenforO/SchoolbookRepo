@@ -13,6 +13,8 @@ namespace SchoolbookApp.Models
 
         public char Letter { get; set; }
 
+        public ICollection<Subject> Subjects { get; set; }
+
         public SchoolClass()
         {
 
