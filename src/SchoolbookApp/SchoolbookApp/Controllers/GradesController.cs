@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -58,6 +59,10 @@ namespace SchoolbookApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                IdentityDbContext _identityContext = _context as IdentityDbContext;
+                //grade.StudentId = "9dcb0862-cfc2-4743-a85c-ac44e0465052";
+                //grade.Subject = new Subject();
+                grade.StudentId = _identityContext.Users.Where(x => x.Email == grade.StudentId).FirstOrDefault().Id;
                 _context.Add(grade);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
