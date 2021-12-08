@@ -219,7 +219,7 @@ namespace SchoolbookApp.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("SchoolbookApp.Models.Review", b =>
+            modelBuilder.Entity("SchoolbookApp.Models.Absence", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -229,9 +229,8 @@ namespace SchoolbookApp.Data.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("Half")
+                        .HasColumnType("bit");
 
                     b.Property<string>("StudentId")
                         .HasColumnType("nvarchar(max)");
@@ -239,13 +238,75 @@ namespace SchoolbookApp.Data.Migrations
                     b.Property<int?>("SubjectId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("isExcused")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Review");
+                    b.ToTable("Absence");
+                });
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Review");
+            modelBuilder.Entity("SchoolbookApp.Models.Grade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Basis")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsFinalGrade")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSemesterGrade")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Grade");
+                });
+
+            modelBuilder.Entity("SchoolbookApp.Models.Note", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Note");
                 });
 
             modelBuilder.Entity("SchoolbookApp.Models.SchoolClass", b =>
@@ -313,48 +374,6 @@ namespace SchoolbookApp.Data.Migrations
                     b.ToTable("SubjectType");
                 });
 
-            modelBuilder.Entity("SchoolbookApp.Models.Absence", b =>
-                {
-                    b.HasBaseType("SchoolbookApp.Models.Review");
-
-                    b.Property<bool>("Half")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isExcused")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("Absence");
-                });
-
-            modelBuilder.Entity("SchoolbookApp.Models.Grade", b =>
-                {
-                    b.HasBaseType("SchoolbookApp.Models.Review");
-
-                    b.Property<string>("Basis")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsFinalGrade")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsSemesterGrade")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("int");
-
-                    b.HasDiscriminator().HasValue("Grade");
-                });
-
-            modelBuilder.Entity("SchoolbookApp.Models.Note", b =>
-                {
-                    b.HasBaseType("SchoolbookApp.Models.Review");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("Note");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -406,10 +425,28 @@ namespace SchoolbookApp.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SchoolbookApp.Models.Review", b =>
+            modelBuilder.Entity("SchoolbookApp.Models.Absence", b =>
                 {
                     b.HasOne("SchoolbookApp.Models.Subject", "Subject")
-                        .WithMany("Reviews")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
+
+                    b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("SchoolbookApp.Models.Grade", b =>
+                {
+                    b.HasOne("SchoolbookApp.Models.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
+
+                    b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("SchoolbookApp.Models.Note", b =>
+                {
+                    b.HasOne("SchoolbookApp.Models.Subject", "Subject")
+                        .WithMany()
                         .HasForeignKey("SubjectId");
 
                     b.Navigation("Subject");
@@ -418,31 +455,16 @@ namespace SchoolbookApp.Data.Migrations
             modelBuilder.Entity("SchoolbookApp.Models.Subject", b =>
                 {
                     b.HasOne("SchoolbookApp.Models.SchoolClass", "SchoolClass")
-                        .WithMany("Subjects")
+                        .WithMany()
                         .HasForeignKey("SchoolClassId");
 
                     b.HasOne("SchoolbookApp.Models.SubjectType", "SubjectType")
-                        .WithMany("Subjects")
+                        .WithMany()
                         .HasForeignKey("SubjectTypeId");
 
                     b.Navigation("SchoolClass");
 
                     b.Navigation("SubjectType");
-                });
-
-            modelBuilder.Entity("SchoolbookApp.Models.SchoolClass", b =>
-                {
-                    b.Navigation("Subjects");
-                });
-
-            modelBuilder.Entity("SchoolbookApp.Models.Subject", b =>
-                {
-                    b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("SchoolbookApp.Models.SubjectType", b =>
-                {
-                    b.Navigation("Subjects");
                 });
 #pragma warning restore 612, 618
         }
