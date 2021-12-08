@@ -60,10 +60,10 @@ namespace SchoolbookApp.Controllers
             if (ModelState.IsValid)
             {
                 IdentityDbContext _identityContext = _context as IdentityDbContext;
-                //grade.StudentId = "9dcb0862-cfc2-4743-a85c-ac44e0465052";
-                //grade.Subject = new Subject();
                 grade.StudentId = _identityContext.Users.Where(x => x.Email == grade.StudentId).FirstOrDefault().Id;
                 _context.Add(grade);
+                //проверка за свързване на потребители чре many to many таблицата
+                //_context.UserUser.Add(new UserUser() { StudentId = grade.StudentId, UserId= "a5b7c601-d6e3-4198-826f-c685aee3cdc4" });
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

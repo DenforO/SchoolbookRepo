@@ -20,5 +20,6 @@ namespace SchoolbookApp.Data
         public DbSet<SchoolbookApp.Models.Note> Note { get; set; }
         public DbSet<SchoolbookApp.Models.Grade> Grade { get; set; }
         public DbSet<SchoolbookApp.Models.UserUser> UserUser { get; set; }
+        public DbSet<SchoolbookApp.Models.UserSchoolClass> UserSchoolClass { get; set; }
     }
 }
