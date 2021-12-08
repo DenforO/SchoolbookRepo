@@ -462,6 +462,10 @@ namespace SchoolbookApp.Data.Migrations
                         .WithMany()
                         .HasForeignKey("SubjectTypeId");
 
+                    b.HasOne("SchoolbookApp.Models.SubjectType", "SubjectType")
+                        .WithMany()
+                        .HasForeignKey("SubjectTypeId");
+
                     b.Navigation("SchoolClass");
 
                     b.Navigation("SubjectType");
