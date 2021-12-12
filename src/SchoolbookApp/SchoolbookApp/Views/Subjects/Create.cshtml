@@ -1,7 +1,7 @@
 ﻿@model SchoolbookApp.Models.Subject
 
 @{
-    ViewData["Title"] = "Create";
+    ViewBag.Title = "Create";
 }
 
 <h1>Create</h1>
@@ -28,14 +28,18 @@
             <div class="form-group">
                 <label asp-for="SubjectTypeId" class="control-label"></label>
                 <select asp-for="SubjectTypeId" class="form-control">
-                    <option value="1">Математика</option>
+                    @foreach (var item in ViewBag.SubjectTypes)
+                    {
+                        <option value=@item.Id>@item.Name</option>
+                    }
+                    @*<option value="1">Математика</option>
                     <option value="2">Български език и литература</option>
                     <option value="3">Биология</option>
                     <option value="4">Физика</option>
                     <option value="5">Химия</option>
                     <option value="6">Английски език</option>
                     <option value="7">Немски език</option>
-                    <option value="8">Информатика</option>
+                    <option value="8">Информатика</option>*@
                 </select>
                 <span asp-validation-for="Day" class="text-danger"></span>
             </div>
