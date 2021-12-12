@@ -1,0 +1,138 @@
+﻿
+body {
+    background-color: aliceblue;
+}
+
+.dropbtn {
+    background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    margin: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+    .dropbtn:hover, .dropbtn:focus {
+        background-color: #2980B9;
+    }
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 60px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {
+    background-color: #ddd;
+}
+
+.show {
+    display: block;
+}
+
+#btnMainClass, #btnProgram {
+    border: 2px solid #3498DB;
+    border-radius: 12px;
+    background-color: white;
+    color: #3498DB;
+    padding: 16px;
+    margin: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+#avgScore {
+    border: 2px solid orange;
+    border-radius: 12px;
+    background-color: white;
+    color: orange;
+    padding: 16px;
+    margin: 5px;
+    font-size: 16px;
+    text-align: center;
+    vertical-align: middle;
+    min-width: 120px;
+    max-width: 120px;
+}
+
+#studentsTableHeader {
+    color: #3498DB;
+    text-align: center;
+    font-weight: bold;
+    font-family: cursive;
+    margin-bottom: 30px;
+}
+
+#students {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#students th {
+    text-align: center;
+}
+
+#students td {
+    border: 2px solid lightsteelblue;
+    padding: 8px;
+    min-width: 180px;
+    max-width: 180px;
+}
+
+#students td.numberInClass {
+    min-width: 70px;
+    max-width: 70px;
+}
+
+#students tr:nth-child(even) {
+    background-color: lightblue;
+}
+
+#students tr:hover {
+    background-color: lightsteelblue;
+}
+
+#students a {
+    display: table;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+#students span {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#students input {
+    max-width: 163px;
+}
+
+#reasonText {
+    margin-top: 5px;
+}
+
+.saveSection {
+    text-align: center;
+    margin: 20px;
+}
