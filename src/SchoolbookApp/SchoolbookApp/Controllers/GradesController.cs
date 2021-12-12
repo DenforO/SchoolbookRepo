@@ -26,6 +26,16 @@ namespace SchoolbookApp.Controllers
             return View(await _context.Grade.ToListAsync());
         }
 
+        public async Task<IActionResult> TeacherMain()
+        {
+            return View("TeacherMain");
+        }
+
+        public async Task<IActionResult> TeacherClass()
+        {
+            return View("TeacherClass");
+        }
+
         // GET: Grades/Details/5
         public async Task<IActionResult> Details(int? id)
         {
