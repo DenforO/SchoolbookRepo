@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,16 +15,19 @@ namespace SchoolbookApp.Controllers
     public class GradesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public GradesController(ApplicationDbContext context)
+        public GradesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
         // GET: Grades
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Grade.ToListAsync());
+            IdentityUser usr = await GetCurrentUserAsync();
+            return View(await _context.Grade.Where(x => x.StudentId == usr.Id).ToListAsync());
         }
 
         // GET: Grades/Details/5
@@ -154,5 +158,8 @@ namespace SchoolbookApp.Controllers
         {
             return _context.Grade.Any(e => e.Id == id);
         }
+
+        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
     }
 }

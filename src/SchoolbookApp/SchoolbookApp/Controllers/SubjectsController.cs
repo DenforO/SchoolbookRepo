@@ -46,6 +46,13 @@ namespace SchoolbookApp.Controllers
         // GET: Subjects/Create
         public IActionResult Create()
         {
+            ViewBag.SubjectTypes = _context.SubjectType.ToList();
+            ViewBag.Subjects = _context.Subject.ToListAsync();
+            //List<string> subjectTypes = new List<string>();
+            //foreach (var subjectType in _context.SubjectType)
+            //{
+            //    subjectTypes.Add(subjectType.Name);
+            //}
             return View();
         }
 
