@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@model SchoolbookApp.Models.Subject
+
+@{
+    ViewBag.Title = "TeacherMain";
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +14,22 @@
         <div style="display: table-row; min-height: 100px;">
             <div style="display: table-cell; max-width:700px;">
                 <h3>Предмети:</h3>
-                <div class="dropdown">
+                @foreach (var subjType in ViewBag.SubjectTypes) //Създава бутони за всеки предмет, по който води конкретният учител
+                {
+                    <div class="dropdown">
+                        <button onclick="ShowDDContents()" class="dropbtn">@subjType.Name</button>
+                        <div id="ddSubjectClass" class="dropdown-content">
+                            @foreach (var subj in ViewBag.SchoolClasses) //Създава <a> елементи с номера и буквата на паралелките, по които учителят води конкретния предмет
+                            {
+                                if (subj.Item2.SubjectTypeId == subjType.Id)
+                                {
+                                    <a href="#">@subj.Item1.Num @subj.Item1.Letter</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                @*<div class="dropdown">
                     <button onclick="ShowDDContents()" class="dropbtn">Математика</button>
                     <div id="ddSubjectClass" class="dropdown-content">
                         <a href="#">7 А</a>
@@ -80,7 +100,7 @@
                         <a href="#">12 Б</a>
                         <a href="#">12 В</a>
                     </div>
-                </div>
+                </div>*@
             </div>
             <div style="display: table-cell;">
                 <h3>Мария Христова</h3>

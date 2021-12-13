@@ -15,6 +15,8 @@ namespace SchoolbookApp.Models
         public SubjectType SubjectType { get; set; }
 
         public string TeacherId { get; set; }
+
+        public int? SchoolClassId { get; set; }
         public SchoolClass SchoolClass { get; set; }
 
         public ICollection<Grade> Grades { get; set; }

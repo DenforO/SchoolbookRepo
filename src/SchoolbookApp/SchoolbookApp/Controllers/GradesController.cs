@@ -32,8 +32,25 @@ namespace SchoolbookApp.Controllers
 
         public async Task<IActionResult> TeacherMain()
         {
+            IdentityUser usr = await GetCurrentUserAsync();
+
+            ViewBag.SubjectTypes = _context.Subject.Where(x => x.TeacherId == usr.Id)
+                                                    .Select(x => x.SubjectType)
+                                                    .Distinct()
+                                                    .ToList();
+            ViewBag.Subjects = _context.Subject.Where(x => x.TeacherId == usr.Id).ToList();
+            var subjectsByTeacher = _context.Subject.Where(x => x.TeacherId == usr.Id).ToList();//
+            ViewBag.SchoolClasses = _context.SchoolClass.ToList().Join(
+                                        subjectsByTeacher,
+                                        x => x.Id,
+                                        y => y.SchoolClassId,
+                                        (x, y) => (x, y)
+                                                    /*new { Num = x.Num,
+                                                        Letter = x.Letter,
+                                                        SubjectTypeId = y.SubjectTypeId }*/).ToList();
             return View("TeacherMain");
         }
+
 
         public async Task<IActionResult> TeacherClass()
         {
