@@ -30,34 +30,6 @@ namespace SchoolbookApp.Controllers
             return View(await _context.Grade.Where(x => x.StudentId == usr.Id).ToListAsync());
         }
 
-        public async Task<IActionResult> TeacherMain()
-        {
-            IdentityUser usr = await GetCurrentUserAsync();
-
-            //всички часове, които води логнатият учител
-            var subjectsByTeacher = _context.Subject.Where(x => x.TeacherId == usr.Id).ToList(); 
-
-            //Изпраща предметите, по които учителят преподава, към фронтенда
-            ViewBag.SubjectTypes = _context.Subject.Where(x => x.TeacherId == usr.Id) //всички часове, които води логнатият учител
-                                                    .Select(x => x.SubjectType)       //избира само предмета, по който е даденият час
-                                                    .Distinct()                       //за повтарящи се предмети (Математика на 1 А, Математика на 7 Б...)
-                                                    .ToList();
-
-            //Изпраща към фронтенда свързана таблица с кокнкретните предмети (във фронтенда - Item1), водени от учителя, и класовете (във фронтенда - Item2), на които ги води.
-            ViewBag.SchoolClasses = _context.SchoolClass.ToList().Join(
-                                        subjectsByTeacher,
-                                        x => x.Id,
-                                        y => y.SchoolClassId,
-                                        (x, y) => (x, y)).ToList();
-            return View("TeacherMain");
-        }
-
-
-        public async Task<IActionResult> TeacherClass()
-        {
-            return View("TeacherClass");
-        }
-
         // GET: Grades/Details/5
         public async Task<IActionResult> Details(int? id)
         {
