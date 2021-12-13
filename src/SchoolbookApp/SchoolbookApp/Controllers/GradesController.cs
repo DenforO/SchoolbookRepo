@@ -38,14 +38,12 @@ namespace SchoolbookApp.Controllers
             var subjectsByTeacher = _context.Subject.Where(x => x.TeacherId == usr.Id).ToList(); 
 
             //Изпраща предметите, по които учителят преподава, към фронтенда
-            ViewBag.SubjectTypes = subjectsByTeacher //всички часове, които води логнатият учител
-                                                    .Select(x => x.SubjectType)
-                                                    .Distinct()
+            ViewBag.SubjectTypes = _context.Subject.Where(x => x.TeacherId == usr.Id) //всички часове, които води логнатият учител
+                                                    .Select(x => x.SubjectType)       //избира само предмета, по който е даденият час
+                                                    .Distinct()                       //за повтарящи се предмети (Математика на 1 А, Математика на 7 Б...)
                                                     .ToList();
 
-          
-            ViewBag.Subjects = _context.Subject.Where(x => x.TeacherId == usr.Id).ToList();
-
+            //Изпраща към фронтенда свързана таблица с кокнкретните предмети (във фронтенда - Item1), водени от учителя, и класовете (във фронтенда - Item2), на които ги води.
             ViewBag.SchoolClasses = _context.SchoolClass.ToList().Join(
                                         subjectsByTeacher,
                                         x => x.Id,
