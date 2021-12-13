@@ -34,20 +34,23 @@ namespace SchoolbookApp.Controllers
         {
             IdentityUser usr = await GetCurrentUserAsync();
 
-            ViewBag.SubjectTypes = _context.Subject.Where(x => x.TeacherId == usr.Id)
+            //всички часове, които води логнатият учител
+            var subjectsByTeacher = _context.Subject.Where(x => x.TeacherId == usr.Id).ToList(); 
+
+            //Изпраща предметите, по които учителят преподава, към фронтенда
+            ViewBag.SubjectTypes = subjectsByTeacher //всички часове, които води логнатият учител
                                                     .Select(x => x.SubjectType)
                                                     .Distinct()
                                                     .ToList();
+
+          
             ViewBag.Subjects = _context.Subject.Where(x => x.TeacherId == usr.Id).ToList();
-            var subjectsByTeacher = _context.Subject.Where(x => x.TeacherId == usr.Id).ToList();//
+
             ViewBag.SchoolClasses = _context.SchoolClass.ToList().Join(
                                         subjectsByTeacher,
                                         x => x.Id,
                                         y => y.SchoolClassId,
-                                        (x, y) => (x, y)
-                                                    /*new { Num = x.Num,
-                                                        Letter = x.Letter,
-                                                        SubjectTypeId = y.SubjectTypeId }*/).ToList();
+                                        (x, y) => (x, y)).ToList();
             return View("TeacherMain");
         }
 
