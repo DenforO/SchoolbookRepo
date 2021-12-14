@@ -26,8 +26,9 @@ namespace SchoolbookApp.Controllers
         // GET: Grades
         public async Task<IActionResult> Index()
         {
-            IdentityUser usr = await GetCurrentUserAsync();
-            return View(await _context.Grade.Where(x => x.StudentId == usr.Id).ToListAsync());
+            //IdentityUser usr = await GetCurrentUserAsync();
+            //return View(await _context.Grade.Where(x => x.StudentId == usr.Id).ToListAsync());
+            return View();
         }
 
         public async Task<IActionResult> TeacherMain()

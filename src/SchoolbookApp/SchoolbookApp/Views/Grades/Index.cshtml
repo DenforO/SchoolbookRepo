@@ -4,62 +4,58 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<head>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Value)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Basis)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsSemesterGrade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsFinalGrade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StudentId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateTime)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Value)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Basis)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsSemesterGrade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsFinalGrade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateTime)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+</head>
+<body class="grades-body">
+    <div class="grades">
+        <h1 class="grades-name">Иван Георгиев, 10Б</h1>
+        <h2>Математика</h2>
+        <table class="table table-striped table-bordered table-light">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Оценка</th>
+                    <th>Дата</th>
+                    <th>Причина</th>
+                </tr>
+            </thead>
+            <tbody class="t">
+                <tr>
+                    <td>6</td>
+                    <td>16.04.2021</td>
+                    <td>Контролно</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>09.04.2021</td>
+                    <td>Устно изпитване</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>15.03.2021</td>
+                    <td>Устно изпитване</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>15.03.2021</td>
+                    <td>Устно изпитване</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>15.03.2021</td>
+                    <td>Устно изпитване</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="grades-info">
+        <h2 class="teacher-name">Преподавател: Георги Георгиев</h2>
+        <div class="card">
+            <h3 class="card-text">Среден успех:</h3>
+            <h3 class="card-text">I-ви срок:</h3>
+            <h3 class="card-text">II-ри срок:</h3>
+            <h3 class="card-text">Годишна оценка:</h3>
+        </div>
+    </div>
+</body>
