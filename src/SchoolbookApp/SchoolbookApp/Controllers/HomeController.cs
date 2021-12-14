@@ -23,6 +23,11 @@ namespace SchoolbookApp.Controllers
             return View();
         }
 
+        public async Task<IActionResult> StudentMain()
+        {
+            return View();
+        }
+        
         public IActionResult Privacy()
         {
             return View();

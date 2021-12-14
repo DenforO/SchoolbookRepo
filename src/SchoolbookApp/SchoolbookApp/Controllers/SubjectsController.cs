@@ -18,6 +18,10 @@ namespace SchoolbookApp.Controllers
         {
             _context = context;
         }
+        public async Task<IActionResult> StudentsProgram()
+        {
+            return View();
+        }
 
         // GET: Subjects
         public async Task<IActionResult> Index()
