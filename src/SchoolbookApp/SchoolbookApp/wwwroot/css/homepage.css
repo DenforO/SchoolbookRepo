@@ -1,0 +1,87 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: aliceblue;
+    font-family: 'Poppins', sans-serif;
+}
+
+.row {
+    margin-top: 180px;
+}
+.carousel-control-prev-icon {
+    height: 10px;
+    width: 10px;
+    outline: white;
+    background-color: transparent;
+    background-size: 100%, 100%;
+    position: relative;
+}
+
+.carousel-control-next-icon {
+    height: 10px;
+    width: 10px;
+    outline: white;
+    background-color: transparent;
+    background-size: 100%, 100%;
+    position: relative;
+}
+
+    .carousel-control-next-icon:hover,
+    .carousel-control-prev-icon:hover {
+        filter: invert(50%);
+    }
+
+.carousel-control-next {
+    border-radius: 50%;
+    border: 1px solid white;
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    top: 50%;
+    right: 100px;
+}
+
+.carousel-control-prev {
+    border-radius: 50%;
+    border: 1px solid white;
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    top: 50%;
+    left: 100px;
+}
+
+    .carousel-control-next:hover,
+    .carousel-control-prev:hover {
+        background: white;
+    }
+
+.carousel-caption {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    bottom: 280px;
+}
+
+    .carousel-caption h2 {
+        font-size: 60px;
+        font-family: Avenir 'Avenir Black' sans-serif;
+        color: #FFFF;
+        letter-spacing: 10px;
+        font-weight: bold;
+    }
+
+    .carousel-caption h3 {
+        font-size: 24px;
+        font-family: Avenir 'Avenir Light' sans-serif;
+        color: #FFFF;
+        letter-spacing: 8px;
+        font-weight: lighter;
+        padding: 30px;
+    }
+
+
