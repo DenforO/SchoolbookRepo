@@ -15,9 +15,9 @@ namespace SchoolbookApp.Controllers
     public class GradesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public GradesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public GradesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
             _context = context;
@@ -26,7 +26,7 @@ namespace SchoolbookApp.Controllers
         // GET: Grades
         public async Task<IActionResult> Index()
         {
-            //IdentityUser usr = await GetCurrentUserAsync();
+            //ApplicationUser usr = await GetCurrentUserAsync();
             //return View(await _context.Grade.Where(x => x.StudentId == usr.Id).ToListAsync());
             return View();
         }
@@ -74,9 +74,9 @@ namespace SchoolbookApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityDbContext _identityContext = _context as IdentityDbContext;
-                grade.StudentId = _identityContext.Users.Where(x => x.Email == grade.StudentId).FirstOrDefault().Id;
-                _context.Add(grade);
+                //IdentityDbContext _identityContext = _context as IdentityDbContext;
+                //grade.StudentId = _identityContext.Users.Where(x => x.Email == grade.StudentId).FirstOrDefault().Id;
+                //_context.Add(grade);
                 //проверка за свързване на потребители чре many to many таблицата
                 //_context.UserUser.Add(new UserUser() { StudentId = grade.StudentId, UserId= "a5b7c601-d6e3-4198-826f-c685aee3cdc4" });
                 await _context.SaveChangesAsync();
@@ -170,7 +170,7 @@ namespace SchoolbookApp.Controllers
             return _context.Grade.Any(e => e.Id == id);
         }
 
-        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
     }
 }
