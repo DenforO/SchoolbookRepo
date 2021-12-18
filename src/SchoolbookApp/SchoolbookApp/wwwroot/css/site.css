@@ -25,7 +25,7 @@ a {
 }
 /*Ученик от тук */
 body {
-    background-color: #4accf7;
+    background-color: aliceblue;
 }
 
 .greet{
@@ -192,6 +192,31 @@ body {
     width:300px;
 }
 /*Учебна програма до тук*/
+
+/*Регисрация от тук*/
+.form.group label {
+ display: inline-block;
+ margin-bottom: 5px;
+}
+
+.form-row {
+  display: flex;
+}
+
+.form-group {
+  padding: 5px;
+  width: 50%;
+}
+
+.form-group input {
+  width: 100%;
+}
+
+.roles{
+    margin-top:20px;
+    margin-bottom:20px;
+}
+/*Регисрация до тук*/
 
 /* Sticky footer styles
 -------------------------------------------------- */

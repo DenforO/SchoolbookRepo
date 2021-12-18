@@ -30,6 +30,15 @@
         </a>
     </div>
     <a class="btn btn-primary" href="/Identity/Account/Login" role="button">Влез</a>
-    </div>
+    @*Проверка за ролята на Admin*@
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("Admin"))
+        {
+            <a class="btn btn-danger" asp-area="Identity" asp-page="/Account/Register" role="button">Регистрирай</a>
+        }
+    }
+
+    @*</div>*@
 </body>
 </html>
