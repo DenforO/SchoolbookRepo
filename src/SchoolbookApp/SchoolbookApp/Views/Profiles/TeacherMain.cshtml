@@ -14,104 +14,36 @@
         <div style="display: table-row; min-height: 100px;">
             <div style="display: table-cell; max-width:700px;">
                 <h3>Предмети:</h3>
-                @foreach (var subjType in ViewBag.SubjectTypes) //Създава бутони за всеки предмет, по който води конкретният учител
+                @foreach (var subjType in ViewBag.SubjectTypes)
                 {
                     <div class="dropdown">
-                        <button onclick="ShowDDContents()" class="dropbtn">@subjType.Name</button>
+                        <button class="dropbtn" id="@subjType.Id" onclick="ShowDDContents(this.id)">@subjType.Name</button>
                         <div id="ddSubjectClass" class="dropdown-content">
-                            @foreach (var subj in ViewBag.SchoolClasses) //Създава <a> елементи с номера и буквата на паралелките, по които учителят води конкретния предмет
+                            @foreach (var subj in ViewBag.SchoolClasses)
                             {
                                 if (subj.Item2.SubjectTypeId == subjType.Id)
                                 {
-                                    <a href="#">@subj.Item1.Num @subj.Item1.Letter</a>
+                                    <a href="#" id="@subj.Item1.Id" onclick="ShowClassStudents()">@subj.Item1.Num @subj.Item1.Letter</a>
                                 }
                             }
                         </div>
                     </div>
-                }
-                @*<div class="dropdown">
-                    <button onclick="ShowDDContents()" class="dropbtn">Математика</button>
-                    <div id="ddSubjectClass" class="dropdown-content">
-                        <a href="#">7 А</a>
-                        <a href="#">7 Б</a>
-                        <a href="#">7 В</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropbtn">Физика</button>
-                    <div id="dd1" class="dropdown-content">
-                        <a href="#">8 А</a>
-                        <a href="#">8 Б</a>
-                        <a href="#">8 В</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropbtn">Български език и литература</button>
-                    <div id="dd2" class="dropdown-content">
-                        <a href="#">9 А</a>
-                        <a href="#">9 Б</a>
-                        <a href="#">9 В</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropbtn">Физическо възпитание и спорт</button>
-                    <div id="dd3" class="dropdown-content">
-                        <a href="#">10 А</a>
-                        <a href="#">10 Б</a>
-                        <a href="#">10 В</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropbtn">Музика</button>
-                    <div id="dd4" class="dropdown-content">
-                        <a href="#">11 А</a>
-                        <a href="#">11 Б</a>
-                        <a href="#">11 В</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropbtn">История и цивилизация</button>
-                    <div id="dd5" class="dropdown-content">
-                        <a href="#">12 А</a>
-                        <a href="#">12 Б</a>
-                        <a href="#">12 В</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropbtn">География и икономика</button>
-                    <div id="dd6" class="dropdown-content">
-                        <a href="#">6 А</a>
-                        <a href="#">6 Б</a>
-                        <a href="#">6 В</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropbtn">Информатика</button>
-                    <div id="dd7" class="dropdown-content">
-                        <a href="#">5 А</a>
-                        <a href="#">5 Б</a>
-                        <a href="#">5 В</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropbtn">Биология и здравно образование</button>
-                    <div id="dd8" class="dropdown-content">
-                        <a href="#">12 А</a>
-                        <a href="#">12 Б</a>
-                        <a href="#">12 В</a>
-                    </div>
-                </div>*@
+                }                
             </div>
             <div style="display: table-cell;">
-                <h3>Мария Христова</h3>
-                <div class="isMainTeacher">
-                    <h6>Класен ръководител на:</h6>
-                    <button id="btnMainClass">7 А</button>
-                    <br />
-                    <h6>Среден успех на класа:</h6>
-                    <p id="avgScore">5,40</p>
-                </div>
-                <button id="btnProgram">Програма</button>
+                <h3>@ViewBag.Name</h3>
+                @if (ViewBag.IsMainTeacher)
+                {
+                    <div class="isMainTeacher">
+                        <h6>Класен ръководител на:</h6>
+                        <button id="btnMainClass">
+                            <p style="margin-bottom: 0;" id="@ViewBag.MainClassId" onclick="ShowMainClassStudents()">@ViewBag.MainClassName</p>
+                        </button>
+                        <h6>Среден успех на класа:</h6>
+                        <p id="avgScore">@ViewBag.AvgScore</p>
+                    </div>
+                }
+                <button id="btnProgram" onclick="ShowTeacherProgram()">Програма</button>
                 <br />
             </div>
         </div>

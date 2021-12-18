@@ -27,22 +27,37 @@ namespace SchoolbookApp.Controllers
         public async Task<IActionResult> TeacherMain()
         {
             IdentityUser usr = await GetCurrentUserAsync();
-
-            //всички часове, които води логнатият учител
+                        
             var subjectsByTeacher = _context.Subject.Where(x => x.TeacherId == usr.Id).ToList();
+            var normalizedName = _context.Users.Where(x => x.Id == usr.Id).Select(x => x.NormalizedUserName).FirstOrDefault(); // предстои да се взимат имената
+            var isMainTeacher = true;
+            var mainClass = _context.SchoolClass.Where(x => x.Id == 21) // хардкоудната стойност засега
+                                                .Select(x => new
+                                                {
+                                                    Id = x.Id,
+                                                    ClassName = x.Num + " " + x.Letter
+                                                })
+                                                .FirstOrDefault();
+            var gradesList = _context.Grade.Select(x => x.Value).ToList();
+            var avgScore = gradesList.Sum()/gradesList.Count; //Да се вземе средната оценка за даден клас
 
-            //Изпраща предметите, по които учителят преподава, към фронтенда
-            ViewBag.SubjectTypes = _context.Subject.Where(x => x.TeacherId == usr.Id) //всички часове, които води логнатият учител
-                                                    .Select(x => x.SubjectType)       //избира само предмета, по който е даденият час
-                                                    .Distinct()                       //за повтарящи се предмети (Математика на 1 А, Математика на 7 Б...)
+            ViewBag.SubjectTypes = _context.Subject.Where(x => x.TeacherId == usr.Id)
+                                                    .Select(x => x.SubjectType)      
+                                                    .Distinct()                      
                                                     .ToList();
-
-            //Изпраща към фронтенда свързана таблица с кокнкретните предмети (във фронтенда - Item1), водени от учителя, и класовете (във фронтенда - Item2), на които ги води.
+                       
             ViewBag.SchoolClasses = _context.SchoolClass.ToList().Join(
                                         subjectsByTeacher,
                                         x => x.Id,
                                         y => y.SchoolClassId,
                                         (x, y) => (x, y)).ToList();
+
+            ViewBag.Name = normalizedName;
+            ViewBag.IsMainTeacher = isMainTeacher;
+            ViewBag.MainClassId = mainClass.Id;
+            ViewBag.MainClassName = mainClass.ClassName;
+            ViewBag.AvgScore = avgScore;
+
             return View("TeacherMain");
         }
 
