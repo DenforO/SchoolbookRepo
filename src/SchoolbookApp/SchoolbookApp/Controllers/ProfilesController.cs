@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SchoolbookApp.Data;
+using SchoolbookApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace SchoolbookApp.Controllers
     public class ProfilesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProfilesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public ProfilesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
             _context = context;
@@ -31,7 +32,7 @@ namespace SchoolbookApp.Controllers
             var subjectsByTeacher = _context.Subject.Where(x => x.TeacherId == usr.Id).ToList();
             var normalizedName = _context.Users.Where(x => x.Id == usr.Id).Select(x => x.NormalizedUserName).FirstOrDefault(); // предстои да се взимат имената
             var isMainTeacher = true;
-            var mainClass = _context.SchoolClass.Where(x => x.Id == 21) // хардкоудната стойност засега
+            var mainClass = _context.SchoolClass.Where(x => x.Id == 3) // хардкоудната стойност засега
                                                 .Select(x => new
                                                 {
                                                     Id = x.Id,
@@ -67,6 +68,6 @@ namespace SchoolbookApp.Controllers
             return View("TeacherClass");
         }
 
-        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }
