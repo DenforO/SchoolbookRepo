@@ -1,0 +1,56 @@
+﻿@model SchoolbookApp.Models.Subject
+
+@{
+    ViewBag.Title = "TeacherMain";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/css/teacher.css" />
+</head>
+<body>
+    <div style="width: 100%; display: table;">
+        <div style="display: table-row; min-height: 100px;">
+            <div style="display: table-cell; max-width:700px;">
+                <h3>Предмети:</h3>
+                @foreach (var subjType in ViewBag.SubjectTypes)
+                {
+                    <div class="dropdown">
+                        <button class="dropbtn" id="@subjType.Id" onclick="ShowDDContents(this.id)">@subjType.Name</button>
+                        <div id="ddSubjectClass" class="dropdown-content">
+                            @foreach (var subj in ViewBag.SchoolClasses)
+                            {
+                                if (subj.Item2.SubjectTypeId == subjType.Id)
+                                {
+                                    <a href="#" id="@subj.Item1.Id" onclick="ShowClassStudents()">@subj.Item1.Num @subj.Item1.Letter</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                }                
+            </div>
+            <div style="display: table-cell;">
+                <h3>@ViewBag.Name</h3>
+                @if (ViewBag.IsMainTeacher)
+                {
+                    <div class="isMainTeacher">
+                        <h6>Класен ръководител на:</h6>
+                        <button id="btnMainClass">
+                            <p style="margin-bottom: 0;" id="@ViewBag.MainClassId" onclick="ShowMainClassStudents()">@ViewBag.MainClassName</p>
+                        </button>
+                        <h6>Среден успех на класа:</h6>
+                        <p id="avgScore">@ViewBag.AvgScore</p>
+                    </div>
+                }
+                <button id="btnProgram" onclick="ShowTeacherProgram()">Програма</button>
+                <br />
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/teacher.js" asp-append-version="true"></script>
+</body>
+</html>
+
+
