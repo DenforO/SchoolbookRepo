@@ -5,9 +5,11 @@
     ViewBag.Title = "Edit";
 }
 
-<h3>@ViewBag.SubjectType.Name</h3>
-<h4>Учител: @ViewBag.TeacherName.Name @ViewBag.TeacherName.Surname</h4>
+<h1>@ViewBag.SubjectType.Name</h1>
+<hr />
+<h4>Учител: @ViewBag.Teacher.Name @ViewBag.Teacher.Surname</h4>
 <h4>Клас: @ViewBag.SchoolClass.Num @ViewBag.SchoolClass.Letter</h4>
+<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
@@ -27,7 +29,7 @@
                 <span asp-validation-for="Day" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Time" class="control-label"></label>
+                <label asp-for="Time" class="control-label">Час</label>
                 <input asp-for="Time" type="time" class="form-control" />
                 <span asp-validation-for="Time" class="text-danger"></span>
             </div>

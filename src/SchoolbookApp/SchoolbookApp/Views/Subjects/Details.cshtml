@@ -2,35 +2,57 @@
 
 @{
     ViewData["Title"] = "Details";
+    ViewBag.Title = "Details";
 }
 
-<h1>Details</h1>
+<h1>Детайли</h1>
 
 <div>
-    <h4>Subject</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Day)
+        <dt class="col-sm-2">
+            Предмет
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Day)
+        <dd class="col-sm-10">
+            @ViewBag.SubjectType.Name
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Time)
+        <dt class="col-sm-2">
+            Клас
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Time)
+        <dd class="col-sm-10">
+            @ViewBag.SchoolClass.Num @ViewBag.SchoolClass.Letter
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TeacherId)
+        <dt class="col-sm-2">
+            Учител
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TeacherId)
+        <dd class="col-sm-10">
+            @ViewBag.Teacher.Name @ViewBag.Teacher.Surname
         </dd>
     </dl>
 </div>
+<h4>Ученици</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Име
+            </th>
+            <th>
+                Фамилия
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in ViewBag.Students)
+        {
+        <tr>
+            <td>@student.Name</td>
+            <td>@student.Surname</td>
+        </tr>
+        }
+    </tbody>
+</table>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">График</a> |
+    <a asp-action="Index">Връщане</a>
 </div>

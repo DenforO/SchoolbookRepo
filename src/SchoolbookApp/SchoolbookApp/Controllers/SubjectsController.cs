@@ -43,6 +43,32 @@ namespace SchoolbookApp.Controllers
                 return NotFound();
             }
 
+            ViewBag.SchoolClass = _context.SchoolClass.Where(x => x.Id == _context.Subject.Find(id).SchoolClassId).Single();
+            ViewBag.Teacher = _userManager.Users.Where(x => x.Id == _context.Subject.Find(id).TeacherId).Single();
+            ViewBag.SubjectType = _context.SubjectType.Where(x => x.Id == _context.Subject.Find(id).SubjectTypeId).Single();
+            ViewBag.Students = _userManager.Users.Join(
+                                                    _context.UserSchoolClass,
+                                                    student => student.Id,
+                                                    userSchoolClass => userSchoolClass.UserId,
+                                                    (student, userSchoolClass) => new
+                                                    {
+                                                        student.Id,
+                                                        userSchoolClass.SchoolClassId
+                                                    }).Join(
+                                                    _context.SchoolClass,
+                                                    userSchoolClass => userSchoolClass.SchoolClassId,
+                                                    schoolClass => schoolClass.Id,
+                                                    (userSchoolClass, schoolClass) => new
+                                                    {
+                                                        userId = userSchoolClass.Id,
+                                                        schoolClassId = schoolClass.Id
+                                                    }).Where(x => x.schoolClassId == _context.Subject.Find(id).SchoolClassId).ToList()
+                                                    .Join(
+                                                        _userManager.Users,
+                                                        x => x.userId,
+                                                        y => y.Id,
+                                                        (x, y) => y).ToList();
+
             var subject = await _context.Subject
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (subject == null)
@@ -91,7 +117,7 @@ namespace SchoolbookApp.Controllers
             }
 
             ViewBag.SchoolClass = _context.SchoolClass.Where(x => x.Id == _context.Subject.Find(id).SchoolClassId).Single();
-            ViewBag.TeacherName = _userManager.Users.Where(x => x.Id == _context.Subject.Find(id).TeacherId).Single();
+            ViewBag.Teacher = _userManager.Users.Where(x => x.Id == _context.Subject.Find(id).TeacherId).Single();
             ViewBag.SubjectType = _context.SubjectType.Where(x => x.Id == _context.Subject.Find(id).SubjectTypeId).Single();
 
             var subject = await _context.Subject.FindAsync(id);
@@ -145,6 +171,10 @@ namespace SchoolbookApp.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.SchoolClass = _context.SchoolClass.Where(x => x.Id == _context.Subject.Find(id).SchoolClassId).Single();
+            ViewBag.Teacher = _userManager.Users.Where(x => x.Id == _context.Subject.Find(id).TeacherId).Single();
+            ViewBag.SubjectType = _context.SubjectType.Where(x => x.Id == _context.Subject.Find(id).SubjectTypeId).Single();
 
             var subject = await _context.Subject
                 .FirstOrDefaultAsync(m => m.Id == id);
