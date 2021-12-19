@@ -94,7 +94,7 @@ namespace SchoolbookApp.Areas.Identity.Pages.Account
                     }
                     else if(await _userManager.IsInRoleAsync(user, "Teacher"))
                     {
-                        returnUrl ??= Url.Content("~/Grades/TeacherMain");
+                        returnUrl ??= Url.Content("~/Profiles/TeacherMain");
                     }
                     else if (await _userManager.IsInRoleAsync(user, "Parent"))
                     {
