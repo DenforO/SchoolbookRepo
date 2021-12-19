@@ -2,44 +2,60 @@
 
 @{
     ViewData["Title"] = "Index";
+    ViewBag.Title = "Index";
 }
 
-<h1>Index</h1>
+<h1>Предмети</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Нов час</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Day)
+                Клас
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Time)
+                Предмет
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TeacherId)
+                Учител
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var subj in Model) {
         <tr>
+            @foreach (var schoolClass in ViewBag.SchoolClasses)
+            {
+                if (schoolClass.Id == subj.SchoolClassId)
+                {
+                    <td>@schoolClass.Num @schoolClass.Letter</td>
+                    break;
+                }
+            }
+            @foreach (var subjType in ViewBag.SubjectTypes)
+            {
+                if (subjType.Id == subj.SubjectTypeId)
+                {
+                    <td>@subjType.Name</td>
+                    break;
+                }
+            }
+            @foreach (var teacher in ViewBag.Teachers)
+            {
+                if (teacher.Id == subj.TeacherId)
+                {
+                    <td>@teacher.Name @teacher.Surname</td>
+                    break;
+                }
+            }
             <td>
-                @Html.DisplayFor(modelItem => item.Day)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Time)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TeacherId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@subj.Id">Редактирай</a> |
+                <a asp-action="Details" asp-route-id="@subj.Id">Детайли</a> |
+                <a asp-action="Delete" asp-route-id="@subj.Id">Изтрий</a>
             </td>
         </tr>
 }

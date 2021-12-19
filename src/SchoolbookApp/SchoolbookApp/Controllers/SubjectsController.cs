@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace SchoolbookApp.Controllers
     public class SubjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public SubjectsController(ApplicationDbContext context)
+        public SubjectsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         public async Task<IActionResult> StudentsProgram()
         {
@@ -26,6 +29,9 @@ namespace SchoolbookApp.Controllers
         // GET: Subjects
         public async Task<IActionResult> Index()
         {
+            ViewBag.SchoolClasses = _context.SchoolClass.ToList();
+            ViewBag.Teachers = _userManager.Users.ToList();
+            ViewBag.SubjectTypes = _context.SubjectType.ToList();
             return View(await _context.Subject.ToListAsync());
         }
 
