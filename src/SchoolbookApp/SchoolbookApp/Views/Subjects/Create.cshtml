@@ -4,16 +4,15 @@
     ViewBag.Title = "Create";
 }
 
-<h1>Create</h1>
+<h1>Нов час</h1>
 
-<h4>Subject</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Day" class="control-label"></label>
+                <label asp-for="Day" class="control-label">Ден</label>
                 <select asp-for="Day" class="form-control">
                     <option value="1">Понеделник</option>
                     <option value="2">Вторник</option>

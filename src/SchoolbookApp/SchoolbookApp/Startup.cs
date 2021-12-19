@@ -46,7 +46,7 @@ namespace SchoolbookApp
 
             });
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddRazorPages();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddControllersWithViews();
             services.AddScoped<UserManager<ApplicationUser>>();
             
