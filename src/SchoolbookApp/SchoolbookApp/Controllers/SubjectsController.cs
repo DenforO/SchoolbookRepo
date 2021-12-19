@@ -90,6 +90,10 @@ namespace SchoolbookApp.Controllers
                 return NotFound();
             }
 
+            ViewBag.SchoolClass = _context.SchoolClass.Where(x => x.Id == _context.Subject.Find(id).SchoolClassId).Single();
+            ViewBag.TeacherName = _userManager.Users.Where(x => x.Id == _context.Subject.Find(id).TeacherId).Single();
+            ViewBag.SubjectType = _context.SubjectType.Where(x => x.Id == _context.Subject.Find(id).SubjectTypeId).Single();
+
             var subject = await _context.Subject.FindAsync(id);
             if (subject == null)
             {
@@ -103,7 +107,7 @@ namespace SchoolbookApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Day,Time,TypeId,TecherId")] Subject subject)
+        public async Task<IActionResult> Edit(int id, Subject subject)
         {
             if (id != subject.Id)
             {
@@ -114,7 +118,8 @@ namespace SchoolbookApp.Controllers
             {
                 try
                 {
-                    _context.Update(subject);
+                    _context.Subject.Find(id).Day = subject.Day;
+                    _context.Subject.Find(id).Time = subject.Time;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
