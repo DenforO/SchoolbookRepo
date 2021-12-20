@@ -6,34 +6,37 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="ShowSearchResult">
-            <div class="form-group">
-                <label for="SearchPhrase" class="control-label"></label>
-                <select name="SearchPhrase" type="char" class="form-control">
-                    <option value='А'>А</option>
-                    <option value='Б'>Б</option>
-                    <option value='В'>В</option>
-                </select>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="control-label">Клас</label>
+                    <select name="searchSchoolClassNum" class="form-control">
+                        @for (int i = 0; i < 12; i++)
+                        {
+                            <option value=@(i+1)>@(i+1)</option>
+                        }
+                    </select>
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Паралелка</label>
+                    <select name="searchSchoolClassLetter" type="char" class="form-control">
+                        <option value='А'>А</option>
+                        <option value='Б'>Б</option>
+                        <option value='В'>В</option>
+                    </select>
+                </div>
             </div>
-            @*<div class="form-group">
-                <label asp-for="Time" class="control-label"></label>
-                <input asp-for="Time" class="form-control" />
-                <span asp-validation-for="Time" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SubjectTypeId" class="control-label"></label>
-                <select asp-for="SubjectTypeId" class ="form-control" asp-items="ViewBag.SubjectTypeId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="TeacherId" class="control-label"></label>
-                <input asp-for="TeacherId" class="form-control" />
-                <span asp-validation-for="TeacherId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SchoolClassId" class="control-label"></label>
-                <select asp-for="SchoolClassId" class ="form-control" asp-items="ViewBag.SchoolClassId"></select>
-            </div>*@
-            <div class="form-group">
-                <input type="submit" value="Търсене" class="btn btn-primary" />
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="submit" value="Търсене" class="btn btn-primary" />
+                </div>
+                <div class="form-group">
+                    <select name="searchType" type="string" class="form-control">
+                        <option value="Subject">В предмети</option>
+                        <option value="SchoolClass">В класове</option>
+                        <option value="Profiles">В профили</option>
+                    </select>
+                </div>
             </div>
         </form>
     </div>

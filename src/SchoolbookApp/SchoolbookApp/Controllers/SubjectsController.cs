@@ -27,7 +27,7 @@ namespace SchoolbookApp.Controllers
         }
 
         // GET: Subjects
-        public async Task<IActionResult> Index(char? letter)
+        public async Task<IActionResult> Index(char? letter, int? num)
         {
             ViewBag.SchoolClasses = _context.SchoolClass.ToList();
             ViewBag.Teachers = _userManager.Users.ToList();
@@ -36,6 +36,7 @@ namespace SchoolbookApp.Controllers
             {
                 return View(await _context.Subject
                                                 .Where(x => x.SchoolClass.Letter == letter)
+                                                .Where(x => x.SchoolClass.Num == num)
                                                 .OrderBy(x => x.SchoolClass.Num)
                                                 .ThenBy(x => x.SchoolClass.Letter)
                                                 .ThenBy(x => x.SubjectType)

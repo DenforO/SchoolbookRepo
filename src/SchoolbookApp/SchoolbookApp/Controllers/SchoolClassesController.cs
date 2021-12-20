@@ -20,9 +20,14 @@ namespace SchoolbookApp.Controllers
         }
 
         // GET: SchoolClasses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(char? letter, int? num)
         {
-            return View(await _context.SchoolClass.ToListAsync());
+            return View(await _context.SchoolClass
+                                                .Where(x => x.Letter == letter)
+                                                .Where(x => x.Num == num)
+                                                .OrderBy(x => x.Num)
+                                                .ThenBy(x => x.Letter)
+                                                .ToListAsync());
         }
 
         // GET: SchoolClasses/Details/5

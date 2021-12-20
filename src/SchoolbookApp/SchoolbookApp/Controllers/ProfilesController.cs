@@ -72,11 +72,21 @@ namespace SchoolbookApp.Controllers
         {
             return View("AdminMain");
         }
-        public async Task<IActionResult> ShowSearchResult(char SearchPhrase)
+        public async Task<IActionResult> ShowSearchResult(string searchType, char searchSchoolClassLetter, int searchSchoolClassNum)
         {
-            ViewBag.SearchPhrase = SearchPhrase;
+            if (searchType == "Subject")
+            {
+                return RedirectToRoute(new { action = "Index", controller = "Subjects", letter = searchSchoolClassLetter, num = searchSchoolClassNum });
+            }
+            else if (searchType == "SchoolClass")
+            {
+                return RedirectToRoute(new { action = "Index", controller = "SchoolClasses", letter = searchSchoolClassLetter, num = searchSchoolClassNum });
+            }
+            else
+            {
+                return RedirectToRoute(new { action = "Index", controller = "Home"});
+            }
 
-            return RedirectToRoute(new { action = "Index", controller = "Subjects", letter = SearchPhrase });
         }
 
 
