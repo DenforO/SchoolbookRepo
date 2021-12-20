@@ -35,6 +35,9 @@
     <thead>
         <tr>
             <th>
+                Номер в клас
+            </th>
+            <th>
                 Име
             </th>
             <th>
@@ -43,13 +46,18 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var student in ViewBag.Students)
-        {
-        <tr>
-            <td>@student.Name</td>
-            <td>@student.Surname</td>
-        </tr>
-        }
+        @{
+            int i = 1;
+            foreach (var student in ViewBag.Students)
+            {
+            <tr>
+                <td>@i</td>
+                <td>@student.Name</td>
+                <td>@student.Surname</td>
+            </tr>
+             }
+         }
+
     </tbody>
 </table>
 <div>

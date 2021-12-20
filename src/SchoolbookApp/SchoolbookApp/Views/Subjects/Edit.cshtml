@@ -5,10 +5,24 @@
     ViewBag.Title = "Edit";
 }
 
-<h1>@ViewBag.SubjectType.Name</h1>
+<h2>@ViewBag.SubjectType.Name</h2>
+<div>
 <hr />
-<h4>Учител: @ViewBag.Teacher.Name @ViewBag.Teacher.Surname</h4>
-<h4>Клас: @ViewBag.SchoolClass.Num @ViewBag.SchoolClass.Letter</h4>
+<dl class="row">
+    <dt class="col-sm-2">
+        Клас
+    </dt>
+    <dd class="col-sm-10">
+        @ViewBag.SchoolClass.Num @ViewBag.SchoolClass.Letter
+    </dd>
+    <dt class="col-sm-2">
+        Учител
+    </dt>
+    <dd class="col-sm-10">
+        @ViewBag.Teacher.Name @ViewBag.Teacher.Surname
+    </dd>
+</dl>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">

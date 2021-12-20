@@ -68,6 +68,18 @@ namespace SchoolbookApp.Controllers
             return View("TeacherClass");
         }
 
+        public async Task<IActionResult> AdminMain()
+        {
+            return View("AdminMain");
+        }
+        public async Task<IActionResult> ShowSearchResult(char SearchPhrase)
+        {
+            ViewBag.SearchPhrase = SearchPhrase;
+
+            return RedirectToRoute(new { action = "Index", controller = "Subjects", letter = SearchPhrase });
+        }
+
+
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }

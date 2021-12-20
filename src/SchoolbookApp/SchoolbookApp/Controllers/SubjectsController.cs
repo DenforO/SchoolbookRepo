@@ -27,12 +27,28 @@ namespace SchoolbookApp.Controllers
         }
 
         // GET: Subjects
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(char? letter)
         {
             ViewBag.SchoolClasses = _context.SchoolClass.ToList();
             ViewBag.Teachers = _userManager.Users.ToList();
             ViewBag.SubjectTypes = _context.SubjectType.ToList();
-            return View(await _context.Subject.ToListAsync());
+            if (letter != null)
+            {
+                return View(await _context.Subject
+                                                .Where(x => x.SchoolClass.Letter == letter)
+                                                .OrderBy(x => x.SchoolClass.Num)
+                                                .ThenBy(x => x.SchoolClass.Letter)
+                                                .ThenBy(x => x.SubjectType)
+                                                .ToListAsync());
+            }
+            else
+            {
+                return View(await _context.Subject
+                                                .OrderBy(x => x.SchoolClass.Num)
+                                                .ThenBy(x => x.SchoolClass.Letter)
+                                                .ThenBy(x => x.SubjectType)
+                                                .ToListAsync());
+            }
         }
 
         // GET: Subjects/Details/5
@@ -67,7 +83,10 @@ namespace SchoolbookApp.Controllers
                                                         _userManager.Users,
                                                         x => x.userId,
                                                         y => y.Id,
-                                                        (x, y) => y).ToList();
+                                                        (x, y) => y)
+                                                    .OrderBy(x => x.Name)
+                                                    .ThenBy(x => x.Surname)
+                                                    .ToList();
 
             var subject = await _context.Subject
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -82,6 +101,7 @@ namespace SchoolbookApp.Controllers
         // GET: Subjects/Create
         public IActionResult Create()
         {
+            ViewBag.Teachers = _userManager.GetUsersInRoleAsync("Teacher").Result;
             ViewBag.SubjectTypes = _context.SubjectType.ToList();
             ViewBag.Subjects = _context.Subject.ToListAsync();
             //List<string> subjectTypes = new List<string>();
@@ -97,10 +117,12 @@ namespace SchoolbookApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Day,Time,SubjectTypeId,TeacherId")] Subject subject)
+        public async Task<IActionResult> Create([Bind("Id,Day,Time,SubjectTypeId")] Subject subject, int schoolClassNum, char schoolClassLetter, string teacherEmail)
         {
             if (ModelState.IsValid)
             {
+                subject.TeacherId = _userManager.FindByEmailAsync(teacherEmail).Result.Id;
+                subject.SchoolClassId = _context.SchoolClass.ToList().Where(x => x.Letter == schoolClassLetter && x.Num == schoolClassNum).Single().Id;
                 _context.Add(subject);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

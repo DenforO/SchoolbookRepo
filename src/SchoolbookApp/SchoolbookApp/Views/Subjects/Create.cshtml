@@ -11,58 +11,68 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SubjectTypeId" class="control-label">Предмет</label>
-                <select asp-for="SubjectTypeId" class="form-control">
-                    @foreach (var item in ViewBag.SubjectTypes)
-                    {
-                        <option value=@item.Id>@item.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="Day" class="text-danger"></span>
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="SubjectTypeId" class="control-label">Предмет</label>
+                    <select asp-for="SubjectTypeId" class="form-control">
+                        @foreach (var item in ViewBag.SubjectTypes)
+                        {
+                            <option value=@item.Id>@item.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Day" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Учител</label>
+                    <select name="teacherEmail" class="form-control">
+                        @foreach (var teacher in ViewBag.Teachers)
+                        {
+                            <option value=@teacher.Email>@teacher.Name @teacher.Surname (@teacher.Email)</option>
+                        }
+                    </select>
+                    <span asp-validation-for="TeacherId" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="schoolClassNum" class="control-label">Клас</label>
-                <select for="schoolClassNum" class="form-control">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-
-                </select>
-                <span class="text-danger"></span>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="schoolClassNum" class="control-label">Клас</label>
+                    <select name="schoolClassNum" class="form-control">
+                        @for (int i = 0; i < 12; i++)
+                        {
+                            <option value=@(i+1)>@(i+1)</option>
+                        }
+                    </select>
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="schoolClassLetter" class="control-label">Паралелка</label>
+                    <select name="schoolClassLetter" type="char" class="form-control">
+                        <option value='А'>А</option>
+                        <option value='Б'>Б</option>
+                        <option value='В'>В</option>
+                    </select>
+                    <span class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="schoolClassLetter" class="control-label">Паралелка</label>
-                <select for="schoolClassLetter" class="form-control">
-                    <option value="А">А</option>
-                    <option value="Б">Б</option>
-                    <option value="В">В</option>
-
-                </select>
-                <span class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TeacherId" class="control-label"></label>
-                <input asp-for="TeacherId" class="form-control" />
-                <span asp-validation-for="TeacherId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Day" class="control-label">Ден</label>
-                <select asp-for="Day" class="form-control">
-                    <option value="1">Понеделник</option>
-                    <option value="2">Вторник</option>
-                    <option value="3">Сряда</option>
-                    <option value="4">Четвъртък</option>
-                    <option value="5">Петък</option>
-                    <option value="6">Събота</option>
-                    <option value="0">Неделя</option>
-                </select>
-                <span asp-validation-for="Day" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Time" class="control-label">Час</label>
-                <input asp-for="Time" type="time" class="form-control" />
-                <span asp-validation-for="Time" class="text-danger"></span>
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Day" class="control-label">Ден</label>
+                    <select asp-for="Day" class="form-control">
+                        <option value="1">Понеделник</option>
+                        <option value="2">Вторник</option>
+                        <option value="3">Сряда</option>
+                        <option value="4">Четвъртък</option>
+                        <option value="5">Петък</option>
+                        <option value="6">Събота</option>
+                        <option value="0">Неделя</option>
+                    </select>
+                    <span asp-validation-for="Day" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Time" class="control-label">Час</label>
+                    <input asp-for="Time" type="time" class="form-control" />
+                    <span asp-validation-for="Time" class="text-danger"></span>
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Добави" class="btn btn-primary" />
