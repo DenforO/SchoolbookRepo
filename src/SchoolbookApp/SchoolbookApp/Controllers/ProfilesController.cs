@@ -67,6 +67,10 @@ namespace SchoolbookApp.Controllers
         {
             return View("TeacherClass");
         }
+        public async Task<IActionResult> ParentMain()
+        {
+            return View("ParentMain");
+        }
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
