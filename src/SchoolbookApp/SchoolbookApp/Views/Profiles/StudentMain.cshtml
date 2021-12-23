@@ -1,0 +1,68 @@
+﻿@model IEnumerable<SchoolbookApp.Models.Subject>
+@{
+    ViewData["Title"] = "StudentMain";
+}
+
+<header>
+</header>
+<body>
+    <div class="greet">
+        <h1>@ViewBag.Name @ViewBag.Surname, @ViewBag.StudentClassNum@ViewBag.StudentClassLetter</h1>
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button id="logout_btn" type="submit" class="btn btn-danger">Излез</button>
+        </form>
+    </div>
+    
+    <div class="student-layout">
+        <div class="card">
+            <h4 class="card-title">Среден успех:</h4>
+            <p class="card-text">@ViewBag.AverageScore</p>
+        </div>
+
+        <div class="card">
+            <h4 class="card-title">Място в класа:</h4>
+            <p class="card-text">@ViewBag.RankInClass</p>
+        </div>
+
+        <div class="card">
+            <h4 class="card-title">Среден успех на класа:</h4>
+            <p class="card-text">@ViewBag.AverageClassScore</p>
+        </div>
+    </div>
+
+    <div class="subjects">
+        <h2>Предмети:</h2>
+        @foreach (var subjectType in ViewBag.SubjectTypes)
+        {
+            <div class="card">
+                <div class="card-img">
+                    <a asp-action="GetStudentGrades" asp-controller="Grades" asp-route-id="@subjectType.Id">
+                        <img src="~/img/mat.jpg" />
+                    </a>
+                </div>
+                <h4 class="card-title">@subjectType.Name</h4>
+                @foreach (var subject in ViewBag.Subjects)
+                {
+                    @foreach (var teacher in ViewBag.Teachers)
+                    {
+                        @if (subject.TeacherId == teacher.Id && subject.SubjectTypeId==subjectType.Id)
+                        {
+                            <p class="card-text">@teacher.Name @teacher.Surname</p>
+                        }
+                    }
+                }
+            </div>
+        }
+
+    </div>
+
+    <a type="button" class="btn btn-info btn-lg btn-block" asp-action="StudentsProgram" asp-controller="Subjects">Програма</a>
+
+    <div id="container">
+        <button type="button" class="btn btn-secondary btn-lg">Забележки</button>
+        <button type="button" class="btn btn-secondary btn-lg">Отсъствия</button>
+    </div>
+
+
+</body>
+

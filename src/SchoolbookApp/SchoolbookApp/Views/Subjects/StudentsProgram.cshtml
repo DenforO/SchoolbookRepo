@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<SchoolbookApp.Models.Subject>
 @{
     ViewData["Title"] = "StudentsProgram";
 }
@@ -7,96 +7,125 @@
 
 </head>
 <body>
-    <h1 id="weekly-program">Седмична програма за 10Б клас:</h1>
+    <h1 id="weekly-program">Седмична програма за @ViewBag.ClassNum@ViewBag.ClassLetter клас:</h1>
     <div class="weekly-program">
         <table class="table table-striped table-bordered table-light">
             <thead class="thead-dark">
                 <tr>
-                    <th>Понеделник</th>
+                    <th colspan="2">Понеделник</th>
+                </tr>
+                <tr>
+                    <th>Час</th>
+                    <th>Предмет</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td>Английски език</td></tr>
-                <tr><td>Английски език</td></tr>
-                <tr><td>Математика</td></tr>
-                <tr><td>Физика</td></tr>
-                <tr><td>Химия</td></tr>
-                <tr><td>Час на класа</td></tr>
+                @foreach (var subject in Model)
+                {
+                    @if (subject.Day == DayOfWeek.Monday)
+                    {
+                        <tr>
+                            <td>@subject.Time</td>
+                            <td>@subject.SubjectType.Name</td>
+                        </tr>
+                    }
+
+                }
             </tbody>
         </table>
 
         <table class="table table-striped table-bordered table-light">
             <thead class="thead-dark">
                 <tr>
-                    <th>Вторник</th>
+                    <th colspan="2">Вторник</th>
+                </tr>
+                <tr>
+                    <th>Час</th>
+                    <th>Предмет</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Английски език</td>
-                </tr>
-                <tr>
-                    <td>Английски език</td>
-                </tr>
-                <tr>
-                    <td>Математика</td>
-                </tr>
-                <tr>
-                    <td>Физика</td>
-                </tr>
-                <tr>
-                    <td>Химия</td>
-                </tr>
-                <tr>
-                    <td>Биология</td>
-                </tr>
+                @foreach (var subject in Model)
+                {
+                    @if (subject.Day == DayOfWeek.Tuesday)
+                    {
+                        <tr>
+                            <td>@subject.Time</td>
+                            <td>@subject.SubjectType.Name</td>
+                        </tr>
+                    }
+
+                }
             </tbody>
         </table>
 
         <table class="table table-striped table-bordered table-light">
             <thead class="thead-dark">
                 <tr>
-                    <th>Сряда</th>
+                    <th colspan="2">Сряда</th>
+                </tr>
+                <tr>
+                    <th>Час</th>
+                    <th>Предмет</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td>География</td></tr>
-                <tr><td>История</td></tr>
-                <tr><td>Математика</td></tr>
-                <tr><td>Информатика</td></tr>
-                <tr><td>Химия</td></tr>
-                <tr><td>Немски</td></tr>
+                @foreach (var subject in Model)
+                {
+                    @if (subject.Day == DayOfWeek.Wednesday)
+                    {
+                        <tr>
+                            <td>@subject.Time</td>
+                            <td>@subject.SubjectType.Name</td>
+                        </tr>
+                    }
+
+                }
             </tbody>
         </table>
 
         <table class="table table-striped table-bordered table-light">
             <thead class="thead-dark">
                 <tr>
-                    <th>Четвъртък</th>
+                    <th colspan="2">Четвъртък</th>
+                </tr>
+                <tr>
+                    <th>Час</th>
+                    <th>Предмет</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td>География</td></tr>
-                <tr><td>История</td></tr>
-                <tr><td>Физическо</td></tr>
-                <tr><td>Информатика</td></tr>
-                <tr><td>Биология</td></tr>
+                @foreach (var subject in Model)
+                {
+                    @if (subject.Day == DayOfWeek.Thursday)
+                    {
+                        <tr>
+                            <td>@subject.Time</td>
+                            <td>@subject.SubjectType.Name</td>
+                        </tr>
+                    }
+                }
             </tbody>
         </table>
 
         <table class="table table-striped table-bordered table-light">
             <thead class="thead-dark">
                 <tr>
-                    <th>Петък</th>
+                    <th colspan="2">Петък</th>
                 </tr>
+
             </thead>
             <tbody>
-                <tr><td>География</td></tr>
-                <tr><td>История</td></tr>
-                <tr><td>Информатика</td></tr>
-                <tr><td>Физическо</td></tr>
-                <tr><td>Рисуване</td></tr>
-                <tr><td>Рисуване</td></tr>
+                @foreach (var subject in Model)
+                {
+                    @if (subject.Day == DayOfWeek.Friday)
+                    {
+                        <tr>
+                            <td>@subject.Time</td>
+                            <td>@subject.SubjectType.Name</td>
+                        </tr>
+                    }
+                }
             </tbody>
         </table>
     </div>

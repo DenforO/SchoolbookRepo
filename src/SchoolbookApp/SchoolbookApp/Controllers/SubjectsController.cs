@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,14 +14,27 @@ namespace SchoolbookApp.Controllers
     public class SubjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public SubjectsController(ApplicationDbContext context)
+        public SubjectsController(ApplicationDbContext context,UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         public async Task<IActionResult> StudentsProgram()
         {
-            return View();
+            ApplicationUser user = await GetCurrentUserAsync();
+
+            var subjects = _context.Subject.Where(w => w.SchoolClassId == user.SchoolClassId).ToList();
+            foreach (var subject in subjects)
+            {
+                subject.SubjectType = _context.SubjectType.Where(w => w.Id == subject.SubjectTypeId).FirstOrDefault();
+            }
+            var schoolClass = _context.SchoolClass.Where(w => w.Id == user.SchoolClassId).FirstOrDefault();
+
+            ViewBag.ClassNum = schoolClass.Num;
+            ViewBag.ClassLetter = schoolClass.Letter;
+            return View(subjects);
         }
 
         // GET: Subjects
@@ -160,5 +174,7 @@ namespace SchoolbookApp.Controllers
         {
             return _context.Subject.Any(e => e.Id == id);
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }

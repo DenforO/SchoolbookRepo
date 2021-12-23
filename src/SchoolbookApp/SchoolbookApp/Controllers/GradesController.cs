@@ -26,9 +26,35 @@ namespace SchoolbookApp.Controllers
         // GET: Grades
         public async Task<IActionResult> Index()
         {
-            //ApplicationUser usr = await GetCurrentUserAsync();
-            //return View(await _context.Grade.Where(x => x.StudentId == usr.Id).ToListAsync());
+            ApplicationUser user = await GetCurrentUserAsync();
+            
+            //return View(await _context.Grade.Where(x => x.StudentId == user.Id).ToListAsync());
             return View();
+        }
+        //GET: Взима оценките по ID на предмет
+        public async Task<IActionResult> GetStudentGrades(int id)
+        {
+            ApplicationUser user = await GetCurrentUserAsync();
+
+            var schoolClass= _context.SchoolClass.Where(w => w.Id == user.SchoolClassId).FirstOrDefault();
+            var teacherId = _context.Subject.Where(w => w.SubjectTypeId == id && w.SchoolClassId == user.SchoolClassId).Select(s => s.TeacherId).FirstOrDefault();
+            var grades = _context.Grade.Where(w => w.Subject.SubjectType.Id == id && w.StudentId==user.Id && w.IsSemesterGrade==false && w.IsFinalGrade==false).ToList();
+            var gradesValue = grades.Select(s => s.Value).ToList();
+
+            ViewBag.FirstName = user.Name;
+            ViewBag.LastName = user.Surname;
+            ViewBag.StudentClassNum = schoolClass.Num;
+            ViewBag.StudentClassLetter = schoolClass.Letter;
+            ViewBag.StudentGrades = grades;
+            ViewBag.AverageScore = Math.Round((double)gradesValue.Sum() / (double)gradesValue.Count(),2); 
+            ViewBag.SubjectName = _context.SubjectType.Where(w => w.Id == id).Select(s => s.Name).FirstOrDefault();
+            ViewBag.FirstSemesterGrade = _context.Grade.Where(w => w.Subject.SubjectTypeId == id && w.StudentId == user.Id && w.Basis == "Оценка за I-Ви срок").FirstOrDefault();
+            ViewBag.SecondSemesterGrade = _context.Grade.Where(w => w.Subject.SubjectTypeId == id && w.StudentId == user.Id && w.Basis == "Оценка за II-ри срок").FirstOrDefault();
+            ViewBag.FinalGrade = _context.Grade.Where(w => w.Subject.SubjectTypeId == id && w.StudentId == user.Id && w.IsFinalGrade == true).FirstOrDefault();
+            ViewBag.TeacherFirstName= _context.Users.Where(w => w.Id == teacherId).Select(s => s.Name).FirstOrDefault();
+            ViewBag.TeacherLastName= _context.Users.Where(w => w.Id == teacherId).Select(s => s.Surname).FirstOrDefault();
+
+            return View("Index");
         }
 
         // GET: Grades/Details/5
@@ -161,6 +187,6 @@ namespace SchoolbookApp.Controllers
         }
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
-
+       
     }
 }
