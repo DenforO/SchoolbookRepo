@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    ViewBag.Title = "Index";
 }
 
 <h1>Index</h1>
@@ -13,10 +14,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserId)
+               Ученик
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StudentId)
+               Имейл
             </th>
             <th></th>
         </tr>
@@ -25,7 +26,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.UserId)
+                @foreach (var student in ViewBag.Students)
+                {
+                    if (student.Id == item.StudentId)
+                    {
+                        @student.Name @student.Surname
+                    }
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StudentId)

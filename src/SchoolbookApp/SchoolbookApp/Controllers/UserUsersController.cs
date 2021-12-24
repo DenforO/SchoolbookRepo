@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,15 +14,27 @@ namespace SchoolbookApp.Controllers
     public class UserUsersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserUsersController(ApplicationDbContext context)
+        public UserUsersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: UserUsers
         public async Task<IActionResult> Index(string? id)
         {
+            ViewBag.Students = _context.UserUser
+                                            .Where(x => x.UserId == id)
+                                            .ToListAsync()
+                                            .Result
+                                            .Join(
+                                                _userManager.Users,
+                                                x => x.StudentId,
+                                                y => y.Id,
+                                                (x, y) => y)
+                                            .ToList();
             return View(await _context.UserUser.Where(x => x.UserId == id).ToListAsync());
         }
 
