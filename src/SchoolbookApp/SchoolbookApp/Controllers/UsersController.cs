@@ -65,9 +65,16 @@ namespace SchoolbookApp.Controllers
 
             ViewBag.SchoolClasses = _context.SchoolClass.ToList();
             ViewBag.SchoolClass = _userManager.FindByIdAsync(id).Result.SchoolClass;
+            ViewBag.Role = _userManager.GetRolesAsync(_userManager.FindByIdAsync(id).Result).Result.Single();
+            ViewBag.Children = _userManager.Users
+                                                .Join(_context.UserUser,
+                                                      x => x.Id,
+                                                      y => y.StudentId,
+                                                      (x, y) => new { x, y.UserId })
+                                                .Where(student => student.UserId == id)
+                                                .Select(student => student.x)
+                                                .ToList();
 
-            //ViewBag.Teacher = _userManager.Users.Where(x => x.Id == _context.Subject.Find(id).TeacherId).Single();
-            //ViewBag.SubjectType = _context.SubjectType.Where(x => x.Id == _context.Subject.Find(id).SubjectTypeId).Single();
 
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
