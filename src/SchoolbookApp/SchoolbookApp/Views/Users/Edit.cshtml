@@ -30,13 +30,24 @@
                     <div class="form-group">
                         <label class="control-label">Клас</label>
                         <select name="schoolClassNum" class="form-control">
-                            @for (int i = 0; i < 12; i++)
+                            @if (Model.SchoolClass != null)
                             {
-                                if (i + 1 == Model.SchoolClass.Num)
+                                @for (int i = 0; i < 12; i++)
                                 {
-                                    <option selected="selected" value=@(i+1)>@(i+1)</option>
+                                    if (i + 1 == Model.SchoolClass.Num)
+                                    {
+                                        <option selected="selected" value=@(i+1)>@(i+1)</option>
+                                    }
+                                    else
+                                    {
+                                        <option value=@(i+1)>@(i+1)</option>
+                                    }
                                 }
-                                else
+                            }
+                            else
+                            {
+                                <option value=null></option>
+                                for (int i = 0; i < 12; i++)
                                 {
                                     <option value=@(i+1)>@(i+1)</option>
                                 }
@@ -47,17 +58,29 @@
                     <div class="form-group">
                         <label class="control-label">Паралелка</label>
                         <select name="schoolClassLetter" type="char" class="form-control">
-                            @for (char i = 'А'; i <= 'В'; i++)
+                            @if (Model.SchoolClass != null)
                             {
-                                if (i == Model.SchoolClass.Letter)
+                                @for (char i = 'А'; i <= 'В'; i++)
                                 {
-                                    <option selected="selected" value=@i>@i</option>
+                                    if (i == Model.SchoolClass.Letter)
+                                    {
+                                        <option selected="selected" value=@i>@i</option>
+                                    }
+                                    else
+                                    {
+                                        <option value=@i>@i</option>
+                                    }
                                 }
-                                else
+                            }
+                            else
+                            {
+                                <option value=null></option>
+                                @for (char i = 'А'; i <= 'В'; i++)
                                 {
                                     <option value=@i>@i</option>
                                 }
                             }
+
                         </select>
                     </div>
                 </div>
@@ -69,13 +92,25 @@
                     <div class="form-group">
                         <label class="control-label">Клас</label>
                         <select name="schoolClassNum" class="form-control">
-                            @for (int i = 0; i < 12; i++)
+                            @if (Model.SchoolClass != null)
                             {
-                                if (i + 1 == Model.SchoolClass.Num)
+                                @for (int i = 0; i < 12; i++)
                                 {
-                                    <option selected="selected" value=@(i+1)>@(i+1)</option>
+                                    if (i + 1 == Model.SchoolClass.Num)
+                                    {
+                                        <option selected="selected" value=@(i+1)>@(i+1)</option>
+                                    }
+                                    else
+                                    {
+                                        <option value=@(i+1)>@(i+1)</option>
+                                    }
                                 }
-                                else
+                            }
+                            else
+                            {
+                                <option value=null></option>
+
+                                for (int i = 0; i < 12; i++)
                                 {
                                     <option value=@(i+1)>@(i+1)</option>
                                 }
@@ -86,17 +121,30 @@
                     <div class="form-group">
                         <label class="control-label">Паралелка</label>
                         <select name="schoolClassLetter" type="char" class="form-control">
-                            @for (char i = 'А'; i <= 'В'; i++)
+                            @if (Model.SchoolClass != null)
                             {
-                                if (i == Model.SchoolClass.Letter)
+                                @for (char i = 'А'; i <= 'В'; i++)
                                 {
-                                    <option selected="selected" value=@i>@i</option>
+                                    if (i == Model.SchoolClass.Letter)
+                                    {
+                                        <option selected="selected" value=@i>@i</option>
+                                    }
+                                    else
+                                    {
+                                        <option value=@i>@i</option>
+                                    }
                                 }
-                                else
+                            }
+                            else
+                            {
+                                <option value=null></option>
+
+                                @for (char i = 'А'; i <= 'В'; i++)
                                 {
                                     <option value=@i>@i</option>
                                 }
                             }
+
                         </select>
                     </div>
                 </div>
