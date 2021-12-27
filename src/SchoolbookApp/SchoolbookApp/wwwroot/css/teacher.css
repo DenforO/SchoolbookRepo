@@ -136,3 +136,17 @@ body {
     text-align: center;
     margin: 20px;
 }
+
+.dialogBox {
+    display: grid;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#dlTitle {
+    color: #3498DB;
+    font-weight: bold;
+    font-family: cursive;
+    text-align: center;
+}

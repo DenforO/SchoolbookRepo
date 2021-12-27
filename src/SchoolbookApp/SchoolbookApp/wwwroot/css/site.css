@@ -28,9 +28,16 @@ body {
     background-color: aliceblue;
 }
 
-.greet{
-    text-align:right;
-    margin-left:auto;
+.greet {
+    text-align: right;
+    margin-left: auto;
+    font-family: cursive;
+    margin-bottom:20px;
+}
+
+#logout_btn {
+    margin-left: auto;
+    text-align: right;
 }
 
 .student-layout {
@@ -53,13 +60,14 @@ body {
     margin-right: 15px;
     color: coral;
     font-weight: bold;
+    font-family:cursive;
 }
 
 .student-layout .card .card-text {
     text-align: center;
     margin-top: 20px;
     font-size: 40px;
-    color: coral;
+    color: lightcoral;
 }
 
 .subjects {
@@ -74,6 +82,7 @@ body {
     position:absolute;
     margin-left:20px;
     margin-bottom:20px;
+    font-family:cursive;
 }
 
 .subjects .card {
@@ -179,6 +188,7 @@ body {
     text-align:center;
     margin:auto;
     width:700px;
+    font-family:cursive;
 }
 
 .weekly-program{

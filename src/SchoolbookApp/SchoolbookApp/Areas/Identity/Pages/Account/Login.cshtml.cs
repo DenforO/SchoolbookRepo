@@ -90,15 +90,15 @@ namespace SchoolbookApp.Areas.Identity.Pages.Account
                     //Проверка на ролята и съответен redirect
                     if(await _userManager.IsInRoleAsync(user, "Student"))
                     {
-                        returnUrl ??= Url.Content("~/Home/StudentMain");
+                        returnUrl ??= Url.Content("~/Profiles/StudentMain");
                     }
                     else if(await _userManager.IsInRoleAsync(user, "Teacher"))
                     {
-                        returnUrl ??= Url.Content("~/Grades/TeacherMain");
+                        returnUrl ??= Url.Content("~/Profiles/TeacherMain");
                     }
                     else if (await _userManager.IsInRoleAsync(user, "Parent"))
                     {
-                        returnUrl ??= Url.Content("~/");
+                        returnUrl ??= Url.Content("~/Profiles/ParentMain");
                     }
                     else if (await _userManager.IsInRoleAsync(user, "Admin"))
                     {

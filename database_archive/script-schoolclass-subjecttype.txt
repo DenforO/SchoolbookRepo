@@ -1,0 +1,332 @@
+
+--След като execute-нете скрипта, проверете в таблиците дали има дублирани данни,
+--понеже е възможно при въвеждане на клас да сте използвали английската азбука
+--или някой предмет да се казва по различен начин.
+--Тъй като вашите първоначални данни най-вероятно вече се използват и в други таблици
+--изтрите дублираните нови, като за всеки ред използвайте шаблона:
+--
+--DELETE FROM име на таблицата
+--WHERE Id=стойността на колонката Id на съответния ред
+
+
+--Script for dbo.SchoolClass
+
+DECLARE @LetterA nvarchar(1) = N'А'
+DECLARE @LetterB nvarchar(1) = N'Б'
+DECLARE @LetterC nvarchar(1) = N'В'
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=1 AND Letter = @LetterA)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (1,@LetterA)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=1 AND Letter = @LetterB)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (1,@LetterB)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=1 AND Letter = @LetterC)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (1,@LetterC)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=2 AND Letter = @LetterA)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (2,@LetterA)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=2 AND Letter = @LetterB)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (2,@LetterB)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=2 AND Letter = @LetterC)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (2,@LetterC)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=3 AND Letter = @LetterA)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (3,@LetterA)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=3 AND Letter = @LetterB)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (3,@LetterB)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=3 AND Letter = @LetterC)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (3,@LetterC)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=4 AND Letter = @LetterA)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (4,@LetterA)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=4 AND Letter = @LetterB)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (4,@LetterB)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=4 AND Letter = @LetterC)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (4,@LetterC)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=5 AND Letter = @LetterA)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (5,@LetterA)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=5 AND Letter = @LetterB)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (5,@LetterB)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=5 AND Letter = @LetterC)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (5,@LetterC)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=6 AND Letter = @LetterA)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (6,@LetterA)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=6 AND Letter = @LetterB)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (6,@LetterB)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=6 AND Letter = @LetterC)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (6,@LetterC)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=7 AND Letter = @LetterA)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (7,@LetterA)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=7 AND Letter = @LetterB)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (7,@LetterB)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=7 AND Letter = @LetterC)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (7,@LetterC)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=8 AND Letter = @LetterA)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (8,@LetterA)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=8 AND Letter = @LetterB)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (8,@LetterB)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=8 AND Letter = @LetterC)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (8,@LetterC)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=9 AND Letter = @LetterA)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (9,@LetterA)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=9 AND Letter = @LetterB)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (9,@LetterB)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=9 AND Letter = @LetterC)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (9,@LetterC)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=10 AND Letter = @LetterA)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (10,@LetterA)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=10 AND Letter = @LetterB)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (10,@LetterB)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=10 AND Letter = @LetterC)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (10,@LetterC)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=11 AND Letter = @LetterA)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (11,@LetterA)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=11 AND Letter = @LetterB)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (11,@LetterB)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=11 AND Letter = @LetterC)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (11,@LetterC)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=12 AND Letter = @LetterA)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (12,@LetterA)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=12 AND Letter = @LetterB)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (12,@LetterB)
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SchoolClass WHERE Num=12 AND Letter = @LetterC)
+BEGIN
+    INSERT INTO dbo.SchoolClass (Num,Letter)
+	VALUES (12,@LetterC)
+END
+
+--------
+
+--Script for dbo.SubjectType
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'Математика')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'Математика')
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'Български език и литература')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'Български език и литература')
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'Биология')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'Биология')
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'Физика')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'Физика')
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'Химия')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'Химия')
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'Английски език')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'Английски език')
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'Немски език')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'Немски език')
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'Информатика')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'Информатика')
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'Информационни технологии')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'Информационни технологии')
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'История')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'История')
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'География')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'География')
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'Физическо възпитание и спорт')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'Физическо възпитание и спорт')
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'Музика')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'Музика')
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'Изобразително изкуство')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'Изобразително изкуство')
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'Човек и природа')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'Човек и природа')
+END
+
+IF NOT EXISTS (SELECT * FROM dbo.SubjectType WHERE Name=N'Човек и общество')
+BEGIN
+    INSERT INTO dbo.SubjectType (Name)
+	VALUES (N'Човек и общество')
+END

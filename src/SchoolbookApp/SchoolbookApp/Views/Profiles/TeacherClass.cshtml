@@ -1,124 +1,107 @@
-﻿<!DOCTYPE html>
+﻿@model SchoolbookApp.Models.Subject
+
+@{
+    ViewBag.Title = "TeacherClass";
+    int studentCount = 0;
+    var className = ViewBag.ClassName;
+    var studentObj = ViewBag.StudentObj;
+    var isMainTeacher = ViewBag.IsMainTeacher;
+    string fullName = "";
+    string grades = "";
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="~/css/teacher.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="~/js/teacher.js" asp-append-version="true"></script>
 </head>
 <body>
-    <h2 id="studentsTableHeader">Списък на учениците от 7 А</h2>
-    <table id="students">
-        <tr>
-            <th>Номер</th>
-            <th>Име</th>
-            <th>Оценки</th>
-            <th>Нова оценка</th>
-            <th>Нова забележка</th>
-            <th>Ново отсъствие</th>
-            <th>Още</th>
-        </tr>
-        <tr>
-            <td class="numberInClass">1</td>
-            <td>Петър Петров Петров</td>
-            <td>6,5,3,4,5,2,3,4,6,6</td>
-            <td>
-                <div id="gradeSection">
-                    <div id="gradeNum">
-                        <label for="ddGrades">Оценка: </label>
-                        @Html.DropDownList("ddGrades", new List<SelectListItem>
-                        {
-                           new SelectListItem{ Text="", Value = "-1" },
-                           new SelectListItem{ Text="6", Value = "6" },
-                           new SelectListItem{ Text="5", Value = "5" },
-                           new SelectListItem{ Text="4", Value = "4" },
-                           new SelectListItem{ Text="3", Value = "3" },
-                           new SelectListItem{ Text="2", Value = "2" },
-                        })
-                    </div>
-                    <div id="gradeReason">
-                        <label for="ddReason">Причина за оценка: </label>
-                        @Html.DropDownList("ddReason", new List<SelectListItem>
-                        {
-                           new SelectListItem{ Text="", Value = "-1" },
-                           new SelectListItem{ Text="Срочна", Value = "1" },
-                           new SelectListItem{ Text="Годишна", Value = "2" },
-                           new SelectListItem{ Text="Друга", Value = "3" }
-                        }, new { @onchange = "ddReason_Change(this.value)" })
-                        <input type="text" id="reasonText" style="display: none"><br>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div id="noteSection">
-                    <label for="noteText">Забележка: </label>
-                    <input type="text" id="noteText"><br />
-                    <label for="dataNoteText">Дата: </label>
-                    <input type="text" id="dataNoteText">
-                </div>
-            </td>
-            <td>
-                <div id="absenceSection">
-                    <label for="absenceText">Брой отсъствия: </label>
-                    <input type="text" id="absenceText"><br />
-                    <label for="dataAbsenceText">Дата: </label>
-                    <input type="text" id="dataAbsenceText">
-                </div>
-            </td>
-            <td><a href="#"><span>Детайли</span></a></td>
-        </tr>
-        <tr>
-            <td class="numberInClass">2</td>
-            <td>Стоян Стоилов Пеев</td>
-            <td>2,3,4,6,6,6,5,3,4,5</td>
-            <td>
-                <div id="gradeSection">
-                    <div id="gradeNum">
-                        <label for="ddGrades">Оценка: </label>
-                        @Html.DropDownList("ddGrades", new List<SelectListItem>
-                        {
-                           new SelectListItem{ Text="", Value = "-1" },
-                           new SelectListItem{ Text="6", Value = "6" },
-                           new SelectListItem{ Text="5", Value = "5" },
-                           new SelectListItem{ Text="4", Value = "4" },
-                           new SelectListItem{ Text="3", Value = "3" },
-                           new SelectListItem{ Text="2", Value = "2" },
-                        })
-                    </div>
-                    <div id="gradeReason">
-                        <label for="ddReason">Причина за оценка: </label><br />
-                        @Html.DropDownList("ddReason", new List<SelectListItem>
-                        {
-                           new SelectListItem{ Text="", Value = "-1" },
-                           new SelectListItem{ Text="Срочна", Value = "1" },
-                           new SelectListItem{ Text="Годишна", Value = "2" },
-                           new SelectListItem{ Text="Друга", Value = "3" }
-                        }, new { @onchange = "ddReason_Change(this.value)" })<br />
-                        <input type="text" id="reasonText" style="display: none"><br>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div id="noteSection">
-                    <label for="noteText">Забележка: </label><br />
-                    <input type="text" id="noteText"><br />
-                    <label for="dataNoteText">Дата: </label><br />
-                    <input type="text" id="dataNoteText">
-                </div>
-            </td>
-            <td>
-                <div id="absenceSection">
-                    <label for="absenceText">Брой отсъствия: </label><br />
-                    <input type="text" id="absenceText"><br />
-                    <label for="dataAbsenceText">Дата: </label><br />
-                    <input type="text" id="dataAbsenceText">
-                </div>
-            </td>
-            <td><a href="#"><span>Детайли</span></a></td>
-        </tr>
-    </table>
-    <div class="saveSection">
-        <button class="dropbtn">Запиши промени</button>
+    <h2 id="studentsTableHeader">Списък на учениците от @className</h2>
+    @if (((IEnumerable<dynamic>)studentObj).Count() == 0)
+    {
+        <h4 id="dlTitle">Все още няма ученици в този клас!</h4>
+    }
+    else
+    {
+        <table id="students">
+            <tr>
+                <th>Номер</th>
+                <th>Име</th>
+                <th>Оценки</th>
+                <th>Нова оценка</th>
+                <th>Нова забележка</th>
+                <th>Ново отсъствие</th>
+                @if (isMainTeacher)
+                {
+                    <th>Още</th>
+                }
+            </tr>
+            @foreach (var student in studentObj)
+            {
+                studentCount++;
+                fullName = student.GetType().GetProperty("FullName").GetValue(student, null);
+                grades = student.GetType().GetProperty("Grades").GetValue(student, null);
+                <tr>
+                    <td class="numberInClass">@studentCount</td>
+                    <td>@fullName.ToString()</td>
+                    <td>@grades.ToString()</td>
+                    <td>
+                        <div id="gradeSection">
+                            <div id="gradeNum">
+                                <label for="ddGrades">Оценка: </label>
+                                @Html.DropDownList("ddGrades", new List<SelectListItem>
+                                {
+                                    new SelectListItem{ Text="", Value = "-1" },
+                                    new SelectListItem{ Text="6", Value = "6" },
+                                    new SelectListItem{ Text="5", Value = "5" },
+                                    new SelectListItem{ Text="4", Value = "4" },
+                                    new SelectListItem{ Text="3", Value = "3" },
+                                    new SelectListItem{ Text="2", Value = "2" },
+                                })
+                            </div>
+                            <div id="gradeReason">
+                                <label for="ddReason">Причина за оценка: </label>
+                                @Html.DropDownList("ddReason", new List<SelectListItem>
+                                {
+                                    new SelectListItem{ Text="", Value = "-1" },
+                                    new SelectListItem{ Text="Срочна", Value = "1" },
+                                    new SelectListItem{ Text="Годишна", Value = "2" },
+                                    new SelectListItem{ Text="Друга", Value = "3" }
+                                }, new { @onchange = "ddReason_Change(this.value)" })
+                                <input type="text" id="reasonText" style="display: none"><br>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div id="noteSection">
+                            <label for="noteText">Забележка: </label>
+                            <input type="text" id="noteText"><br />
+                            <label for="dataNoteText">Дата: </label>
+                            <input type="text" id="dataNoteText">
+                        </div>
+                    </td>
+                    <td>
+                        <div id="absenceSection">
+                            <label for="absenceText">Брой отсъствия: </label>
+                            <input type="text" id="absenceText"><br />
+                            <label for="dataAbsenceText">Дата: </label>
+                            <input type="text" id="dataAbsenceText">
+                        </div>
+                    </td>
+                    <td><a href="#"><span>Детайли</span></a></td>
+                </tr>
+            }
+        </table>
+        <div class="saveSection">
+            <button id="btnSaveClassChanges" class="dropbtn" onclick="SaveClassChanges()">Запиши промени</button>
+        </div>
+    }
+    <div class="dialogBox">
+        <div id="dialog">
+            <h4 id="dlTitle"></h4>
+        </div>
     </div>
-
-    <script src="~/js/teacher.js" asp-append-version="true"></script>
 </body>
 </html>

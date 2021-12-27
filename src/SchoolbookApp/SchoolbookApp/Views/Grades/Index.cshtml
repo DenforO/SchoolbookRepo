@@ -9,8 +9,8 @@
 </head>
 <body class="grades-body">
     <div class="grades">
-        <h1 class="grades-name">Иван Георгиев, 10Б</h1>
-        <h2>Математика</h2>
+        <h1 class="grades-name">@ViewBag.FirstName @ViewBag.LastName, @ViewBag.StudentClassNum@ViewBag.StudentClassLetter</h1>
+        <h2>@ViewBag.SubjectName</h2>
         <table class="table table-striped table-bordered table-light">
             <thead class="thead-dark">
                 <tr>
@@ -19,43 +19,49 @@
                     <th>Причина</th>
                 </tr>
             </thead>
-            <tbody class="t">
-                <tr>
-                    <td>6</td>
-                    <td>16.04.2021</td>
-                    <td>Контролно</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>09.04.2021</td>
-                    <td>Устно изпитване</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>15.03.2021</td>
-                    <td>Устно изпитване</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>15.03.2021</td>
-                    <td>Устно изпитване</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>15.03.2021</td>
-                    <td>Устно изпитване</td>
-                </tr>
+            <tbody>
+                @foreach (var grade in ViewBag.StudentGrades)
+                {
+                    <tr>
+                        <td>@grade.Value</td>
+                        <td>@grade.DateTime</td>
+                        <td>@grade.Basis</td>
+                    </tr>
+                }
+
             </tbody>
         </table>
     </div>
 
     <div class="grades-info">
-        <h2 class="teacher-name">Преподавател: Георги Георгиев</h2>
+        <h2 class="teacher-name">Преподавател: @ViewBag.TeacherFirstName @ViewBag.TeacherLastName</h2>
         <div class="card">
-            <h3 class="card-text">Среден успех:</h3>
-            <h3 class="card-text">I-ви срок:</h3>
-            <h3 class="card-text">II-ри срок:</h3>
-            <h3 class="card-text">Годишна оценка:</h3>
+            <h3 class="card-text">Среден успех: @ViewBag.AverageScore</h3>
+            @if (ViewBag.FirstSemesterGrade != null)
+            {
+                <h3 class="card-text">I-ви срок: @ViewBag.FirstSemesterGrade.Value</h3>
+            }
+            else
+            {
+                <h3 class="card-text">I-ви срок: --- </h3>
+            }
+            @if (ViewBag.SecondSemesterGrade != null)
+            {
+                <h3 class="card-text">II-ри срок: @ViewBag.SecondSemesterGrade.Value</h3>
+            }
+            else
+            {
+                <h3 class="card-text">II-ри срок: --- </h3>
+            }
+            @if (ViewBag.FinalGrade != null)
+            {
+                <h3 class="card-text">Годишна оценка: @ViewBag.FinalGrade.Value</h3>
+            }
+            else
+            {
+                <h3 class="card-text">Годишна оценка: --- </h3>
+            }
+
         </div>
     </div>
 </body>

@@ -8,6 +8,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="~/css/teacher.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="~/js/teacher.js" asp-append-version="true"></script>
 </head>
 <body>
     <div style="width: 100%; display: table;">
@@ -23,12 +25,12 @@
                             {
                                 if (subj.Item2.SubjectTypeId == subjType.Id)
                                 {
-                                    <a href="#" id="@subj.Item1.Id" onclick="ShowClassStudents()">@subj.Item1.Num @subj.Item1.Letter</a>
+                                    <a href="#" id="@subj.Item1.Id" onclick="ShowClassStudents(id)">@subj.Item1.Num @subj.Item1.Letter</a>
                                 }
                             }
                         </div>
                     </div>
-                }                
+                }
             </div>
             <div style="display: table-cell;">
                 <h3>@ViewBag.Name</h3>
@@ -37,7 +39,7 @@
                     <div class="isMainTeacher">
                         <h6>Класен ръководител на:</h6>
                         <button id="btnMainClass">
-                            <p style="margin-bottom: 0;" id="@ViewBag.MainClassId" onclick="ShowMainClassStudents()">@ViewBag.MainClassName</p>
+                            <p class="txtMainClass" style="margin-bottom: 0;" id="@ViewBag.MainClassId" onclick="ShowClassStudents(id)">@ViewBag.MainClassName</p>
                         </button>
                         <h6>Среден успех на класа:</h6>
                         <p id="avgScore">@ViewBag.AvgScore</p>
@@ -48,8 +50,6 @@
             </div>
         </div>
     </div>
-
-    <script src="~/js/teacher.js" asp-append-version="true"></script>
 </body>
 </html>
 

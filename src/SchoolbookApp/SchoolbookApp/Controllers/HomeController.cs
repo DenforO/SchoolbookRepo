@@ -47,10 +47,6 @@ namespace SchoolbookApp.Controllers
             }
         }
 
-        public async Task<IActionResult> StudentMain()
-        {
-            return View();
-        }
         
         public IActionResult Privacy()
         {

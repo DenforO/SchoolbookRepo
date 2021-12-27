@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SchoolbookApp.Data;
 using SchoolbookApp.Models;
 
 namespace SchoolbookApp.Areas.Identity.Pages.Account
@@ -24,16 +25,19 @@ namespace SchoolbookApp.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly ApplicationDbContext _context;
         //private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<RegisterModel> logger)
+            ILogger<RegisterModel> logger,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
             //_emailSender = emailSender;
         }
 
@@ -78,6 +82,12 @@ namespace SchoolbookApp.Areas.Identity.Pages.Account
             [Display(Name = "Role")]
             public string Role { get; set; }
 
+            [Display(Name = "ClassNum")]
+            public int ClassNum { get; set; }
+
+
+            [Display(Name = "ClassLetter")]
+            public string ClassLetter { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -93,13 +103,17 @@ namespace SchoolbookApp.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Name=Input.Name,Surname=Input.Surname,PhoneNumber=Input.PhoneNumber };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Name=Input.Name,Surname=Input.Surname,PhoneNumber=Input.PhoneNumber,SchoolClassId=27};
                 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
                     await _userManager.AddToRoleAsync(user, Input.Role);
+                    if(Input.Role == "Student")
+                    {
+                        EnrollStudentInClass(user);
+                    }
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
@@ -118,6 +132,22 @@ namespace SchoolbookApp.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
+                        if (await _userManager.IsInRoleAsync(user, "Student"))
+                        {
+                            returnUrl ??= Url.Content("~/Profiles/StudentMain");
+                        }
+                        else if (await _userManager.IsInRoleAsync(user, "Teacher"))
+                        {
+                            returnUrl ??= Url.Content("~/Profiles/TeacherMain");
+                        }
+                        else if (await _userManager.IsInRoleAsync(user, "Parent"))
+                        {
+                            returnUrl ??= Url.Content("~/");
+                        }
+                        else if (await _userManager.IsInRoleAsync(user, "Admin"))
+                        {
+                            returnUrl ??= Url.Content("~/");
+                        }
                         return LocalRedirect(returnUrl);
                     }
                 }
@@ -129,6 +159,21 @@ namespace SchoolbookApp.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private void EnrollStudentInClass(ApplicationUser user)
+        {
+            int schoolClassNum = Input.ClassNum;
+            char schoolClassLetter = char.Parse(Input.ClassLetter);
+            var schoolClassId = _context.SchoolClass.Where(w => w.Num == schoolClassNum && w.Letter == schoolClassLetter)
+                .Select(s => s.Id)
+                .FirstOrDefault();
+            //UserSchoolClass userSchoolClass = new UserSchoolClass();
+            //userSchoolClass.UserId = user.Id;
+            //userSchoolClass.SchoolClassId = schoolClassId;
+            user.SchoolClassId = schoolClassId;
+            //_context.UserSchoolClass.Add(userSchoolClass);
+            _context.SaveChanges();
         }
     }
 }
