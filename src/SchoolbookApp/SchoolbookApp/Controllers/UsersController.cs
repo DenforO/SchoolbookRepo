@@ -135,25 +135,38 @@ namespace SchoolbookApp.Controllers
         }
 
 
-        // GET: UsersController/Delete/5
-        public ActionResult Delete(int id)
+        // GET: Users/Delete/5
+        public async Task<IActionResult> Delete(string? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
         }
 
-        // POST: UsersController/Delete/5
-        [HttpPost]
+        // POST: Users/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            try
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
             {
-                return RedirectToAction(nameof(Index));
+                IdentityResult result = await _userManager.DeleteAsync(user);
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            else
+                ModelState.AddModelError("", "User Not Found");
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

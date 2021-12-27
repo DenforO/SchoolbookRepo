@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SchoolbookApp.Models;
 using System;
@@ -12,14 +13,17 @@ namespace SchoolbookApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
         {
+            //ApplicationUser usr = await GetCurrentUserAsync();
             return View();
         }
 
@@ -38,5 +42,7 @@ namespace SchoolbookApp.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }

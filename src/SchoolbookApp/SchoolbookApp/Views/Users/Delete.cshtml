@@ -1,0 +1,32 @@
+﻿@model SchoolbookApp.Models.ApplicationUser
+
+<h3>Сигурни ли сте, че искате да изтриете този профил?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Име
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Фамилия
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+        <dt class="col-sm-2">
+            Имейл
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Изтрий" class="btn btn-danger" /> |
+        <a asp-action="Index">Отмяна</a>
+    </form>
+</div>
