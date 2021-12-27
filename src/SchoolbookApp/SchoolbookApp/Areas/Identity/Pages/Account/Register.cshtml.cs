@@ -82,8 +82,12 @@ namespace SchoolbookApp.Areas.Identity.Pages.Account
             [Display(Name = "Role")]
             public string Role { get; set; }
 
-            [Display(Name = "Class")]
-            public string Class { get; set; }
+            [Display(Name = "ClassNum")]
+            public int ClassNum { get; set; }
+
+
+            [Display(Name = "ClassLetter")]
+            public string ClassLetter { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -159,16 +163,16 @@ namespace SchoolbookApp.Areas.Identity.Pages.Account
 
         private void EnrollStudentInClass(ApplicationUser user)
         {
-            int schoolClassNum = (int)char.GetNumericValue(Input.Class[0]);
-            char schoolClassLetter = Input.Class[1];
+            int schoolClassNum = Input.ClassNum;
+            char schoolClassLetter = char.Parse(Input.ClassLetter);
             var schoolClassId = _context.SchoolClass.Where(w => w.Num == schoolClassNum && w.Letter == schoolClassLetter)
                 .Select(s => s.Id)
                 .FirstOrDefault();
-            UserSchoolClass userSchoolClass = new UserSchoolClass();
-            userSchoolClass.UserId = user.Id;
-            userSchoolClass.SchoolClassId = schoolClassId;
+            //UserSchoolClass userSchoolClass = new UserSchoolClass();
+            //userSchoolClass.UserId = user.Id;
+            //userSchoolClass.SchoolClassId = schoolClassId;
             user.SchoolClassId = schoolClassId;
-            _context.UserSchoolClass.Add(userSchoolClass);
+            //_context.UserSchoolClass.Add(userSchoolClass);
             _context.SaveChanges();
         }
     }
