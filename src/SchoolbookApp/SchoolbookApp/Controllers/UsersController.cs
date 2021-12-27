@@ -23,9 +23,21 @@ namespace SchoolbookApp.Controllers
         }
 
         // GET: UsersController
-        public ActionResult Index()
+        public ActionResult Index(string? name, string? email)
         {
-            return View(_userManager.Users.ToList());
+            if (name == null && email == null)
+            {
+                return View(_userManager.Users.ToList());
+            }
+            else
+            {
+                return View(_userManager.Users
+                                            .ToList()
+                                            .Where(x =>
+                                                (name != null && x.Name.ToLower().Contains(name.ToLower())) ||
+                                                (name != null && x.Surname.ToLower().Contains(name.ToLower())) ||
+                                                (email != null && x.Email.ToLower().Contains(email.ToLower()))));
+            }
         }
 
         // GET: UsersController/Details/5

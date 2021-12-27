@@ -14,6 +14,7 @@ namespace SchoolbookApp.Models
         public char Letter { get; set; }
 
         public ICollection<Subject> Subjects { get; set; }
+        public ICollection<ApplicationUser> ApplicationUsers { get; set; }
 
         public SchoolClass()
         {

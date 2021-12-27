@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,21 +14,43 @@ namespace SchoolbookApp.Controllers
     public class SchoolClassesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public SchoolClassesController(ApplicationDbContext context)
+        public SchoolClassesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: SchoolClasses
         public async Task<IActionResult> Index(char? letter, int? num)
         {
-            return View(await _context.SchoolClass
+            var schoolClass = _context.SchoolClass
                                                 .Where(x => x.Letter == letter)
                                                 .Where(x => x.Num == num)
                                                 .OrderBy(x => x.Num)
                                                 .ThenBy(x => x.Letter)
-                                                .ToListAsync());
+                                                .Single();
+
+            ViewBag.Teacher = _userManager
+                                    .GetUsersInRoleAsync("Teacher")
+                                    .Result
+                                    .Where(x => x.SchoolClassId == schoolClass.Id)
+                                    .Single();
+
+            if (letter == null && num == null)
+            {
+                return View(await _context.SchoolClass.ToListAsync());
+            }
+            else
+            {
+                return View(await _context.SchoolClass
+                                                    .Where(x=> letter != null && x.Letter == letter)
+                                                    .Where(x => num!= null && x.Num == num)
+                                                    .OrderBy(x => x.Num)
+                                                    .ThenBy(x => x.Letter)
+                                                    .ToListAsync());
+            }
         }
 
         // GET: SchoolClasses/Details/5

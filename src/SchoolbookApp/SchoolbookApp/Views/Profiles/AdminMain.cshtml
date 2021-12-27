@@ -6,7 +6,20 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="ShowSearchResult">
-            <div class="form-row">
+            <div class="form-row" id="profilesRow">
+                <div class="form-group">
+                    <label class="control-label">Име</label>
+                    <input name="searchProfileName" class="form-control" />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Имейл</label>
+                    <input name="searchProfileEmail" class="form-control" />
+                    <span class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-row" id="classRow" style="display: none;">
                 <div class="form-group">
                     <label class="control-label">Клас</label>
                     <select name="searchSchoolClassNum" class="form-control">
@@ -31,10 +44,10 @@
                     <input type="submit" value="Търсене" class="btn btn-primary" />
                 </div>
                 <div class="form-group">
-                    <select name="searchType" type="string" class="form-control">
+                    <select name="searchType" type="string" class="form-control" id="searchTypeSelect">
+                        <option value="Profiles">В профили</option>
                         <option value="Subject">В предмети</option>
                         <option value="SchoolClass">В класове</option>
-                        <option value="Profiles">В профили</option>
                     </select>
                 </div>
             </div>
@@ -46,6 +59,20 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@*@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}*@
+@section Scripts {
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+
+<script>
+    $(function () {
+        $('#searchTypeSelect').change(function () {
+            if ($(this).val() == 'Profiles') {
+                $('#profilesRow').show();
+                $('#classRow').hide();
+            } else {
+                $('#profilesRow').hide();
+                $('#classRow').show();
+            }
+        });
+    });
+</script>
+}

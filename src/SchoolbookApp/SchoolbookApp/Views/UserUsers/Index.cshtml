@@ -5,19 +5,22 @@
     ViewBag.Title = "Index";
 }
 
-<h1>Index</h1>
+<h3>@ViewBag.User - родител</h3>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Добави ученик</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-               Ученик
+                Име на ученик
             </th>
             <th>
-               Имейл
+                Фамилия на ученик
+            </th>
+            <th>
+                Имейл
             </th>
             <th></th>
         </tr>
@@ -25,23 +28,20 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @foreach (var student in ViewBag.Students)
+            @foreach (var student in ViewBag.Students)
+            {
+                if (student.Id == item.StudentId)
                 {
-                    if (student.Id == item.StudentId)
-                    {
-                        @student.Name @student.Surname
-                    }
+                    <td>@student.Name</td>
+
+                    <td>@student.Surname</td>
+                    <td> @student.Email </td>
+                    <td>
+                        <a asp-controller="Users" asp-action="Edit" asp-route-id="@student.Id">Детайли за ученик</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Премахни</a>
+                    </td>
                 }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            }
         </tr>
 }
     </tbody>

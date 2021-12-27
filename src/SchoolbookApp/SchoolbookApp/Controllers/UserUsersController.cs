@@ -25,6 +25,8 @@ namespace SchoolbookApp.Controllers
         // GET: UserUsers
         public async Task<IActionResult> Index(string? id)
         {
+            ViewBag.User = _userManager.FindByIdAsync(id).Result;
+
             ViewBag.Students = _context.UserUser
                                             .Where(x => x.UserId == id)
                                             .ToListAsync()

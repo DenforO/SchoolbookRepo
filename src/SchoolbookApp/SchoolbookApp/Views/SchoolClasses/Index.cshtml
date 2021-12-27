@@ -4,19 +4,22 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Класове</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Създай нов</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Num)
+                Клас
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Letter)
+                Паралелка
+            </th>
+            <th>
+                Класен ръководител
             </th>
             <th></th>
         </tr>
@@ -31,9 +34,12 @@
                 @Html.DisplayFor(modelItem => item.Letter)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @ViewBag.Teacher
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редактирай</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Ученици</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Изтрий</a>
             </td>
         </tr>
 }

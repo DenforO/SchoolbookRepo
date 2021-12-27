@@ -72,7 +72,7 @@ namespace SchoolbookApp.Controllers
         {
             return View("AdminMain");
         }
-        public async Task<IActionResult> ShowSearchResult(string searchType, char searchSchoolClassLetter, int searchSchoolClassNum)
+        public async Task<IActionResult> ShowSearchResult(string searchType, char searchSchoolClassLetter, int searchSchoolClassNum, string searchProfileName, string searchProfileEmail)
         {
             if (searchType == "Subject")
             {
@@ -84,7 +84,7 @@ namespace SchoolbookApp.Controllers
             }
             else
             {
-                return RedirectToRoute(new { action = "Index", controller = "Home"});
+                return RedirectToRoute(new { action = "Index", controller = "Users", name = searchProfileName, email = searchProfileEmail });
             }
 
         }
