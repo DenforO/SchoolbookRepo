@@ -69,7 +69,12 @@ namespace SchoolbookApp.Controllers
             return View("TeacherClass");
         }
 
-        [Authorize(Roles="Admin")]
+        public async Task<IActionResult> StudentMain()
+        {
+            return View();
+        }
+
+            [Authorize(Roles="Admin")]
         public async Task<IActionResult> AdminMain()
         {
             return View("AdminMain");
