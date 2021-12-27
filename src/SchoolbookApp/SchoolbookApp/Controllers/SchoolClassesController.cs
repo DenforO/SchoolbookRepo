@@ -40,7 +40,7 @@ namespace SchoolbookApp.Controllers
 
             if (letter == null && num == null)
             {
-                return View(await _context.SchoolClass.ToListAsync());
+                return View(_context.SchoolClass.ToListAsync().Result.OrderBy(x => x.Num).ThenBy(x => x.Letter));
             }
             else if (letter != null && num != null)
             {
@@ -67,6 +67,19 @@ namespace SchoolbookApp.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Students = _userManager
+                                        .GetUsersInRoleAsync("Student")
+                                        .Result
+                                        .Where(x => x.SchoolClassId == id)
+                                        .OrderBy(x => x.Name)
+                                        .ThenBy(x => x.Surname);
+
+            ViewBag.Teacher = _userManager
+                                        .GetUsersInRoleAsync("Teacher")
+                                        .Result
+                                        .Where(x => x.SchoolClassId == id)
+                                        .SingleOrDefault();
 
             var schoolClass = await _context.SchoolClass
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -176,6 +189,22 @@ namespace SchoolbookApp.Controllers
         {
             var schoolClass = await _context.SchoolClass.FindAsync(id);
             _context.SchoolClass.Remove(schoolClass);
+
+            foreach (var subject in _context.Subject)
+            {
+                if (subject.SchoolClassId == id)
+                {
+                    _context.Subject.Remove(subject);
+                }
+            }
+            foreach (var user in _userManager.Users)
+            {
+                if (user.SchoolClassId == id)
+                {
+                    user.SchoolClassId = null;
+                    await _userManager.UpdateAsync(user);
+                }
+            }
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

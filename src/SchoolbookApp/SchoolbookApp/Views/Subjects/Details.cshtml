@@ -30,36 +30,6 @@
         </dd>
     </dl>
 </div>
-<h4>Ученици</h4>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Номер в клас
-            </th>
-            <th>
-                Име
-            </th>
-            <th>
-                Фамилия
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            int i = 1;
-            foreach (var student in ViewBag.Students)
-            {
-            <tr>
-                <td>@i</td>
-                <td>@student.Name</td>
-                <td>@student.Surname</td>
-            </tr>
-             }
-         }
-
-    </tbody>
-</table>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">График</a> |
     <a asp-action="Index">Връщане</a>
