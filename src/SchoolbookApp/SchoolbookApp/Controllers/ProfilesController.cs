@@ -136,11 +136,20 @@ namespace SchoolbookApp.Controllers
             ViewBag.StudentClassNum = schoolClass.Num;
             ViewBag.StudentClassLetter = schoolClass.Letter;
             ViewBag.AverageScore = Math.Round(avgScore,2);
-            ViewBag.RankInClass = GetStudentRankInClass(user, avgScore);
-            ViewBag.AverageClassScore = GetClassAvgScore(user.SchoolClassId);
             ViewBag.SubjectTypes = subjectTypes;
             ViewBag.Subjects = schoolSubjects;
             ViewBag.Teachers = teachers;
+
+            if (grades.Count > 0)
+            {
+                ViewBag.RankInClass = GetStudentRankInClass(user, avgScore);
+                ViewBag.AverageClassScore = GetClassAvgScore(user.SchoolClassId);
+            }
+            else
+            {
+                ViewBag.RankInClass = 0;
+                ViewBag.AverageClassScore = 0;
+            }
             return View("StudentMain");
         }
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
