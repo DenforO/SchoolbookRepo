@@ -16,7 +16,7 @@ namespace SchoolbookApp.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public SubjectsController(ApplicationDbContext context,UserManager<ApplicationUser> userManager)
+        public SubjectsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -38,9 +38,29 @@ namespace SchoolbookApp.Controllers
         }
 
         // GET: Subjects
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(char? letter, int? num)
         {
-            return View(await _context.Subject.ToListAsync());
+            ViewBag.SchoolClasses = _context.SchoolClass.ToList();
+            ViewBag.Teachers = _userManager.Users.ToList();
+            ViewBag.SubjectTypes = _context.SubjectType.ToList();
+            if (letter != null)
+            {
+                return View(await _context.Subject
+                                                .Where(x => x.SchoolClass.Letter == letter)
+                                                .Where(x => x.SchoolClass.Num == num)
+                                                .OrderBy(x => x.SchoolClass.Num)
+                                                .ThenBy(x => x.SchoolClass.Letter)
+                                                .ThenBy(x => x.SubjectType)
+                                                .ToListAsync());
+            }
+            else
+            {
+                return View(await _context.Subject
+                                                .OrderBy(x => x.SchoolClass.Num)
+                                                .ThenBy(x => x.SchoolClass.Letter)
+                                                .ThenBy(x => x.SubjectType)
+                                                .ToListAsync());
+            }
         }
 
         // GET: Subjects/Details/5
@@ -50,6 +70,10 @@ namespace SchoolbookApp.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.SchoolClass = _context.SchoolClass.Where(x => x.Id == _context.Subject.Find(id).SchoolClassId).Single();
+            ViewBag.Teacher = _userManager.Users.Where(x => x.Id == _context.Subject.Find(id).TeacherId).Single();
+            ViewBag.SubjectType = _context.SubjectType.Where(x => x.Id == _context.Subject.Find(id).SubjectTypeId).Single();
 
             var subject = await _context.Subject
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -64,6 +88,7 @@ namespace SchoolbookApp.Controllers
         // GET: Subjects/Create
         public IActionResult Create()
         {
+            ViewBag.Teachers = _userManager.GetUsersInRoleAsync("Teacher").Result;
             ViewBag.SubjectTypes = _context.SubjectType.ToList();
             ViewBag.Subjects = _context.Subject.ToListAsync();
             //List<string> subjectTypes = new List<string>();
@@ -79,10 +104,12 @@ namespace SchoolbookApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Day,Time,SubjectTypeId,TeacherId")] Subject subject)
+        public async Task<IActionResult> Create([Bind("Id,Day,Time,SubjectTypeId")] Subject subject, int schoolClassNum, char schoolClassLetter, string teacherEmail)
         {
             if (ModelState.IsValid)
             {
+                subject.TeacherId = _userManager.FindByEmailAsync(teacherEmail).Result.Id;
+                subject.SchoolClassId = _context.SchoolClass.ToList().Where(x => x.Letter == schoolClassLetter && x.Num == schoolClassNum).Single().Id;
                 _context.Add(subject);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -98,6 +125,10 @@ namespace SchoolbookApp.Controllers
                 return NotFound();
             }
 
+            ViewBag.SchoolClass = _context.SchoolClass.Where(x => x.Id == _context.Subject.Find(id).SchoolClassId).Single();
+            ViewBag.Teacher = _userManager.Users.Where(x => x.Id == _context.Subject.Find(id).TeacherId).Single();
+            ViewBag.SubjectType = _context.SubjectType.Where(x => x.Id == _context.Subject.Find(id).SubjectTypeId).Single();
+
             var subject = await _context.Subject.FindAsync(id);
             if (subject == null)
             {
@@ -111,7 +142,7 @@ namespace SchoolbookApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Day,Time,TypeId,TecherId")] Subject subject)
+        public async Task<IActionResult> Edit(int id, Subject subject)
         {
             if (id != subject.Id)
             {
@@ -122,7 +153,8 @@ namespace SchoolbookApp.Controllers
             {
                 try
                 {
-                    _context.Update(subject);
+                    _context.Subject.Find(id).Day = subject.Day;
+                    _context.Subject.Find(id).Time = subject.Time;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -148,6 +180,10 @@ namespace SchoolbookApp.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.SchoolClass = _context.SchoolClass.Where(x => x.Id == _context.Subject.Find(id).SchoolClassId).Single();
+            ViewBag.Teacher = _userManager.Users.Where(x => x.Id == _context.Subject.Find(id).TeacherId).Single();
+            ViewBag.SubjectType = _context.SubjectType.Where(x => x.Id == _context.Subject.Find(id).SubjectTypeId).Single();
 
             var subject = await _context.Subject
                 .FirstOrDefaultAsync(m => m.Id == id);

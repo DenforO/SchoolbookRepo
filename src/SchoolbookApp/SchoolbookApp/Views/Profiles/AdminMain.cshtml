@@ -1,0 +1,81 @@
+﻿@{ 
+    ViewBag.Title = "AdminMain";
+}
+<h4>Търсене</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ShowSearchResult">
+            <div class="form-row" id="profilesRow">
+                <div class="form-group">
+                    <label class="control-label">Име</label>
+                    <input name="searchProfileName" class="form-control" />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Имейл</label>
+                    <input name="searchProfileEmail" class="form-control" />
+                    <span class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-row" id="classRow" style="display: none;">
+                <div class="form-group">
+                    <label class="control-label">Клас</label>
+                    <select name="searchSchoolClassNum" class="form-control">
+                        <option value=null></option>
+                        @for (int i = 0; i < 12; i++)
+                        {
+                            <option value=@(i+1)>@(i+1)</option>
+                        }
+                    </select>
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Паралелка</label>
+                    <select name="searchSchoolClassLetter" type="char" class="form-control">
+                        <option value=null></option>
+                        <option value='А'>А</option>
+                        <option value='Б'>Б</option>
+                        <option value='В'>В</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="submit" value="Търсене" class="btn btn-primary" />
+                </div>
+                <div class="form-group">
+                    <select name="searchType" type="string" class="form-control" id="searchTypeSelect">
+                        <option value="Profiles">В профили</option>
+                        <option value="Subject">В предмети</option>
+                        <option value="SchoolClass">В класове</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<hr />
+<h4 style="margin-top:50px">Нов потребител</h4>
+<div>
+    <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register" role="button" style="margin-top:15px">Регистрирай</a>
+</div>
+
+@section Scripts {
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+
+<script>
+    $(function () {
+        $('#searchTypeSelect').change(function () {
+            if ($(this).val() == 'Profiles') {
+                $('#profilesRow').show();
+                $('#classRow').hide();
+            } else {
+                $('#profilesRow').hide();
+                $('#classRow').show();
+            }
+        });
+    });
+</script>
+}

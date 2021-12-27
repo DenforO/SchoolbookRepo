@@ -2,29 +2,62 @@
 
 @{
     ViewData["Title"] = "Details";
+    ViewBag.Title = "Details";
 }
 
-<h1>Details</h1>
-
+<h3>@Model.Num @Model.Letter клас </h3>
 <div>
-    <h4>SchoolClass</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Num)
+        <dt class="col-sm-2">
+            Класен ръководител
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Num)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Letter)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Letter)
+        <dd class="col-sm-10">
+            @if (@ViewBag.Teacher != null)
+            {
+                @ViewBag.Teacher
+            }
         </dd>
     </dl>
 </div>
+<hr />
+<h4>Ученици </h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Номер в клас
+            </th>
+            <th>
+                Име
+            </th>
+            <th>
+                Фамилия
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+            foreach (var student in ViewBag.Students)
+            {
+                <tr>
+                    <td>
+                        @(i++)
+                    </td>
+                    <td>@student.Name</td>
+                    <td>@student.Surname</td>
+                    <td>
+                        <a asp-controller="Users" asp-action="Edit" asp-route-id="@student.Id">Редактирай</a>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Редактирай клас</a> |
+    <a asp-action="Index">Списък с класове</a>
 </div>

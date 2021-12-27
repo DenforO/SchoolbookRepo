@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SchoolbookApp.Data;
 using SchoolbookApp.Models;
@@ -115,7 +116,6 @@ namespace SchoolbookApp.Controllers
             var grades = _context.Grade.
                 Where(w => w.StudentId == user.Id && w.IsSemesterGrade==false && w.IsFinalGrade==false)
                 .Select(s => s.Value).ToList();
-
             double avgScore = 0;
             if(grades.Count>0)
                 avgScore=(double)grades.Sum() / (double)grades.Count();
@@ -152,6 +152,30 @@ namespace SchoolbookApp.Controllers
             }
             return View("StudentMain");
         }
+
+        [Authorize(Roles="Admin")]
+        public async Task<IActionResult> AdminMain()
+        {
+            return View("AdminMain");
+        }
+        public async Task<IActionResult> ShowSearchResult(string searchType, char searchSchoolClassLetter, int searchSchoolClassNum, string searchProfileName, string searchProfileEmail)
+        {
+            if (searchType == "Subject")
+            {
+                return RedirectToRoute(new { action = "Index", controller = "Subjects", letter = searchSchoolClassLetter, num = searchSchoolClassNum });
+            }
+            else if (searchType == "SchoolClass")
+            {
+                return RedirectToRoute(new { action = "Index", controller = "SchoolClasses", letter = searchSchoolClassLetter, num = searchSchoolClassNum });
+            }
+            else
+            {
+                return RedirectToRoute(new { action = "Index", controller = "Users", name = searchProfileName, email = searchProfileEmail });
+            }
+
+        }
+
+
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
         private int GetStudentRankInClass(ApplicationUser user, double avgScore)
         {

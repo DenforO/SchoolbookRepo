@@ -1,0 +1,182 @@
+﻿@model SchoolbookApp.Models.ApplicationUser
+
+@{ 
+    ViewBag.Title = "Edit";
+}
+<h4>Профил</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label">Име</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Surname" class="control-label">Фамилия</label>
+                    <input asp-for="Surname" class="form-control" />
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+            </div>
+            <hr />
+            @if (ViewBag.Role == "Student")
+            {
+                <h5>Ученик от</h5>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="control-label">Клас</label>
+                        <select name="schoolClassNum" class="form-control">
+                            @if (Model.SchoolClass != null)
+                            {
+                                @for (int i = 0; i < 12; i++)
+                                {
+                                    if (i + 1 == Model.SchoolClass.Num)
+                                    {
+                                        <option selected="selected" value=@(i+1)>@(i+1)</option>
+                                    }
+                                    else
+                                    {
+                                        <option value=@(i+1)>@(i+1)</option>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <option value=null></option>
+                                for (int i = 0; i < 12; i++)
+                                {
+                                    <option value=@(i+1)>@(i+1)</option>
+                                }
+                            }
+                        </select>
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Паралелка</label>
+                        <select name="schoolClassLetter" type="char" class="form-control">
+                            @if (Model.SchoolClass != null)
+                            {
+                                @for (char i = 'А'; i <= 'В'; i++)
+                                {
+                                    if (i == Model.SchoolClass.Letter)
+                                    {
+                                        <option selected="selected" value=@i>@i</option>
+                                    }
+                                    else
+                                    {
+                                        <option value=@i>@i</option>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <option value=null></option>
+                                @for (char i = 'А'; i <= 'В'; i++)
+                                {
+                                    <option value=@i>@i</option>
+                                }
+                            }
+
+                        </select>
+                    </div>
+                </div>
+            }
+            else if (ViewBag.Role == "Teacher")
+            {
+                <h5>Класен ръководител на</h5>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="control-label">Клас</label>
+                        <select name="schoolClassNum" class="form-control">
+                            @if (Model.SchoolClass != null)
+                            {
+                                @for (int i = 0; i < 12; i++)
+                                {
+                                    if (i + 1 == Model.SchoolClass.Num)
+                                    {
+                                        <option selected="selected" value=@(i+1)>@(i+1)</option>
+                                    }
+                                    else
+                                    {
+                                        <option value=@(i+1)>@(i+1)</option>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <option value=null></option>
+
+                                for (int i = 0; i < 12; i++)
+                                {
+                                    <option value=@(i+1)>@(i+1)</option>
+                                }
+                            }
+                        </select>
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Паралелка</label>
+                        <select name="schoolClassLetter" type="char" class="form-control">
+                            @if (Model.SchoolClass != null)
+                            {
+                                @for (char i = 'А'; i <= 'В'; i++)
+                                {
+                                    if (i == Model.SchoolClass.Letter)
+                                    {
+                                        <option selected="selected" value=@i>@i</option>
+                                    }
+                                    else
+                                    {
+                                        <option value=@i>@i</option>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <option value=null></option>
+
+                                @for (char i = 'А'; i <= 'В'; i++)
+                                {
+                                    <option value=@i>@i</option>
+                                }
+                            }
+
+                        </select>
+                    </div>
+                </div>
+            }
+            else if (ViewBag.Role == "Parent")
+            {
+                <h5>Родител на</h5>
+                @if (ViewBag.Children != null)
+                {
+                    foreach (var student in ViewBag.Children)
+                    {
+                        <p>@student.Name @student.Surname</p>
+                        <a class="btn btn-danger" asp-controller="UserUsers" asp-action="Index" asp-route-id="@Model.Id" role="button">Регистрирай</a>
+                    }
+                }
+            }
+            else
+            {
+                <h5>Админ</h5>
+            }
+
+            <div class="form-group">
+                <input type="submit" value="Запази промените" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<hr />
+<div>
+    <a asp-action="Index">Към списък с профили</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

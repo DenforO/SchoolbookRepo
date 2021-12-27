@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SchoolbookApp.Models;
 using System;
@@ -12,15 +13,38 @@ namespace SchoolbookApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            ApplicationUser usr = await GetCurrentUserAsync();
+
+            if(usr == null)
+            {
+                return View();
+            }
+            else if (_userManager.IsInRoleAsync(usr, "Admin").Result)
+            {
+                return RedirectToRoute(new { action = "AdminMain", controller = "Profiles" });
+            }
+            else if (_userManager.IsInRoleAsync(usr, "Student").Result)
+            {
+                return RedirectToRoute(new { action = "StudentMain", controller = "Profiles" });
+            }
+            else if (_userManager.IsInRoleAsync(usr, "Parent").Result)
+            {
+                return RedirectToRoute(new { action = "ParentMain", controller = "Profiles" });
+            }
+            else
+            {
+                return RedirectToRoute(new { action = "TeacherMain", controller = "Profiles" });
+            }
         }
 
         
@@ -34,5 +58,7 @@ namespace SchoolbookApp.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }

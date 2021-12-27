@@ -2,11 +2,27 @@
 
 @{
     ViewData["Title"] = "Edit";
+    ViewBag.Title = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Subject</h4>
+<h2>@ViewBag.SubjectType.Name</h2>
+<div>
+<hr />
+<dl class="row">
+    <dt class="col-sm-2">
+        Клас
+    </dt>
+    <dd class="col-sm-10">
+        @ViewBag.SchoolClass.Num @ViewBag.SchoolClass.Letter
+    </dd>
+    <dt class="col-sm-2">
+        Учител
+    </dt>
+    <dd class="col-sm-10">
+        @ViewBag.Teacher.Name @ViewBag.Teacher.Surname
+    </dd>
+</dl>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,29 +30,32 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Day" class="control-label"></label>
-                <select asp-for="Day" class="form-control"></select>
+                <label asp-for="Day" class="control-label">Ден</label>
+                <select asp-for="Day" class="form-control">
+                    <option value="1">Понеделник</option>
+                    <option value="2">Вторник</option>
+                    <option value="3">Сряда</option>
+                    <option value="4">Четвъртък</option>
+                    <option value="5">Петък</option>
+                    <option value="6">Събота</option>
+                    <option value="0">Неделя</option>
+                </select>
                 <span asp-validation-for="Day" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Time" class="control-label"></label>
-                <input asp-for="Time" class="form-control" />
+                <label asp-for="Time" class="control-label">Час</label>
+                <input asp-for="Time" type="time" class="form-control" />
                 <span asp-validation-for="Time" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TeacherId" class="control-label"></label>
-                <input asp-for="TeacherId" class="form-control" />
-                <span asp-validation-for="TeacherId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Запази" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Връщане към списъка</a>
 </div>
 
 @section Scripts {

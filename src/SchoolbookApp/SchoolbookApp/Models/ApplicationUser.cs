@@ -10,6 +10,12 @@ namespace SchoolbookApp.Models
     {
         public string Name { get; set; }
         public string Surname { get; set; }
-        public int SchoolClassId { get; set; }
+        public int? SchoolClassId { get; set; }
+        public SchoolClass SchoolClass { get; set; }
+
+        public override string ToString()
+        {
+            return Name + " " + Surname;
+        }
     }
 }
