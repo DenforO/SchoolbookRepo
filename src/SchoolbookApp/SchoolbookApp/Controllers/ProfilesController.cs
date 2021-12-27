@@ -138,7 +138,7 @@ namespace SchoolbookApp.Controllers
             ViewBag.AverageScore = Math.Round(avgScore,2);
             ViewBag.SubjectTypes = subjectTypes;
             ViewBag.Subjects = schoolSubjects;
-            ViewBag.Teachers = teachers;
+            ViewBag.Teachers = teachers.Distinct();
 
             if (grades.Count > 0)
             {
@@ -195,7 +195,7 @@ namespace SchoolbookApp.Controllers
 
             return positionInClass - counter;  
         }
-        private double GetClassAvgScore(int studentClassId)
+        private double GetClassAvgScore(int? studentClassId)
         {
             var students = _context.Users.Where(w => w.SchoolClassId == studentClassId).Select(s => s).ToList();
             double avgScore = 0;
