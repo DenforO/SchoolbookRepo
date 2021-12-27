@@ -23,6 +23,7 @@
                 <div class="form-group">
                     <label class="control-label">Клас</label>
                     <select name="searchSchoolClassNum" class="form-control">
+                        <option value=null></option>
                         @for (int i = 0; i < 12; i++)
                         {
                             <option value=@(i+1)>@(i+1)</option>
@@ -33,6 +34,7 @@
                 <div class="form-group">
                     <label class="control-label">Паралелка</label>
                     <select name="searchSchoolClassLetter" type="char" class="form-control">
+                        <option value=null></option>
                         <option value='А'>А</option>
                         <option value='Б'>Б</option>
                         <option value='В'>В</option>

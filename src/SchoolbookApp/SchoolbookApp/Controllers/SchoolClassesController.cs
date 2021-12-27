@@ -25,6 +25,15 @@ namespace SchoolbookApp.Controllers
         // GET: SchoolClasses
         public async Task<IActionResult> Index(char? letter, int? num)
         {
+            if (letter == 0)
+            {
+                letter = null;
+            }
+            if (num == 0)
+            {
+                num = null;
+            }
+
             ViewBag.Teachers = _userManager
                                     .GetUsersInRoleAsync("Teacher")
                                     .Result;
@@ -33,11 +42,18 @@ namespace SchoolbookApp.Controllers
             {
                 return View(await _context.SchoolClass.ToListAsync());
             }
+            else if (letter != null && num != null)
+            {
+                return View(await _context.SchoolClass
+                                                    .Where(x => (letter != null && x.Letter == letter) && (num != null && x.Num == num))
+                                                    .OrderBy(x => x.Num)
+                                                    .ThenBy(x => x.Letter)
+                                                    .ToListAsync());
+            }
             else
             {
                 return View(await _context.SchoolClass
-                                                    .Where(x=> letter != null && x.Letter == letter)
-                                                    .Where(x => num!= null && x.Num == num)
+                                                    .Where(x => (letter != null && x.Letter == letter) || (num != null && x.Num == num))
                                                     .OrderBy(x => x.Num)
                                                     .ThenBy(x => x.Letter)
                                                     .ToListAsync());
