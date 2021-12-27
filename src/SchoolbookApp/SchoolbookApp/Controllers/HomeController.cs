@@ -21,10 +21,30 @@ namespace SchoolbookApp.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            //ApplicationUser usr = await GetCurrentUserAsync();
-            return View();
+            ApplicationUser usr = await GetCurrentUserAsync();
+
+            if(usr == null)
+            {
+                return View();
+            }
+            else if (_userManager.IsInRoleAsync(usr, "Admin").Result)
+            {
+                return RedirectToRoute(new { action = "AdminMain", controller = "Profiles" });
+            }
+            else if (_userManager.IsInRoleAsync(usr, "Student").Result)
+            {
+                return RedirectToRoute(new { action = "StudentMain", controller = "Profiles" });
+            }
+            else if (_userManager.IsInRoleAsync(usr, "Parent").Result)
+            {
+                return RedirectToRoute(new { action = "ParentMain", controller = "Profiles" });
+            }
+            else
+            {
+                return RedirectToRoute(new { action = "TeacherMain", controller = "Profiles" });
+            }
         }
 
         public async Task<IActionResult> StudentMain()

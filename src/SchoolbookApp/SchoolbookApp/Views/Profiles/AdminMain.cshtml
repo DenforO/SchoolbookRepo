@@ -1,7 +1,7 @@
 ﻿@{ 
     ViewBag.Title = "AdminMain";
 }
-<h4>Subject</h4>
+<h4>Търсене</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -56,9 +56,10 @@
         </form>
     </div>
 </div>
-
+<hr />
+<h4 style="margin-top:50px">Нов потребител</h4>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register" role="button" style="margin-top:15px">Регистрирай</a>
 </div>
 
 @section Scripts {

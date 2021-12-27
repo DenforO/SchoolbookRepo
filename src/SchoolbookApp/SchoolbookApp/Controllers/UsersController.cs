@@ -158,6 +158,28 @@ namespace SchoolbookApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
+            foreach (var note in _context.Note)
+            {
+                if (note.StudentId == user.Id)
+                {
+                    _context.Note.Remove(note);
+                }
+            }
+            foreach (var grade in _context.Grade)
+            {
+                if (grade.StudentId == user.Id)
+                {
+                    _context.Grade.Remove(grade);
+                }
+            }
+            foreach (var absence in _context.Absence)
+            {
+                if (absence.StudentId == user.Id)
+                {
+                    _context.Absence.Remove(absence);
+                }
+            }
+            await _context.SaveChangesAsync();
             if (user != null)
             {
                 IdentityResult result = await _userManager.DeleteAsync(user);
