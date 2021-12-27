@@ -34,7 +34,13 @@
                 @Html.DisplayFor(modelItem => item.Letter)
             </td>
             <td>
-                @ViewBag.Teacher
+                @foreach (var teacher in ViewBag.Teachers)
+                {
+                    if (teacher.SchoolClassId == item.Id)
+                    {
+                        @teacher
+                    }
+                }
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Редактирай</a> |

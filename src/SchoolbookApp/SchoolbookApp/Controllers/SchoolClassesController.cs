@@ -25,18 +25,9 @@ namespace SchoolbookApp.Controllers
         // GET: SchoolClasses
         public async Task<IActionResult> Index(char? letter, int? num)
         {
-            var schoolClass = _context.SchoolClass
-                                                .Where(x => x.Letter == letter)
-                                                .Where(x => x.Num == num)
-                                                .OrderBy(x => x.Num)
-                                                .ThenBy(x => x.Letter)
-                                                .Single();
-
-            ViewBag.Teacher = _userManager
+            ViewBag.Teachers = _userManager
                                     .GetUsersInRoleAsync("Teacher")
-                                    .Result
-                                    .Where(x => x.SchoolClassId == schoolClass.Id)
-                                    .Single();
+                                    .Result;
 
             if (letter == null && num == null)
             {
