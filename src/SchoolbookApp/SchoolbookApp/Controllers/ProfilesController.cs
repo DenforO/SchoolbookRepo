@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SchoolbookApp.Data;
 using SchoolbookApp.Models;
@@ -68,6 +69,7 @@ namespace SchoolbookApp.Controllers
             return View("TeacherClass");
         }
 
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> AdminMain()
         {
             return View("AdminMain");
