@@ -25,14 +25,15 @@
                             <div class="widget-49-title-wrapper">
                                 @foreach (var childClass in ViewBag.ChildrenClass)
                                 {
-                                    <div class="widget-49-date-primary">
+                                    
                                         @if (childClass.Id == child.SchoolClassId)
                                         {
-                                            <span class="widget-49-date-day">@childClass.Num @childClass.Letter</span>
-                                            <span class="widget-49-date-month">Клас</span>
+                                            <div class="widget-49-date-primary">
+                                                <span class="widget-49-date-day">@childClass.Num @childClass.Letter</span>
+                                                <span class="widget-49-date-month">Клас</span>
+                                            </div>
                                         }
 
-                                    </div>
                                 }
 
                                 @foreach (var headTeacher in ViewBag.HeadTeachers)
