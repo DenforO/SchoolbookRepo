@@ -1,11 +1,19 @@
-﻿@model SchoolbookApp.Models.Subject
+﻿@model SchoolbookApp.Models.TeacherClassModel
 
 @{
     ViewBag.Title = "TeacherClass";
     int studentCount = 0;
+    var subjId = ViewBag.SubjectId;
+    var classId = ViewBag.ClassId;
     var className = ViewBag.ClassName;
     var studentObj = ViewBag.StudentObj;
+    var absences = ViewBag.Absences;
+    if (absences == null)
+    {
+        string noAbs = "Ученикът няма отсъствия";
+    }
     var isMainTeacher = ViewBag.IsMainTeacher;
+    string studentId = "";
     string fullName = "";
     string grades = "";
 }
@@ -25,78 +33,115 @@
     }
     else
     {
-        <table id="students">
-            <tr>
-                <th>Номер</th>
-                <th>Име</th>
-                <th>Оценки</th>
-                <th>Нова оценка</th>
-                <th>Нова забележка</th>
-                <th>Ново отсъствие</th>
-                @if (isMainTeacher)
-                {
-                    <th>Още</th>
-                }
-            </tr>
-            @foreach (var student in studentObj)
-            {
-                studentCount++;
-                fullName = student.GetType().GetProperty("FullName").GetValue(student, null);
-                grades = student.GetType().GetProperty("Grades").GetValue(student, null);
+        <form asp-action="SaveChanges">
+            <table id="students">
                 <tr>
-                    <td class="numberInClass">@studentCount</td>
-                    <td>@fullName.ToString()</td>
-                    <td>@grades.ToString()</td>
-                    <td>
-                        <div id="gradeSection">
-                            <div id="gradeNum">
-                                <label for="ddGrades">Оценка: </label>
-                                @Html.DropDownList("ddGrades", new List<SelectListItem>
-                                {
-                                    new SelectListItem{ Text="", Value = "-1" },
-                                    new SelectListItem{ Text="6", Value = "6" },
-                                    new SelectListItem{ Text="5", Value = "5" },
-                                    new SelectListItem{ Text="4", Value = "4" },
-                                    new SelectListItem{ Text="3", Value = "3" },
-                                    new SelectListItem{ Text="2", Value = "2" },
-                                })
-                            </div>
-                            <div id="gradeReason">
-                                <label for="ddReason">Причина за оценка: </label>
-                                @Html.DropDownList("ddReason", new List<SelectListItem>
-                                {
-                                    new SelectListItem{ Text="", Value = "-1" },
-                                    new SelectListItem{ Text="Срочна", Value = "1" },
-                                    new SelectListItem{ Text="Годишна", Value = "2" },
-                                    new SelectListItem{ Text="Друга", Value = "3" }
-                                }, new { @onchange = "ddReason_Change(this.value)" })
-                                <input type="text" id="reasonText" style="display: none"><br>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div id="noteSection">
-                            <label for="noteText">Забележка: </label>
-                            <input type="text" id="noteText"><br />
-                            <label for="dataNoteText">Дата: </label>
-                            <input type="text" id="dataNoteText">
-                        </div>
-                    </td>
-                    <td>
-                        <div id="absenceSection">
-                            <label for="absenceText">Брой отсъствия: </label>
-                            <input type="text" id="absenceText"><br />
-                            <label for="dataAbsenceText">Дата: </label>
-                            <input type="text" id="dataAbsenceText">
-                        </div>
-                    </td>
-                    <td><a href="#"><span>Детайли</span></a></td>
+                    <th>Номер</th>
+                    <th>Име</th>
+                    <th>Оценки</th>
+                    <th>Нова оценка</th>
+                    <th>Нова забележка</th>
+                    <th>Ново отсъствие</th>
+                    @if (isMainTeacher)
+                    {
+                        <th>Още</th>
+                    }
                 </tr>
-            }
-        </table>
-        <div class="saveSection">
-            <button id="btnSaveClassChanges" class="dropbtn" onclick="SaveClassChanges()">Запиши промени</button>
-        </div>
+                @foreach (var student in studentObj)
+                {
+                    studentCount++;
+                    studentId = student.GetType().GetProperty("Id").GetValue(student, null);
+                    fullName = student.GetType().GetProperty("FullName").GetValue(student, null);
+                    grades = student.GetType().GetProperty("Grades").GetValue(student, null);
+                    <input type="hidden" value="@classId" asp-for="ClassId" />
+                    <input type="hidden" value="@subjId" asp-for="Grade.SubjectId" />
+                    <input type="hidden" value="@subjId" asp-for="Note.SubjectId" />
+                    <input type="hidden" value="@subjId" asp-for="Absence.SubjectId" />
+                    <tr>
+                        <td class="numberInClass">@studentCount</td>
+                        <td>@fullName.ToString()</td>
+                        <td>@grades.ToString()</td>
+                        <td>
+                            <input type="hidden" value="@studentId" asp-for="Grade.StudentId" />
+                            <input type="hidden" value="@studentId" asp-for="Absence.StudentId" />
+                            <input type="hidden" value="@studentId" asp-for="Note.StudentId" />
+                            <div id="gradeSection">
+                                <div id="gradeNum">
+                                    <label asp-for="Grade.Value" class="control-label">Оценка: </label>
+                                    <select asp-for="Grade.Value" class="form-control tableInputDDFields">
+                                        <option value="-1"></option>
+                                        <option value="6">6</option>
+                                        <option value="5">5</option>
+                                        <option value="4">4</option>
+                                        <option value="3">3</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                </div>
+                                <div id="gradeReason">
+                                    <label asp-for="Grade.Basis" class="control-label">Причина: </label>
+                                    <select style="width: 160px;" asp-for="Grade.Basis" class="form-control tableInputDDFields">
+                                        <option value="-1"></option>
+                                        <option value="Срочна">Срочна</option>
+                                        <option value="Годишна">Годишна</option>
+                                        <option value="Класно">Класно</option>
+                                        <option value="Тест">Тест</option>
+                                        <option value="Устно изпитване">Устно изпитване</option>
+                                        <option value="Писмено изпитване">Писмено изпитване</option>
+                                    </select>
+                                    <div>
+                                        <label asp-for="Grade.DateTime" class="control-label">Дата: </label>
+                                        <input asp-for="Grade.DateTime" class="form-control tableInputDDFields" />
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div id="noteSection">
+                                <div>
+                                    <label asp-for="Note.Text" class="control-label">Забележка: </label>
+                                    <input asp-for="Note.Text" class="form-control tableInputDDFields" />
+                                </div>
+                                <div>
+                                    <label asp-for="Note.DateTime" class="control-label">Дата: </label>
+                                    <input asp-for="Note.DateTime" class="form-control tableInputDDFields" />
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div id="absenceSection">
+                                <label>Брой отсъствия: </label>
+                                <div>
+                                    @Html.RadioButtonFor(model => model.Absence.Half, "true", false)@Html.Label("половин")
+                                    @Html.RadioButtonFor(model => model.Absence.Half, "false", false)@Html.Label("цяло")
+                                </div>
+                                <div>
+                                    <label asp-for="Absence.DateTime" class="control-label">Дата: </label>
+                                    <input asp-for="Absence.DateTime" class="form-control tableInputDDFields" />
+                                </div>
+                            </div>
+                        </td>
+                        @*@if (isMainTeacher)
+                        {
+                            <td>
+                                <a href="#"><span>Детайли</span></a>
+                                @foreach (var el in absences)
+                                {
+                                    <label class="control-label">@el.Absence</label>
+                                    @Html.CheckBoxFor(model => model.Absence.isExcused, false)
+                                }
+                            </td>
+                        }*@
+                        <td class="tdSaveChanges">
+                            <div class="saveSection">
+                                <button id="btnSaveClassChanges" class="dropbtn" onclick="SaveStudentChanges()">Запиши промени</button>
+                                @*//TO DO:
+                                <button id="btnSaveClassChanges" class="dropbtn" onclick="AddAbsence(@studentId, @subjid)">Ново отсъствие</button>*@
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </form>
     }
     <div class="dialogBox">
         <div id="dialog">
