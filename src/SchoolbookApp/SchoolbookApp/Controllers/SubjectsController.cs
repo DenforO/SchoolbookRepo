@@ -40,10 +40,27 @@ namespace SchoolbookApp.Controllers
         // GET: Subjects
         public async Task<IActionResult> Index(char? letter, int? num)
         {
+            if (letter == 0)
+            {
+                letter = null;
+            }
+            if (num == 0)
+            {
+                num = null;
+            }
+
             ViewBag.SchoolClasses = _context.SchoolClass.ToList();
             ViewBag.Teachers = _userManager.Users.ToList();
             ViewBag.SubjectTypes = _context.SubjectType.ToList();
-            if (letter != null)
+            if (letter == null && num == null) 
+            {
+                return View(await _context.Subject
+                                                .OrderBy(x => x.SchoolClass.Num)
+                                                .ThenBy(x => x.SchoolClass.Letter)
+                                                .ThenBy(x => x.SubjectType)
+                                                .ToListAsync());
+            }
+            else if (letter != null && num != null)
             {
                 return View(await _context.Subject
                                                 .Where(x => x.SchoolClass.Letter == letter)
@@ -56,6 +73,7 @@ namespace SchoolbookApp.Controllers
             else
             {
                 return View(await _context.Subject
+                                                .Where(x => (x.SchoolClass.Letter == letter) || (x.SchoolClass.Num == num))
                                                 .OrderBy(x => x.SchoolClass.Num)
                                                 .ThenBy(x => x.SchoolClass.Letter)
                                                 .ThenBy(x => x.SubjectType)
