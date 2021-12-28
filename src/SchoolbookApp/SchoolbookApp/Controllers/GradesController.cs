@@ -57,6 +57,28 @@ namespace SchoolbookApp.Controllers
             return View("Index");
         }
 
+        public async Task<IActionResult> GetAllGrades(string id)
+        {
+            var student = _context.Users.Where(w => w.Id == id).FirstOrDefault();
+            var grades = _context.Grade.Where(w => w.StudentId == id).ToList();
+            var schoolClass = _context.SchoolClass.Where(w => w.Id == student.SchoolClassId).FirstOrDefault();
+            var subjects = _context.Subject.ToList();
+            Dictionary<int, string> subjectNames = new Dictionary<int, string>();
+            foreach (var subject in subjects)
+            {
+                subject.SubjectType = _context.SubjectType.Where(w => w.Id == subject.SubjectTypeId).FirstOrDefault();
+                subjectNames.Add(subject.Id, subject.SubjectType.Name);
+            }
+
+            
+            ViewBag.StudentName = student.Name + " " + student.Surname;
+            ViewBag.SchoolClassNum = schoolClass.Num;
+            ViewBag.SchoolClassLetter = schoolClass.Letter;
+            ViewBag.SubjectNames = subjectNames;
+            
+            return View("AllGrades",grades);
+        }
+
         // GET: Grades/Details/5
         public async Task<IActionResult> Details(int? id)
         {

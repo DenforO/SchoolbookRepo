@@ -131,23 +131,24 @@ namespace SchoolbookApp.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        if (await _userManager.IsInRoleAsync(user, "Student"))
-                        {
-                            returnUrl ??= Url.Content("~/Profiles/StudentMain");
-                        }
-                        else if (await _userManager.IsInRoleAsync(user, "Teacher"))
-                        {
-                            returnUrl ??= Url.Content("~/Profiles/TeacherMain");
-                        }
-                        else if (await _userManager.IsInRoleAsync(user, "Parent"))
-                        {
-                            returnUrl ??= Url.Content("~/");
-                        }
-                        else if (await _userManager.IsInRoleAsync(user, "Admin"))
-                        {
-                            returnUrl ??= Url.Content("~/");
-                        }
+                        //await _signInManager.SignInAsync(user, isPersistent: false);
+                        //if (await _userManager.IsInRoleAsync(user, "Student"))
+                        //{
+                        //    returnUrl ??= Url.Content("~/Profiles/StudentMain");
+                        //}
+                        //else if (await _userManager.IsInRoleAsync(user, "Teacher"))
+                        //{
+                        //    returnUrl ??= Url.Content("~/Profiles/TeacherMain");
+                        //}
+                        //else if (await _userManager.IsInRoleAsync(user, "Parent"))
+                        //{
+                        //    returnUrl ??= Url.Content("~/");
+                        //}
+                        //else if (await _userManager.IsInRoleAsync(user, "Admin"))
+                        //{
+                        //    returnUrl ??= Url.Content("~/");
+                        //}
+                        returnUrl ??= Url.Content("~/Profiles/AdminMain");
                         return LocalRedirect(returnUrl);
                     }
                 }

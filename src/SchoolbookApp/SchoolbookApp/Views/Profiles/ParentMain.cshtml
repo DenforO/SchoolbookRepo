@@ -15,6 +15,7 @@
             @**@
             @foreach (var child in ViewBag.Children)
             {
+<<<<<<< Updated upstream
 <div class="col-lg-4">
     <div class="card card-margin">
         <div class="card-header no-border">
@@ -65,5 +66,63 @@
 
             @**@
 
+=======
+                <div class="col-lg-4">
+                <div class="card card-margin">
+                    <div class="card-header no-border">
+                        <h5 class="card-title">@child.Name @child.Surname</h5>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="widget-49">
+                            <div class="widget-49-title-wrapper">
+                                @foreach (var childClass in ViewBag.ChildrenClass)
+                                {
+                                    <div class="widget-49-date-primary">
+                                        @if (childClass.Id == child.SchoolClassId)
+                                        {
+                                            <span class="widget-49-date-day">@childClass.Num @childClass.Letter</span>
+                                            <span class="widget-49-date-month">Клас</span>
+                                        }
+
+                                    </div>
+                                }
+
+                                @foreach (var headTeacher in ViewBag.HeadTeachers)
+                                {
+                                    <div class="widget-49-meeting-info">
+                                        @if (headTeacher.SchoolClassId == child.SchoolClassId) { 
+                                            <h6>Класен-@headTeacher.Name @headTeacher.Surname</h6>
+                                        }
+                                    </div>
+                                }
+
+                            </div>
+
+                            <ol class="widget-49-meeting-points">
+                                <br />
+                                @foreach (var avgScore in ViewBag.ChildrenGrades)
+                                {
+                                    @if (avgScore.Key == child.Id)
+                                    {
+                                        <h4>Среден успех: @avgScore.Value</h4>
+                                    }
+                                }
+
+
+                            </ol>
+                            <div class="widget-49-meeting-action">
+                                <a asp-action="GetAllGrades" asp-controller="Grades" asp-route-id="@child.Id" class="btn btn-sm btn-flash-border-primary">Оценки</a>
+                                <a href="#" class="btn btn-sm btn-flash-border-primary">Отсъствия</a>
+                                <a href="#" class="btn btn-sm btn-flash-border-primary">Забележки</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            
+            @**@
+           
+>>>>>>> Stashed changes
 </body>
 </html>

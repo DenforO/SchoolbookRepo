@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SchoolbookApp.Data;
 using SchoolbookApp.Models;
 using System;
@@ -15,11 +16,13 @@ namespace SchoolbookApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        
 
         public ProfilesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
             _context = context;
+            
         }
 
         public async Task<IActionResult> TeacherMain()
@@ -157,7 +160,46 @@ namespace SchoolbookApp.Controllers
 
         public IActionResult SaveChanges()
         {
+<<<<<<< Updated upstream
             return View();
+=======
+            ApplicationUser user = await GetCurrentUserAsync();
+            var childrenId = _context.UserUser.Where(w => w.UserId == user.Id).Select(s=>s.StudentId).ToList();
+            List<ApplicationUser> children = new List<ApplicationUser>();
+            Dictionary<string, double> childAvgGrades = new Dictionary<string, double>();
+            foreach (var id in childrenId)
+            {
+                var child = _context.Users.Where(w => w.Id == id).FirstOrDefault();
+                children.Add(child);
+                var grades = _context.Grade.Where(w => w.StudentId == child.Id && w.IsSemesterGrade == false && w.IsFinalGrade == false).Select(s => s.Value).ToList();
+
+                double avgScore = 0;
+                if (grades.Count > 0)
+                    avgScore = Math.Round((double)grades.Sum() / (double)grades.Count(), 2);
+
+                childAvgGrades.Add(id, avgScore);
+            }
+            var teachers = await _userManager.GetUsersInRoleAsync("Teacher");
+             
+            List<SchoolClass> childrenClass = new List<SchoolClass>();
+            List<ApplicationUser> headTeachers = new List<ApplicationUser>();
+            
+            foreach (var child in children)
+            {
+                var childClass = _context.SchoolClass.Where(w=>w.Id == child.SchoolClassId).FirstOrDefault();
+                childrenClass.Add(childClass);
+                var headTeacher = teachers.Where(w => w.SchoolClassId == child.SchoolClassId).FirstOrDefault();
+                headTeachers.Add(headTeacher);
+            }
+
+            ViewBag.ParentName = user.Name + " " + user.Surname;
+            ViewBag.Children = children;
+            ViewBag.ChildrenClass = childrenClass.Distinct();
+            ViewBag.HeadTeachers = headTeachers.Distinct();
+            ViewBag.ChildrenGrades = childAvgGrades;
+            
+            return View("ParentMain");
+>>>>>>> Stashed changes
         }
 
         [HttpPost]
@@ -225,8 +267,10 @@ namespace SchoolbookApp.Controllers
                 Where(w => w.StudentId == user.Id && w.IsSemesterGrade==false && w.IsFinalGrade==false)
                 .Select(s => s.Value).ToList();
             double avgScore = 0;
-            if(grades.Count>0)
-                avgScore=(double)grades.Sum() / (double)grades.Count();
+            if (grades.Count > 0)
+                avgScore = (double)grades.Sum() / (double)grades.Count();
+            else
+                avgScore = 0;
 
             var schoolSubjects = _context.Subject.Where(w => w.SchoolClassId == user.SchoolClassId).ToList();
             List<ApplicationUser> teachers = new List<ApplicationUser>();
@@ -247,17 +291,9 @@ namespace SchoolbookApp.Controllers
             ViewBag.SubjectTypes = subjectTypes;
             ViewBag.Subjects = schoolSubjects;
             ViewBag.Teachers = teachers.Distinct();
-
-            if (grades.Count > 0)
-            {
-                ViewBag.RankInClass = GetStudentRankInClass(user, avgScore);
-                ViewBag.AverageClassScore = GetClassAvgScore(user.SchoolClassId);
-            }
-            else
-            {
-                ViewBag.RankInClass = 0;
-                ViewBag.AverageClassScore = 0;
-            }
+            ViewBag.RankInClass = await GetStudentRankInClassAsync(user, avgScore);
+            ViewBag.AverageClassScore = await GetClassAvgScoreAsync(user.SchoolClassId);
+           
             return View("StudentMain");
         }
 
@@ -285,34 +321,44 @@ namespace SchoolbookApp.Controllers
 
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
-        private int GetStudentRankInClass(ApplicationUser user, double avgScore)
+        private async Task<int> GetStudentRankInClassAsync(ApplicationUser user, double avgScore)
         {
-            var students = _context.Users.Where(w=>w.SchoolClassId == user.SchoolClassId).ToList();
+            var allStudents = await _userManager.GetUsersInRoleAsync("Student");
+            var students = allStudents.Where(w=> w.SchoolClassId == user.SchoolClassId ).ToList();
             int positionInClass = students.Count();
-            int counter = -1;
+            int counter = 0;
             foreach (var student in students)
             {
                var studentGrades = _context.Grade
                    .Where(w => w.StudentId == student.Id && w.IsSemesterGrade == false && w.IsFinalGrade == false)
                    .Select(s => s.Value).ToList();
-               var avgStudentScore = studentGrades.Sum() / studentGrades.Count();
+                var avgStudentScore = 0;
+                if (studentGrades.Count > 0)
+                {
+                    avgStudentScore = studentGrades.Sum() / studentGrades.Count();
+                }
+                
 
-               if (avgScore > avgStudentScore)
+               if (avgScore > avgStudentScore && avgStudentScore>0)
                     counter++; 
             }
 
             return positionInClass - counter;  
         }
-        private double GetClassAvgScore(int? studentClassId)
+        private async Task<double> GetClassAvgScoreAsync(int? studentClassId)
         {
-            var students = _context.Users.Where(w => w.SchoolClassId == studentClassId).Select(s => s).ToList();
+            var allStudents = await _userManager.GetUsersInRoleAsync("Student");
+            var students = allStudents.Where(w => w.SchoolClassId == studentClassId).ToList();
             double avgScore = 0;
             foreach (var student in students)
             {
                 var studentGrades = _context.Grade
                    .Where(w => w.StudentId == student.Id && w.IsSemesterGrade == false && w.IsFinalGrade == false)
                    .Select(s => s.Value).ToList();
-                double avgStudentScore = (double)studentGrades.Sum() / studentGrades.Count();
+                double avgStudentScore = 0;
+                if (studentGrades.Count>0)
+                    avgStudentScore = (double)studentGrades.Sum() / studentGrades.Count();
+
                 avgScore += avgStudentScore;
             }
             return Math.Round(avgScore/students.Count(),2);

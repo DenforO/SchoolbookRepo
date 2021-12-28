@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SchoolbookApp.Models.Grade>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<head>
+
+</head>
+<body class="grades-body">
+    <div class="grades">
+        <h1 class="grades-name">@ViewBag.StudentName, @ViewBag.SchoolClassNum@ViewBag.SchoolClassLetter</h1>
+        
+        <table class="table table-striped table-bordered table-light">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Оценка</th>
+                    <th>Дата</th>
+                    <th>Причина</th>
+                    <th>Предмет</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var grade in Model)
+                {
+                    <tr>
+                        <td>@grade.Value</td>
+                        <td>@grade.DateTime</td>
+                        <td>@grade.Basis</td>
+                        @foreach (var subject in ViewBag.SubjectNames)
+                        {
+                            @if (subject.Key == grade.SubjectId) 
+                            { 
+                                <td>@subject.Value</td>
+                            }
+                            
+                        }
+                        
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+   
+</body>
