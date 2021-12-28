@@ -57,7 +57,7 @@ body {
     margin: 5px;
     font-size: 16px;
     cursor: pointer;
-    min-width: 120px;
+    width: 120px;
 }
 
 #avgScore {
@@ -94,13 +94,17 @@ body {
 #students td {
     border: 2px solid lightsteelblue;
     padding: 8px;
-    min-width: 180px;
-    max-width: 180px;
+    min-width: 185px;
+    vertical-align: top;
 }
 
 #students td.numberInClass {
     min-width: 70px;
     max-width: 70px;
+}
+
+#students td.tdSaveChanges {
+    vertical-align: middle;
 }
 
 #students tr:nth-child(even) {
@@ -126,6 +130,10 @@ body {
 
 #students input {
     max-width: 163px;
+}
+
+.tableInputDDFields {
+    width: 160px;
 }
 
 #reasonText {

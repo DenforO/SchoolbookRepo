@@ -28,15 +28,7 @@ function ShowClassStudents(id) {
 
 // TO DO: pass id
 function ShowTeacherProgram() {
-    window.location.href = "/Subjects/StudentsProgram";
-}
-
-function ddReason_Change(val) {
-    var reasonText = document.getElementById("reasonText");
-    if (val == "3")
-        reasonText.style.display = "";
-    else
-        reasonText.style.display = "none";
+    window.location.href = "/Profiles/TeacherProgram";
 }
 
 $(function () {
@@ -45,42 +37,14 @@ $(function () {
     });
 });
 
-function SaveClassChanges() {
-
-    //var grade = $('#ddGrades').text();
-    //var reason = $('#ddReason').val();
-    //var reasonText = $('#ddReason').text();
-    //if (reason == 3)
-    //    reasonText = $('#reasonText').text();
-    //var note = $('#noteText').text();
-    //var noteData = $('#dataNoteText').text();
-    //var absence = $('#absenceText').text();
-    //var absenceData = $('#dataAbsenceText').text();
-
-    //var params = {
-    //    grade: grade,
-    //    reason: reasonText,
-    //    note: note,
-    //    noteData: noteData,
-    //    absence: absence,
-    //    absenceData: absenceData
-    //}
-
-    //$.ajax(
-    //    {
-    //        type: "POST",
-    //        url: "Profiles/SaveChanges",
-    //        data: params,
-    //        dataType: "json",
-    //        success: function (result) {
-    //            //dialogbox
-    //            //презареди с нови данни
-    //        }
-    //    }
-    //)
-
+function SaveStudentChanges() {
     var title = 'Промените бяха записани успешно!';
     $("#dlTitle").html(title);
     $("#dialog").dialog("open");
     return false;
+}
+
+//TO DO
+function AddAbsence(studentId, subjId) {
+    window.location.href = "/Absences/Create?studentid=" + studentId + "&subjid=" + subjId;
 }

@@ -1,0 +1,133 @@
+﻿@model IEnumerable<SchoolbookApp.Models.Subject>
+@{
+    ViewData["Title"] = "TeacherProgram";
+}
+
+<head>
+
+</head>
+<body>
+    <h1 id="weekly-program">Седмична програма на @ViewBag.TeacherName:</h1>
+    <div class="weekly-program">
+        <table class="table table-striped table-bordered table-light">
+            <thead class="thead-dark">
+                <tr>
+                    <th colspan="2">Понеделник</th>
+                </tr>
+                <tr>
+                    <th>Час</th>
+                    <th>Клас</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var el in Model)
+                {
+                    @if (el.Day == DayOfWeek.Monday)
+                    {
+                        <tr>
+                            <td>@el.Time</td>
+                            <td>@el.SchoolClass.Num @el.SchoolClass.Letter - @el.SubjectType.Name</td>
+                        </tr>
+                    }
+
+                }
+            </tbody>
+        </table>
+
+        <table class="table table-striped table-bordered table-light">
+            <thead class="thead-dark">
+                <tr>
+                    <th colspan="2">Вторник</th>
+                </tr>
+                <tr>
+                    <th>Час</th>
+                    <th>Клас</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var el in Model)
+                {
+                    @if (el.Day == DayOfWeek.Tuesday)
+                    {
+                        <tr>
+                            <td>@el.Time</td>
+                            <td>@el.SchoolClass.Num @el.SchoolClass.Letter - @el.SubjectType.Name</td>
+                        </tr>
+                    }
+
+                }
+            </tbody>
+        </table>
+
+        <table class="table table-striped table-bordered table-light">
+            <thead class="thead-dark">
+                <tr>
+                    <th colspan="2">Сряда</th>
+                </tr>
+                <tr>
+                    <th>Час</th>
+                    <th>Клас</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var el in Model)
+                {
+                    @if (el.Day == DayOfWeek.Wednesday)
+                    {
+                        <tr>
+                            <td>@el.Time</td>
+                            <td>@el.SchoolClass.Num @el.SchoolClass.Letter - @el.SubjectType.Name</td>
+                        </tr>
+                    }
+
+                }
+            </tbody>
+        </table>
+
+        <table class="table table-striped table-bordered table-light">
+            <thead class="thead-dark">
+                <tr>
+                    <th colspan="2">Четвъртък</th>
+                </tr>
+                <tr>
+                    <th>Час</th>
+                    <th>Клас</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var el in Model)
+                {
+                    @if (el.Day == DayOfWeek.Thursday)
+                    {
+                        <tr>
+                            <td>@el.Time</td>
+                            <td>@el.SchoolClass.Num @el.SchoolClass.Letter - @el.SubjectType.Name</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+        <table class="table table-striped table-bordered table-light">
+            <thead class="thead-dark">
+                <tr>
+                    <th colspan="2">Петък</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (var el in Model)
+                {
+                    @if (el.Day == DayOfWeek.Friday)
+                    {
+                        <tr>
+                            <td>@el.Time</td>
+                            <td>@el.SchoolClass.Num @el.SchoolClass.Letter - @el.SubjectType.Name</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+
