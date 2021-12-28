@@ -173,7 +173,7 @@ namespace SchoolbookApp.Controllers
             var userUser = await _context.UserUser.FindAsync(id);
             _context.UserUser.Remove(userUser);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToRoute(new { action = "Edit", controller = "Users", id = userUser.UserId });
         }
 
         private bool UserUserExists(int id)
