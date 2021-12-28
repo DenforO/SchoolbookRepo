@@ -29,7 +29,10 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-    <a class="btn btn-primary" href="/Identity/Account/Login" role="button">Влез</a>
+    <div style="text-align: center">
+        <a class="btn btn-primary" href="/Identity/Account/Login" role="button" style="width:200px; margin:30px">Влез</a>
+    </div>
+
     @*Проверка за ролята на Admin*@
     @if (User.Identity.IsAuthenticated)
     {
