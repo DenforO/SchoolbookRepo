@@ -4,7 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Отсъствия</h1>
+
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,16 +14,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Half)
+               1/2 отсъствие
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.isExcused)
+                Извинено отсъствие
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StudentId)
+                Име
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateTime)
+                Дата
             </th>
             <th></th>
         </tr>
@@ -31,16 +32,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Half)
+                1/2 отсъствие
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.isExcused)
+                Извинено отсъствие
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StudentId)
+                Име
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DateTime)
+                Дата
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
