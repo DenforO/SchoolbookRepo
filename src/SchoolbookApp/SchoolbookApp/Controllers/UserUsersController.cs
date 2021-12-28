@@ -59,8 +59,9 @@ namespace SchoolbookApp.Controllers
         }
 
         // GET: UserUsers/Create
-        public IActionResult Create()
+        public IActionResult Create(string? userId)
         {
+            ViewBag.User = _userManager.FindByIdAsync(userId).Result;
             return View();
         }
 
@@ -69,13 +70,24 @@ namespace SchoolbookApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,StudentId")] UserUser userUser)
+        public async Task<IActionResult> Create(string userId, string studentEmail)
         {
+            var user = _userManager.FindByIdAsync(userId).Result;
+            var student = _userManager.FindByEmailAsync(studentEmail).Result;
+            if (user == null || student == null)
+            {
+                return NotFound();
+            }
+
+            UserUser userUser = new UserUser();
+            userUser.UserId = user.Id;
+            userUser.StudentId = student.Id;
+
             if (ModelState.IsValid)
             {
                 _context.Add(userUser);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToRoute(new { action = "Edit", controller = "Users", id = userId });
             }
             return View(userUser);
         }

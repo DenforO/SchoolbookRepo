@@ -2,35 +2,30 @@
 
 @{
     ViewData["Title"] = "Create";
+    ViewBag.Title = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>UserUser</h4>
+<h4>@ViewBag.User</h4>
+<h5>Добави ученик</h5>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" asp-route-userId="@ViewBag.User.Id">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
+                <label class="control-label">Имейл на ученик</label>
+                <input name="studentEmail" class="form-control" />
+                <span class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StudentId" class="control-label"></label>
-                <input asp-for="StudentId" class="form-control" />
-                <span asp-validation-for="StudentId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Добави" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-controlelr="Users" asp-route-id="@ViewBag.User.Id">Отмяна</a>
 </div>
 
 @section Scripts {

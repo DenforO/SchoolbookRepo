@@ -8,7 +8,7 @@
 <h3>@ViewBag.User - родител</h3>
 
 <p>
-    <a asp-action="Create">Добави ученик</a>
+    <a asp-action="Create" asp-route-userId="@Model.SingleOrDefault().UserId">Добави ученик</a>
 </p>
 <table class="table">
     <thead>
