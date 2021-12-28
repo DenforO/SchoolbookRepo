@@ -29,7 +29,7 @@ namespace SchoolbookApp.Controllers
             var fullName = _context.Users.Where(x => x.Id == usr.Id).Select(x => x.Name + " " + x.Surname).FirstOrDefault();
 
             var isMainTeacher = true;
-            int mainClassID = usr.SchoolClassId;
+            int mainClassID = usr.SchoolClassId.HasValue ? usr.SchoolClassId.Value : 0;
             if (mainClassID == null || mainClassID == 0)
                 isMainTeacher = false;
 
@@ -76,7 +76,7 @@ namespace SchoolbookApp.Controllers
             ApplicationUser usr = await GetCurrentUserAsync();
 
             var isMainTeacher = true;
-            int mainClassID = usr.SchoolClassId;
+            int mainClassID = usr.SchoolClassId.HasValue ? usr.SchoolClassId.Value : 0;
             if (mainClassID == null || mainClassID == 0 || mainClassID != id)
                 isMainTeacher = false;
             var usersClassId = _context.Users.Where(x => x.SchoolClassId == id).Select(x => x.Id).ToList();
