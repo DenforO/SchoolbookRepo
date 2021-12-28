@@ -175,10 +175,46 @@ namespace SchoolbookApp.Controllers
             return RedirectToAction("TeacherClass", new { id = classId });
         }
 
-        public async Task<IActionResult> ParentMain()
-        {
-            return View("ParentMain");
-        }
+            public async Task<IActionResult> ParentMain()
+            {
+                ApplicationUser user = await GetCurrentUserAsync();
+                var childrenId = _context.UserUser.Where(w => w.UserId == user.Id).Select(s => s.StudentId).ToList();
+                List<ApplicationUser> children = new List<ApplicationUser>();
+                Dictionary<string, double> childAvgGrades = new Dictionary<string, double>();
+                foreach (var id in childrenId)
+                {
+                    var child = _context.Users.Where(w => w.Id == id).FirstOrDefault();
+                    children.Add(child);
+                    var grades = _context.Grade.Where(w => w.StudentId == child.Id && w.IsSemesterGrade == false && w.IsFinalGrade == false).Select(s => s.Value).ToList();
+
+                    double avgScore = 0;
+                    if (grades.Count > 0)
+                        avgScore = Math.Round((double)grades.Sum() / (double)grades.Count(), 2);
+
+                    childAvgGrades.Add(id, avgScore);
+                }
+                var teachers = await _userManager.GetUsersInRoleAsync("Teacher");
+
+                List<SchoolClass> childrenClass = new List<SchoolClass>();
+                List<ApplicationUser> headTeachers = new List<ApplicationUser>();
+
+                foreach (var child in children)
+                {
+                    var childClass = _context.SchoolClass.Where(w => w.Id == child.SchoolClassId).FirstOrDefault();
+                    childrenClass.Add(childClass);
+                    var headTeacher = teachers.Where(w => w.SchoolClassId == child.SchoolClassId).FirstOrDefault();
+                    headTeachers.Add(headTeacher);
+                }
+
+                ViewBag.ParentName = user.Name + " " + user.Surname;
+                ViewBag.Children = children;
+                ViewBag.ChildrenClass = childrenClass.Distinct();
+                ViewBag.HeadTeachers = headTeachers.Distinct();
+                ViewBag.ChildrenGrades = childAvgGrades;
+
+                return View("ParentMain");
+            }
+           
 
         public async Task<IActionResult> StudentMain()
         {

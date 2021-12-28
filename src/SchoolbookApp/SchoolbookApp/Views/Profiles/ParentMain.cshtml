@@ -1,106 +1,69 @@
-﻿@{
-    ViewData["Title"] = "Parent";
-}
+﻿@{ ViewData["Title"] = "Parent"; }
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="~/css/parent.css" />
 </head>
 <body>
-    <div class="topright">Добре дошли, г-жо Беатрис Терзиева!</div>
+    <div class="topright">Добре дошли, @ViewBag.ParentName!</div>
     <br />
     <br />
     <br />
     <br />
     <div class="container">
         <div class="row">
-            <div class="col-lg-4">
-                <div class="card card-margin">
-                    <div class="card-header no-border">
-                        <h5 class="card-title">Петър Терзиев</h5>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="widget-49">
-                            <div class="widget-49-title-wrapper">
-                                <div class="widget-49-date-primary">
-                                    <span class="widget-49-date-day">4 а</span>
-                                    <span class="widget-49-date-month">Клас</span>
-                                </div>
-                                <div class="widget-49-meeting-info">
-                                    <h6>Класен-Гергана Стоянова</h6>
+            @**@
+            @foreach (var child in ViewBag.Children)
+            {
+<div class="col-lg-4">
+    <div class="card card-margin">
+        <div class="card-header no-border">
+            <h5 class="card-title">@child.Name @child.Surname</h5>
+        </div>
+        <div class="card-body pt-0">
+            <div class="widget-49">
+                <div class="widget-49-title-wrapper">
+                    @foreach (var childClass in ViewBag.ChildrenClass)
+                    {
+    <div class="widget-49-date-primary">
+        @if (childClass.Id == child.SchoolClassId)
+        {
+<span class="widget-49-date-day">@childClass.Num @childClass.Letter</span>
+                        <span class="widget-49-date-month">Клас</span>}
 
-                                </div>
-                            </div>
-                            <ol class="widget-49-meeting-points">
-                                <br />
+    </div>}
 
-                                <h4>Среден успех: 6,00</h4>
+                    @foreach (var headTeacher in ViewBag.HeadTeachers)
+                    {
+    <div class="widget-49-meeting-info">
+        @if (headTeacher.SchoolClassId == child.SchoolClassId)
+        {
+<h6>Класен-@headTeacher.Name @headTeacher.Surname</h6>}
+    </div>}
 
-                            </ol>
-                            <div class="widget-49-meeting-action">
-                                <a href="#" class="btn btn-sm btn-flash-border-primary">Виж повече</a>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+
+                <ol class="widget-49-meeting-points">
+                    <br />
+                    @foreach (var avgScore in ViewBag.ChildrenGrades)
+                    {
+    @if (avgScore.Key == child.Id)
+    {
+<h4>Среден успех: @avgScore.Value</h4>}}
+
+
+                </ol>
+                <div class="widget-49-meeting-action">
+                    <a asp-action="GetAllGrades" asp-controller="Grades" asp-route-id="@child.Id" class="btn btn-sm btn-flash-border-primary">Оценки</a>
+                    <a href="#" class="btn btn-sm btn-flash-border-primary">Отсъствия</a>
+                    <a href="#" class="btn btn-sm btn-flash-border-primary">Забележки</a>
                 </div>
             </div>
-            <div class="col-lg-4">
-                <div class="card card-margin">
-                    <div class="card-header no-border">
-                        <h5 class="card-title">Стефан Терзиев</h5>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="widget-49">
-                            <div class="widget-49-title-wrapper">
-                                <div class="widget-49-date-warning">
-                                    <span class="widget-49-date-day">7 в</span>
-                                    <span class="widget-49-date-month">Клас</span>
-                                </div>
-                                <div class="widget-49-meeting-info">
-                                    <h6>Класен-Георги Станоев</h6>
+        </div>
+    </div>
+</div>            }
 
-                                </div>
-                            </div>
-                            <ol class="widget-49-meeting-points">
-                                <br />
-                                <h4>Среден успех: 4,20</h4>
+            @**@
 
-                            </ol>
-                            <div class="widget-49-meeting-action">
-                                <a href="#" class="btn btn-sm btn-flash-border-warning">Виж повече</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card card-margin">
-                    <div class="card-header no-border">
-                        <h5 class="card-title">Юлия Терзиева</h5>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="widget-49">
-                            <div class="widget-49-title-wrapper">
-                                <div class="widget-49-date-warning">
-                                    <span class="widget-49-date-day">12 б</span>
-                                    <span class="widget-49-date-month">Клас</span>
-                                </div>
-                                <div class="widget-49-meeting-info">
-                                    <h6>Класен-Мариана Йорданова</h6>
-
-                                </div>
-                            </div>
-                            <ol class="widget-49-meeting-points">
-                                <br />
-                                <h4>Среден успех: 5,65</h4>
-
-                            </ol>
-                            <div class="widget-49-meeting-action">
-                                <a href="#" class="btn btn-sm btn-flash-border-warning">Виж повече</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 </body>
 </html>
