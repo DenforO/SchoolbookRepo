@@ -103,7 +103,7 @@ namespace SchoolbookApp.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Name=Input.Name,Surname=Input.Surname,PhoneNumber=Input.PhoneNumber,SchoolClassId=27};
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Name=Input.Name,Surname=Input.Surname,PhoneNumber=Input.PhoneNumber,SchoolClassId=null};
                 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
