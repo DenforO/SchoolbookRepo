@@ -157,9 +157,11 @@
                     foreach (var student in ViewBag.Children)
                     {
                         <p>@student.Name @student.Surname</p>
-                        <a class="btn btn-danger" asp-controller="UserUsers" asp-action="Index" asp-route-id="@Model.Id" role="button">Регистрирай</a>
                     }
+                    <a class="btn btn-danger" asp-controller="UserUsers" asp-action="Index" asp-route-id="@Model.Id" role="button">Промени</a>
+                    <hr />
                 }
+
             }
             else
             {

@@ -141,6 +141,10 @@ namespace SchoolbookApp.Controllers
 
             var userUser = await _context.UserUser
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            ViewBag.User = _userManager.Users.Where(x => x.Id == userUser.UserId).SingleOrDefault();
+            ViewBag.Student = _userManager.Users.Where(x => x.Id == userUser.StudentId).SingleOrDefault();
+
             if (userUser == null)
             {
                 return NotFound();
