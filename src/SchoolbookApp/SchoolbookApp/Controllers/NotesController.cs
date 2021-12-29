@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +14,47 @@ namespace SchoolbookApp.Controllers
     public class NotesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public NotesController(ApplicationDbContext context)
+        public NotesController(ApplicationDbContext context,UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Notes
         public async Task<IActionResult> Index()
         {
             return View(await _context.Note.ToListAsync());
+        }
+        public async Task<IActionResult> GetStudentNotesAsStudent()
+        {
+            var user = await GetCurrentUserAsync();
+            var notes = _context.Note.Where(w => w.StudentId == user.Id).ToList();
+            var subjects = _context.Note.Where(w => w.StudentId == user.Id).Select(s => s.Subject).ToList();
+            Dictionary<int, string> subjectNames = new Dictionary<int, string>();
+            foreach (var subject in subjects)
+            {
+                subject.SubjectType = _context.SubjectType.Where(w => w.Id == subject.SubjectTypeId).FirstOrDefault();
+                subjectNames.Add(subject.Id, subject.SubjectType.Name);
+            }
+
+            ViewBag.SubjectNames = subjectNames;
+            return View("Index", notes);
+        }
+        public async Task<IActionResult> GetStudentNotesAsParent(string id)
+        {
+            var notes = _context.Note.Where(w => w.StudentId == id).ToList();
+            var subjects = _context.Note.Where(w => w.StudentId == id).Select(s => s.Subject).ToList();
+            Dictionary<int, string> subjectNames = new Dictionary<int, string>();
+            foreach (var subject in subjects)
+            {
+                subject.SubjectType = _context.SubjectType.Where(w => w.Id == subject.SubjectTypeId).FirstOrDefault();
+                subjectNames.Add(subject.Id, subject.SubjectType.Name);
+            }
+
+            ViewBag.SubjectNames = subjectNames;
+            return View("Index",notes);
         }
 
         // GET: Notes/Details/5
@@ -149,5 +181,7 @@ namespace SchoolbookApp.Controllers
         {
             return _context.Note.Any(e => e.Id == id);
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }

@@ -7,48 +7,54 @@
 <h1>Отсъствия</h1>
 
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+
+<table class="table table-striped table-bordered table-light">
+    <thead class="thead-dark">
         <tr>
             <th>
-               1/2 отсъствие
+               Отсъствие
             </th>
+            
             <th>
-                Извинено отсъствие
-            </th>
-            <th>
-                Име
+                Предмет
             </th>
             <th>
                 Дата
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                1/2 отсъствие
-            </td>
-            <td>
-                Извинено отсъствие
-            </td>
-            <td>
-                Име
-            </td>
-            <td>
-                Дата
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+            @foreach (var absence in Model) {
+                <tr>
+                    @if (absence.Half == true)
+                    {
+                        <td>1/2 Отсъствие</td>
+                    }
+                    else if (absence.isExcused == true)
+                    {
+                        <td>Извинено</td>
+                    }
+                    else 
+                    { 
+                        <td>Неизвинено</td>
+                    
+                    }
+
+                    @foreach (var subject in ViewBag.SubjectNames)
+                    {
+                        @if (subject.Key == absence.SubjectId) { 
+                            <td>
+                                 @subject.Value
+                            </td>
+                         }
+
+                    }
+
+                    <td>
+                        @absence.DateTime
+                    </td>
+            
+                </tr>
+            }
     </tbody>
 </table>
