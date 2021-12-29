@@ -16,13 +16,13 @@ namespace SchoolbookApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        
+
 
         public ProfilesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
             _context = context;
-            
+
         }
 
         public async Task<IActionResult> TeacherMain()
@@ -36,25 +36,30 @@ namespace SchoolbookApp.Controllers
             if (mainClassID == null || mainClassID == 0)
                 isMainTeacher = false;
 
-            var getMainClass = _context.SchoolClass.Where(x => x.Id == mainClassID).FirstOrDefault();
-            string mainClassName = getMainClass.Num + " " + getMainClass.Letter;
-            var studentsInMainClass = _context.Users.Where(y => y.SchoolClassId == mainClassID).Select(y => y.Id).ToList();
-            List<int> gradesList = new List<int>();
-
-            foreach (var grade in _context.Grade)
+            if (isMainTeacher)
             {
-                foreach (var studentId in studentsInMainClass)
+                var getMainClass = _context.SchoolClass.Where(x => x.Id == mainClassID).FirstOrDefault();
+                string mainClassName = getMainClass.Num + " " + getMainClass.Letter;
+                var studentsInMainClass = _context.Users.Where(y => y.SchoolClassId == mainClassID).Select(y => y.Id).ToList();
+                List<int> gradesList = new List<int>();
+
+                foreach (var grade in _context.Grade)
                 {
-                    var gradeValue = (grade.StudentId == studentId && grade.IsSemesterGrade == false && grade.IsFinalGrade == false) ? grade.Value : 0;
-                    if (gradeValue != 0)
-                        gradesList.Add(gradeValue);
+                    foreach (var studentId in studentsInMainClass)
+                    {
+                        var gradeValue = (grade.StudentId == studentId && grade.IsSemesterGrade == false && grade.IsFinalGrade == false) ? grade.Value : 0;
+                        if (gradeValue != 0)
+                            gradesList.Add(gradeValue);
+                    }
                 }
+
+                double avgScore = 2;
+                if (gradesList.Count > 0)
+                    avgScore = (double)gradesList.Sum() / (double)gradesList.Count();
+                ViewBag.MainClassName = mainClassName;
+                ViewBag.AvgScore = Math.Round(avgScore, 2);
             }
-            
-            double avgScore = 2;
-            if (gradesList.Count > 0)
-                avgScore = (double)gradesList.Sum() / (double)gradesList.Count();
-                        
+
             ViewBag.SubjectTypes = _context.Subject.Where(x => x.TeacherId == usr.Id)
                                                     .Select(x => x.SubjectType)
                                                     .Distinct()
@@ -68,8 +73,6 @@ namespace SchoolbookApp.Controllers
             ViewBag.Name = fullName;
             ViewBag.IsMainTeacher = isMainTeacher;
             ViewBag.MainClassId = mainClassID;
-            ViewBag.MainClassName = mainClassName;
-            ViewBag.AvgScore = Math.Round(avgScore, 2);
 
             return View("TeacherMain");
         }
@@ -110,11 +113,11 @@ namespace SchoolbookApp.Controllers
                                                     Grades = string.Join(", ", x.Select(x => x.Value).ToList().Select(x => x.ToString()))
                                                 }).ToList();
             var studentObj = studentUsersTable.Select(x => new
-                                              {
-                                                  Id = x.Id,
-                                                  FullName = x.FullName,
-                                                  Grades = studentGradesTable.Where(y => y.Id == x.Id).DefaultIfEmpty().Select(y => y == null ? "" : y.Grades).FirstOrDefault()
-                                              }).ToList();
+            {
+                Id = x.Id,
+                FullName = x.FullName,
+                Grades = studentGradesTable.Where(y => y.Id == x.Id).DefaultIfEmpty().Select(y => y == null ? "" : y.Grades).FirstOrDefault()
+            }).ToList();
 
             var absencestudentTable = _context.Absence.Join(_context.Users,
                                                              x => x.StudentId,
@@ -129,7 +132,7 @@ namespace SchoolbookApp.Controllers
                                                     Absence = x.Where(x => x.x.isExcused == false).Select(x => x.x.Half),
                                                     Date = x.Select(x => x.x.DateTime)
                                                 }).ToList();
-            
+
             ViewBag.SubjectId = _context.Subject.Where(x => x.TeacherId == usr.Id && x.SchoolClassId == id)
                                                 .Select(x => x.Id)
                                                 .FirstOrDefault();
@@ -138,7 +141,7 @@ namespace SchoolbookApp.Controllers
             ViewBag.ClassName = usersClassName;
             ViewBag.StudentObj = studentObj.OrderBy(x => x.FullName);
             ViewBag.Absences = studentAbs;
-            
+
             return View();
         }
 
@@ -162,7 +165,7 @@ namespace SchoolbookApp.Controllers
         {
 
             return View();
-         
+
         }
 
         [HttpPost]
@@ -180,46 +183,46 @@ namespace SchoolbookApp.Controllers
             return RedirectToAction("TeacherClass", new { id = classId });
         }
 
-            public async Task<IActionResult> ParentMain()
+        public async Task<IActionResult> ParentMain()
+        {
+            ApplicationUser user = await GetCurrentUserAsync();
+            var childrenId = _context.UserUser.Where(w => w.UserId == user.Id).Select(s => s.StudentId).ToList();
+            List<ApplicationUser> children = new List<ApplicationUser>();
+            Dictionary<string, double> childAvgGrades = new Dictionary<string, double>();
+            foreach (var id in childrenId)
             {
-                ApplicationUser user = await GetCurrentUserAsync();
-                var childrenId = _context.UserUser.Where(w => w.UserId == user.Id).Select(s => s.StudentId).ToList();
-                List<ApplicationUser> children = new List<ApplicationUser>();
-                Dictionary<string, double> childAvgGrades = new Dictionary<string, double>();
-                foreach (var id in childrenId)
-                {
-                    var child = _context.Users.Where(w => w.Id == id).FirstOrDefault();
-                    children.Add(child);
-                    var grades = _context.Grade.Where(w => w.StudentId == child.Id && w.IsSemesterGrade == false && w.IsFinalGrade == false).Select(s => s.Value).ToList();
+                var child = _context.Users.Where(w => w.Id == id).FirstOrDefault();
+                children.Add(child);
+                var grades = _context.Grade.Where(w => w.StudentId == child.Id && w.IsSemesterGrade == false && w.IsFinalGrade == false).Select(s => s.Value).ToList();
 
-                    double avgScore = 0;
-                    if (grades.Count > 0)
-                        avgScore = Math.Round((double)grades.Sum() / (double)grades.Count(), 2);
+                double avgScore = 0;
+                if (grades.Count > 0)
+                    avgScore = Math.Round((double)grades.Sum() / (double)grades.Count(), 2);
 
-                    childAvgGrades.Add(id, avgScore);
-                }
-                var teachers = await _userManager.GetUsersInRoleAsync("Teacher");
-
-                List<SchoolClass> childrenClass = new List<SchoolClass>();
-                List<ApplicationUser> headTeachers = new List<ApplicationUser>();
-
-                foreach (var child in children)
-                {
-                    var childClass = _context.SchoolClass.Where(w => w.Id == child.SchoolClassId).FirstOrDefault();
-                    childrenClass.Add(childClass);
-                    var headTeacher = teachers.Where(w => w.SchoolClassId == child.SchoolClassId).FirstOrDefault();
-                    headTeachers.Add(headTeacher);
-                }
-
-                ViewBag.ParentName = user.Name + " " + user.Surname;
-                ViewBag.Children = children;
-                ViewBag.ChildrenClass = childrenClass.Distinct();
-                ViewBag.HeadTeachers = headTeachers.Distinct();
-                ViewBag.ChildrenGrades = childAvgGrades;
-
-                return View("ParentMain");
+                childAvgGrades.Add(id, avgScore);
             }
-           
+            var teachers = await _userManager.GetUsersInRoleAsync("Teacher");
+
+            List<SchoolClass> childrenClass = new List<SchoolClass>();
+            List<ApplicationUser> headTeachers = new List<ApplicationUser>();
+
+            foreach (var child in children)
+            {
+                var childClass = _context.SchoolClass.Where(w => w.Id == child.SchoolClassId).FirstOrDefault();
+                childrenClass.Add(childClass);
+                var headTeacher = teachers.Where(w => w.SchoolClassId == child.SchoolClassId).FirstOrDefault();
+                headTeachers.Add(headTeacher);
+            }
+
+            ViewBag.ParentName = user.Name + " " + user.Surname;
+            ViewBag.Children = children;
+            ViewBag.ChildrenClass = childrenClass.Distinct();
+            ViewBag.HeadTeachers = headTeachers.Distinct();
+            ViewBag.ChildrenGrades = childAvgGrades;
+
+            return View("ParentMain");
+        }
+
 
         public async Task<IActionResult> StudentMain()
         {
@@ -227,7 +230,7 @@ namespace SchoolbookApp.Controllers
 
             var schoolClass = _context.SchoolClass.Where(w => w.Id == user.SchoolClassId).FirstOrDefault();
             var grades = _context.Grade.
-                Where(w => w.StudentId == user.Id && w.IsSemesterGrade==false && w.IsFinalGrade==false)
+                Where(w => w.StudentId == user.Id && w.IsSemesterGrade == false && w.IsFinalGrade == false)
                 .Select(s => s.Value).ToList();
             double avgScore = 0;
             if (grades.Count > 0)
@@ -239,28 +242,28 @@ namespace SchoolbookApp.Controllers
             List<ApplicationUser> teachers = new List<ApplicationUser>();
             List<SubjectType> subjectTypes = new List<SubjectType>();
             foreach (var subject in schoolSubjects)
-            { 
+            {
                 var teachersTemp = _context.Users.Where(w => w.Id == subject.TeacherId).ToList();
                 teachers.Add(teachersTemp[0]);
                 var subjectTypesTemp = _context.SubjectType.Where(w => w.Id == subject.SubjectTypeId).ToList();
-                subjectTypes.Add(subjectTypesTemp[0]); 
+                subjectTypes.Add(subjectTypesTemp[0]);
             }
-            
+
             ViewBag.Name = user.Name;
             ViewBag.Surname = user.Surname;
             ViewBag.StudentClassNum = schoolClass.Num;
             ViewBag.StudentClassLetter = schoolClass.Letter;
-            ViewBag.AverageScore = Math.Round(avgScore,2);
+            ViewBag.AverageScore = Math.Round(avgScore, 2);
             ViewBag.SubjectTypes = subjectTypes;
             ViewBag.Subjects = schoolSubjects;
             ViewBag.Teachers = teachers.Distinct();
             ViewBag.RankInClass = await GetStudentRankInClassAsync(user, avgScore);
             ViewBag.AverageClassScore = await GetClassAvgScoreAsync(user.SchoolClassId);
-           
+
             return View("StudentMain");
         }
 
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AdminMain()
         {
             return View("AdminMain");
@@ -287,26 +290,26 @@ namespace SchoolbookApp.Controllers
         private async Task<int> GetStudentRankInClassAsync(ApplicationUser user, double avgScore)
         {
             var allStudents = await _userManager.GetUsersInRoleAsync("Student");
-            var students = allStudents.Where(w=> w.SchoolClassId == user.SchoolClassId ).ToList();
+            var students = allStudents.Where(w => w.SchoolClassId == user.SchoolClassId).ToList();
             int positionInClass = students.Count();
             int counter = 0;
             foreach (var student in students)
             {
-               var studentGrades = _context.Grade
-                   .Where(w => w.StudentId == student.Id && w.IsSemesterGrade == false && w.IsFinalGrade == false)
-                   .Select(s => s.Value).ToList();
+                var studentGrades = _context.Grade
+                    .Where(w => w.StudentId == student.Id && w.IsSemesterGrade == false && w.IsFinalGrade == false)
+                    .Select(s => s.Value).ToList();
                 var avgStudentScore = 0;
                 if (studentGrades.Count > 0)
                 {
                     avgStudentScore = studentGrades.Sum() / studentGrades.Count();
                 }
-                
 
-               if (avgScore > avgStudentScore && avgStudentScore>0)
-                    counter++; 
+
+                if (avgScore > avgStudentScore && avgStudentScore > 0)
+                    counter++;
             }
 
-            return positionInClass - counter;  
+            return positionInClass - counter;
         }
         private async Task<double> GetClassAvgScoreAsync(int? studentClassId)
         {
@@ -319,12 +322,12 @@ namespace SchoolbookApp.Controllers
                    .Where(w => w.StudentId == student.Id && w.IsSemesterGrade == false && w.IsFinalGrade == false)
                    .Select(s => s.Value).ToList();
                 double avgStudentScore = 0;
-                if (studentGrades.Count>0)
+                if (studentGrades.Count > 0)
                     avgStudentScore = (double)studentGrades.Sum() / studentGrades.Count();
 
                 avgScore += avgStudentScore;
             }
-            return Math.Round(avgScore/students.Count(),2);
+            return Math.Round(avgScore / students.Count(), 2);
         }
 
     }
