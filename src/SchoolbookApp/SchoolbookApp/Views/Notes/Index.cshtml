@@ -29,12 +29,12 @@
                 </td>
                 @foreach (var subject in ViewBag.SubjectNames)
                 {
-                    @if (subject.Key == note.SubjectId) { 
+                    @if (subject.Value == note.Subject.SubjectType.Name) { 
                          <td>
                             @subject.Value
                         </td>
+                        break;
                     }
-
                 }
                  <td>
                      @note.DateTime

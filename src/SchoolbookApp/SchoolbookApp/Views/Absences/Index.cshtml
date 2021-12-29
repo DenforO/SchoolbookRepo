@@ -42,12 +42,12 @@
 
                     @foreach (var subject in ViewBag.SubjectNames)
                     {
-                        @if (subject.Key == absence.SubjectId) { 
+                        @if (subject.Value == absence.Subject.SubjectType.Name) { 
                             <td>
                                  @subject.Value
                             </td>
-                         }
-
+                            break;
+                        }
                     }
 
                     <td>
