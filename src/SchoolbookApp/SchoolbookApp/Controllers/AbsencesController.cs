@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +14,47 @@ namespace SchoolbookApp.Controllers
     public class AbsencesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AbsencesController(ApplicationDbContext context)
+        public AbsencesController(ApplicationDbContext context,UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Absences
         public async Task<IActionResult> Index()
         {
             return View(await _context.Absence.ToListAsync());
+        }
+        public async Task<IActionResult> GetAbsencesAsStudent()
+        {
+            ApplicationUser user = await GetCurrentUserAsync();
+            var absences = _context.Absence.Where(w => w.StudentId == user.Id).ToList();
+            var subjects = _context.Absence.Where(w => w.StudentId == user.Id).Select(s => s.Subject).ToList();
+            Dictionary<int, string> subjectNames = new Dictionary<int, string>();
+            foreach (var subject in subjects)
+            {
+                subject.SubjectType = _context.SubjectType.Where(w => w.Id == subject.SubjectTypeId).FirstOrDefault();
+                subjectNames.Add(subject.Id, subject.SubjectType.Name);
+            }
+
+            ViewBag.SubjectNames = subjectNames;
+            return View("Index", absences);
+        }
+        public async Task<IActionResult> GetAbsencesAsParent(string id)
+        {
+            var absences = _context.Absence.Where(w => w.StudentId == id).ToList();
+            var subjects = _context.Absence.Where(w => w.StudentId == id).Select(s => s.Subject).ToList();
+            Dictionary<int, string> subjectNames = new Dictionary<int, string>();
+            foreach (var subject in subjects)
+            {
+                subject.SubjectType = _context.SubjectType.Where(w => w.Id == subject.SubjectTypeId).FirstOrDefault();
+                subjectNames.Add(subject.Id, subject.SubjectType.Name);
+            }
+
+            ViewBag.SubjectNames = subjectNames;
+            return View("Index",absences);
         }
 
         // GET: Absences/Details/5
@@ -149,5 +181,7 @@ namespace SchoolbookApp.Controllers
         {
             return _context.Absence.Any(e => e.Id == id);
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }

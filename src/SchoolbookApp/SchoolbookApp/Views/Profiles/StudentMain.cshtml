@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<SchoolbookApp.Models.Subject>
+
 @{
     ViewData["Title"] = "StudentMain";
 }
@@ -8,9 +9,9 @@
 <body>
     <div class="greet">
         <h1>@ViewBag.Name @ViewBag.Surname, @ViewBag.StudentClassNum@ViewBag.StudentClassLetter</h1>
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+        @*<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
             <button id="logout_btn" type="submit" class="btn btn-danger">Излез</button>
-        </form>
+        </form>*@
     </div>
     
     <div class="student-layout">
@@ -59,8 +60,8 @@
     <a type="button" class="btn btn-info btn-lg btn-block" asp-action="StudentsProgram" asp-controller="Subjects">Програма</a>
 
     <div id="container">
-        <a type="button" class="btn btn-secondary btn-lg" asp-action="Index" asp-controller="Notes" >Забележки</a>
-        <a type="button" class="btn btn-secondary btn-lg" asp-action="Index" asp-controller="Absences" >Отсъствия</a>
+        <a type="button" class="btn btn-secondary btn-lg" asp-action="GetStudentNotesAsStudent" asp-controller="Notes">Забележки</a>
+        <a type="button" class="btn btn-secondary btn-lg" asp-action="GetAbsencesAsStudent" asp-controller="Absences" >Отсъствия</a>
     </div>
      
      
