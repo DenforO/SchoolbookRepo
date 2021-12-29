@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var el in Model)
+                @foreach (var el in Model.ToList().OrderBy(x => x.Time))
                 {
                     @if (el.Day == DayOfWeek.Monday)
                     {
@@ -45,7 +45,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var el in Model)
+                @foreach (var el in Model.ToList().OrderBy(x => x.Time))
                 {
                     @if (el.Day == DayOfWeek.Tuesday)
                     {
@@ -70,7 +70,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var el in Model)
+                @foreach (var el in Model.ToList().OrderBy(x => x.Time))
                 {
                     @if (el.Day == DayOfWeek.Wednesday)
                     {
@@ -95,7 +95,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var el in Model)
+                @foreach (var el in Model.ToList().OrderBy(x => x.Time))
                 {
                     @if (el.Day == DayOfWeek.Thursday)
                     {
@@ -119,7 +119,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var el in Model)
+                @foreach (var el in Model.ToList().OrderBy(x => x.Time))
                 {
                     @if (el.Day == DayOfWeek.Friday)
                     {

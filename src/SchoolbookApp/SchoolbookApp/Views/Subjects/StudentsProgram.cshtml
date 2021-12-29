@@ -20,16 +20,19 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var subject in Model)
-                {
-                    @if (subject.Day == DayOfWeek.Monday)
+                @{
+                    foreach (var subject in Model.ToList().OrderBy(x => x.Time))
                     {
-                        <tr>
-                            <td>@subject.Time</td>
-                            <td>@subject.SubjectType.Name</td>
-                        </tr>
-                    }
+                        @if (subject.Day == DayOfWeek.Monday)
+                        {
 
+                            <tr>
+                                <td>@subject.Time</td>
+                                <td>@subject.SubjectType.Name</td>
+                            </tr>
+                        }
+
+                    }
                 }
             </tbody>
         </table>
@@ -45,7 +48,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var subject in Model)
+                @foreach (var subject in Model.ToList().OrderBy(x => x.Time))
                 {
                     @if (subject.Day == DayOfWeek.Tuesday)
                     {
@@ -70,7 +73,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var subject in Model)
+                @foreach (var subject in Model.ToList().OrderBy(x => x.Time))
                 {
                     @if (subject.Day == DayOfWeek.Wednesday)
                     {
@@ -95,7 +98,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var subject in Model)
+                @foreach (var subject in Model.ToList().OrderBy(x => x.Time))
                 {
                     @if (subject.Day == DayOfWeek.Thursday)
                     {
@@ -113,10 +116,14 @@
                 <tr>
                     <th colspan="2">Петък</th>
                 </tr>
+                <tr>
+                    <th>Час</th>
+                    <th>Предмет</th>
+                </tr>
 
             </thead>
             <tbody>
-                @foreach (var subject in Model)
+                @foreach (var subject in Model.ToList().OrderBy(x => x.Time))
                 {
                     @if (subject.Day == DayOfWeek.Friday)
                     {
