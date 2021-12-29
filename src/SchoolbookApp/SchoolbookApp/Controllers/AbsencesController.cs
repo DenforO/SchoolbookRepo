@@ -31,12 +31,17 @@ namespace SchoolbookApp.Controllers
         {
             ApplicationUser user = await GetCurrentUserAsync();
             var absences = _context.Absence.Where(w => w.StudentId == user.Id).ToList();
+            foreach (var absence in absences)
+            {
+               absence.Subject = _context.Subject.Where(w => w.Id == absence.SubjectId).FirstOrDefault();
+               absence.Subject.SubjectType = _context.SubjectType.Where(w => w.Id == absence.Subject.SubjectTypeId).FirstOrDefault();
+            }
             var subjects = _context.Absence.Where(w => w.StudentId == user.Id).Select(s => s.Subject).ToList();
             Dictionary<int, string> subjectNames = new Dictionary<int, string>();
-            foreach (var subject in subjects)
+            for(int i = 0;i<subjects.Count;i++)
             {
-                subject.SubjectType = _context.SubjectType.Where(w => w.Id == subject.SubjectTypeId).FirstOrDefault();
-                subjectNames.Add(subject.Id, subject.SubjectType.Name);
+                subjects[i].SubjectType = _context.SubjectType.Where(w => w.Id == subjects[i].SubjectTypeId).FirstOrDefault();
+                subjectNames.Add(i, subjects[i].SubjectType.Name);
             }
 
             ViewBag.SubjectNames = subjectNames;
@@ -45,12 +50,17 @@ namespace SchoolbookApp.Controllers
         public async Task<IActionResult> GetAbsencesAsParent(string id)
         {
             var absences = _context.Absence.Where(w => w.StudentId == id).ToList();
+            foreach (var absence in absences)
+            {
+                absence.Subject = _context.Subject.Where(w => w.Id == absence.SubjectId).FirstOrDefault();
+                absence.Subject.SubjectType = _context.SubjectType.Where(w => w.Id == absence.Subject.SubjectTypeId).FirstOrDefault();
+            }
             var subjects = _context.Absence.Where(w => w.StudentId == id).Select(s => s.Subject).ToList();
             Dictionary<int, string> subjectNames = new Dictionary<int, string>();
-            foreach (var subject in subjects)
+            for (int i = 0; i < subjects.Count; i++)
             {
-                subject.SubjectType = _context.SubjectType.Where(w => w.Id == subject.SubjectTypeId).FirstOrDefault();
-                subjectNames.Add(subject.Id, subject.SubjectType.Name);
+                subjects[i].SubjectType = _context.SubjectType.Where(w => w.Id == subjects[i].SubjectTypeId).FirstOrDefault();
+                subjectNames.Add(i, subjects[i].SubjectType.Name);
             }
 
             ViewBag.SubjectNames = subjectNames;
