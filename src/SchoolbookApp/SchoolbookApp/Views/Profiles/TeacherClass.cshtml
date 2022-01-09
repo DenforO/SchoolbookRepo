@@ -42,10 +42,10 @@
                     <th>Нова оценка</th>
                     <th>Нова забележка</th>
                     <th>Ново отсъствие</th>
-                    @if (isMainTeacher)
+                    @*@if (isMainTeacher)
                     {
                         <th>Още</th>
-                    }
+                    }*@
                 </tr>
                 @foreach (var student in studentObj)
                 {
@@ -60,44 +60,53 @@
                     <tr>
                         <td class="numberInClass">@studentCount</td>
                         <td>@fullName.ToString()</td>
-                        <td>@grades.ToString()</td>
                         <td>
-                            <input type="hidden" value="@studentId" asp-for="Grade.StudentId" />
-                            <input type="hidden" value="@studentId" asp-for="Absence.StudentId" />
-                            <input type="hidden" value="@studentId" asp-for="Note.StudentId" />
-                            <div id="gradeSection">
-                                <div id="gradeNum">
-                                    <label asp-for="Grade.Value" class="control-label">Оценка: </label>
-                                    <select asp-for="Grade.Value" class="form-control tableInputDDFields">
-                                        <option value="-1"></option>
-                                        <option value="6">6</option>
-                                        <option value="5">5</option>
-                                        <option value="4">4</option>
-                                        <option value="3">3</option>
-                                        <option value="2">2</option>
-                                    </select>
+                            @grades.ToString()
+
+                        </td>
+                        <td>
+                            <div class="saveSection">
+                                <button id="btnSaveClassChanges" class="dropbtn" asp-controller="Grades" asp-action="GradesTeacherClass" asp-route-studentId="@studentId" asp-route-subjectId="@subjId">Нанеси/редактирай</button>
+                                    @*<input type="hidden" value="@studentId" asp-for="Grade.StudentId" />
+                                    <input type="hidden" value="@studentId" asp-for="Absence.StudentId" />
+                                    <input type="hidden" value="@studentId" asp-for="Note.StudentId" />
+                                    <div id="gradeSection">
+                                        <div id="gradeNum">
+                                            <label asp-for="Grade.Value" class="control-label">Оценка: </label>
+                                            <select asp-for="Grade.Value" class="form-control tableInputDDFields">
+                                                <option value="-1"></option>
+                                                <option value="6">6</option>
+                                                <option value="5">5</option>
+                                                <option value="4">4</option>
+                                                <option value="3">3</option>
+                                                <option value="2">2</option>
+                                            </select>
+                                        </div>
+                                        <div id="gradeReason">
+                                            <label asp-for="Grade.Basis" class="control-label">Причина: </label>
+                                            <select style="width: 160px;" asp-for="Grade.Basis" class="form-control tableInputDDFields">
+                                                <option value="-1"></option>
+                                                <option value="Срочна">Срочна</option>
+                                                <option value="Годишна">Годишна</option>
+                                                <option value="Класно">Класно</option>
+                                                <option value="Тест">Тест</option>
+                                                <option value="Устно изпитване">Устно изпитване</option>
+                                                <option value="Писмено изпитване">Писмено изпитване</option>
+                                            </select>
+                                            <div>
+                                                <label asp-for="Grade.DateTime" class="control-label">Дата: </label>
+                                                <input asp-for="Grade.DateTime" class="form-control tableInputDDFields" />
+                                            </div>
+                                        </div>
+                                    </div>*@
                                 </div>
-                                <div id="gradeReason">
-                                    <label asp-for="Grade.Basis" class="control-label">Причина: </label>
-                                    <select style="width: 160px;" asp-for="Grade.Basis" class="form-control tableInputDDFields">
-                                        <option value="-1"></option>
-                                        <option value="Срочна">Срочна</option>
-                                        <option value="Годишна">Годишна</option>
-                                        <option value="Класно">Класно</option>
-                                        <option value="Тест">Тест</option>
-                                        <option value="Устно изпитване">Устно изпитване</option>
-                                        <option value="Писмено изпитване">Писмено изпитване</option>
-                                    </select>
-                                    <div>
-                                        <label asp-for="Grade.DateTime" class="control-label">Дата: </label>
-                                        <input asp-for="Grade.DateTime" class="form-control tableInputDDFields" />
-                                    </div>
-                                </div>
-                            </div>
                         </td>
                         <td>
                             <div id="noteSection">
-                                <div>
+                                <div class="saveSection">
+                                    <button id="btnSaveClassChanges" class="dropbtn" asp-controller="Notes" asp-action="NotesTeacherClass" asp-route-studentId="@studentId" asp-route-subjectId="@subjId" style="background-color:brown">Нанеси/редактирай</button>
+                                </div>
+                                @*<div>
                                     <label asp-for="Note.Text" class="control-label">Забележка: </label>
                                     <input asp-for="Note.Text" class="form-control tableInputDDFields" />
                                 </div>
@@ -105,10 +114,13 @@
                                     <label asp-for="Note.DateTime" class="control-label">Дата: </label>
                                     <input asp-for="Note.DateTime" class="form-control tableInputDDFields" />
                                 </div>
-                            </div>
+                            </div>*@
                         </td>
                         <td>
-                            <div id="absenceSection">
+                            <div class="saveSection">
+                                <button id="btnSaveClassChanges" class="dropbtn" asp-controller="Absences" asp-action="AbsencesTeacherClass" asp-route-studentId="@studentId" asp-route-subjectId="@subjId" style="background-color:darkcyan">Нанеси/редактирай</button>
+                            </div>
+                            @*<div id="absenceSection">
                                 <label>Брой отсъствия: </label>
                                 <div>
                                     @Html.RadioButtonFor(model => model.Absence.Half, "true", false)@Html.Label("половин")
@@ -118,7 +130,7 @@
                                     <label asp-for="Absence.DateTime" class="control-label">Дата: </label>
                                     <input asp-for="Absence.DateTime" class="form-control tableInputDDFields" />
                                 </div>
-                            </div>
+                            </div>*@
                         </td>
                         @*@if (isMainTeacher)
                         {
@@ -131,13 +143,13 @@
                                 }
                             </td>
                         }*@
-                        <td class="tdSaveChanges">
+                        <!--<td class="tdSaveChanges">
                             <div class="saveSection">
-                                <button id="btnSaveClassChanges" class="dropbtn" onclick="SaveStudentChanges()">Запиши промени</button>
+                                <button id="btnSaveClassChanges" class="dropbtn" onclick="SaveStudentChanges()">Запиши промени</button>-->
                                 @*//TO DO:
                                 <button id="btnSaveClassChanges" class="dropbtn" onclick="AddAbsence(@studentId, @subjid)">Ново отсъствие</button>*@
-                            </div>
-                        </td>
+                            <!--</div>
+                        </td>-->
                     </tr>
                 }
             </table>

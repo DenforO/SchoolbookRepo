@@ -1,0 +1,45 @@
+﻿@model IEnumerable<SchoolbookApp.Models.Grade>
+
+@{ 
+    ViewBag.Title = "GradesTeacherClass";
+}
+
+<h4>Оценки на @ViewBag.Student</h4>
+<p>
+    <a asp-action="Create" asp-route-studentId="@ViewBag.StudentId" asp-route-subjectId="@ViewBag.SubjectId">Нанеси оценка</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Оценка
+            </th>
+            <th>
+                Причина
+            </th>
+            <th>
+                Дата
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Value)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Basis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateTime)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редактирай</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Изтрий</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

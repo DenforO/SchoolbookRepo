@@ -1,0 +1,44 @@
+﻿@model IEnumerable<SchoolbookApp.Models.Absence>
+
+@{
+    ViewBag.Title = "AbsencesTeacherClass";
+}
+<h4>Отсъствия на @ViewBag.Student</h4>
+<p>
+    <a asp-action="Create" asp-route-studentId="@ViewBag.StudentId" asp-route-subjectId="@ViewBag.SubjectId">Нанеси отсъствие</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Отсъствие
+            </th>
+            <th>
+                Дата и час
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @if (item.Half)
+                {
+                    <td>1/2</td>
+                }
+                else
+                {
+                    <td>1</td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateTime)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Редактирай</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Изтрий</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

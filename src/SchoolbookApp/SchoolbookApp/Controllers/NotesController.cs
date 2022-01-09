@@ -85,9 +85,23 @@ namespace SchoolbookApp.Controllers
             return View(note);
         }
 
-        // GET: Notes/Create
-        public IActionResult Create()
+        // Get: Notes/NotesTeacherClass
+        public async Task<IActionResult> NotesTeacherClass(string? studentId, int? subjectId)
         {
+            ViewBag.Student = _userManager.FindByIdAsync(studentId).Result;
+            ViewBag.StudentId = studentId;
+            ViewBag.SubjectId = subjectId;
+            var notes = _context.Note.Where(x => x.StudentId == studentId && x.SubjectId == subjectId);
+            return View(notes);
+        }
+
+        // GET: Notes/Create
+        public IActionResult Create(string? studentId, int? subjectId)
+        {
+            ViewBag.Student = _userManager.FindByIdAsync(studentId).Result;
+            ViewBag.StudentId = studentId;
+            ViewBag.SubjectId = subjectId;
+            ViewBag.SubjectType = _context.SubjectType.Find(_context.Subject.Find(subjectId).SubjectTypeId).Name;
             return View();
         }
 
@@ -96,15 +110,18 @@ namespace SchoolbookApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Text,Id,StudentId,DateTime")] Note note)
+        public async Task<IActionResult> Create([Bind("Text,Id,DateTime")] Note note, string? studentId, int? subjectId)
         {
+            note.StudentId = studentId;
+            note.SubjectId = subjectId;
+
             if (ModelState.IsValid)
             {
                 _context.Add(note);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
             }
-            return View(note);
+            return RedirectToRoute(new { action = "TeacherMain", controller = "Profiles" });
         }
 
         // GET: Notes/Edit/5
