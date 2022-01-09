@@ -108,6 +108,7 @@ namespace SchoolbookApp.Controllers
         {
             ViewBag.Teachers = _userManager.GetUsersInRoleAsync("Teacher").Result;
             ViewBag.SubjectTypes = _context.SubjectType.ToList();
+            ViewBag.Rooms = _context.Room.ToList();
             ViewBag.Subjects = _context.Subject.ToListAsync();
             //List<string> subjectTypes = new List<string>();
             //foreach (var subjectType in _context.SubjectType)
@@ -122,9 +123,21 @@ namespace SchoolbookApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Day,Time,SubjectTypeId")] Subject subject, int schoolClassNum, char schoolClassLetter, string teacherEmail)
+        public async Task<IActionResult> Create([Bind("Id,Day,Time,SubjectTypeId,RoomId")] Subject subject, int schoolClassNum, char schoolClassLetter, string teacherEmail)
         {
-            if (ModelState.IsValid)
+            var subjects= _context.Subject.ToList();
+            bool invalid = false;
+            foreach (var item in subjects)
+            {
+                if (item.Time + TimeSpan.FromMinutes(40) > subject.Time 
+                    && item.Time - TimeSpan.FromMinutes(40) < subject.Time
+                    && item.Room == subject.Room)
+                {
+                    invalid = true;
+                    break;
+                }
+            }
+            if (ModelState.IsValid && !invalid)
             {
                 subject.TeacherId = _userManager.FindByEmailAsync(teacherEmail).Result.Id;
                 subject.SchoolClassId = _context.SchoolClass.ToList().Where(x => x.Letter == schoolClassLetter && x.Num == schoolClassNum).Single().Id;
@@ -132,7 +145,8 @@ namespace SchoolbookApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(subject);
+            return NotFound();
+
         }
 
         // GET: Subjects/Edit/5

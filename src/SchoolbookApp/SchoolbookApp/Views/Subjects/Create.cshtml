@@ -74,6 +74,15 @@
                     <span asp-validation-for="Time" class="text-danger"></span>
                 </div>
             </div>
+            <div class="form-row">
+                <label asp-for="Room" class="control-label">Стая</label>
+                <select asp-for="RoomId" class="form-control">
+                    @foreach (var room in ViewBag.Rooms)
+                    {
+                        <option value=@room.Id>@room.Name</option>
+                    }
+                </select>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Добави" class="btn btn-primary" />
             </div>
