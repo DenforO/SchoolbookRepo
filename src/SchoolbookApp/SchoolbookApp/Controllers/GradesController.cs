@@ -97,9 +97,23 @@ namespace SchoolbookApp.Controllers
             return View(grade);
         }
 
-        // GET: Grades/Create
-        public IActionResult Create()
+        // Get: Grades/GradesTeacherClass
+        public async Task<IActionResult> GradesTeacherClass(string? studentId, int? subjectId)
         {
+            ViewBag.Student = _userManager.FindByIdAsync(studentId).Result;
+            ViewBag.StudentId = studentId;
+            ViewBag.SubjectId = subjectId;
+            var grades = _context.Grade.Where(x => x.StudentId == studentId && x.SubjectId == subjectId);
+            return View(grades);
+        }
+
+        // GET: Grades/Create
+        public IActionResult Create(string? studentId, int? subjectId)
+        {
+            ViewBag.Student = _userManager.FindByIdAsync(studentId).Result;
+            ViewBag.StudentId = studentId;
+            ViewBag.SubjectId = subjectId;
+            ViewBag.SubjectType = _context.SubjectType.Find(_context.Subject.Find(subjectId).SubjectTypeId).Name;
             return View();
         }
 
@@ -108,19 +122,18 @@ namespace SchoolbookApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Value,Basis,MyProperty,IsSemesterGrade,IsFinalGrade,Id,StudentId,DateTime")] Grade grade)
+        public async Task<IActionResult> Create([Bind("Value,Basis,IsSemesterGrade,IsFinalGrade,Id,DateTime")] Grade grade, string? studentId, int? subjectId)
         {
+            grade.StudentId = studentId;
+            grade.SubjectId = subjectId;
+
             if (ModelState.IsValid)
             {
-                //IdentityDbContext _identityContext = _context as IdentityDbContext;
-                //grade.StudentId = _identityContext.Users.Where(x => x.Email == grade.StudentId).FirstOrDefault().Id;
-                //_context.Add(grade);
-                //проверка за свързване на потребители чре many to many таблицата
-                //_context.UserUser.Add(new UserUser() { StudentId = grade.StudentId, UserId= "a5b7c601-d6e3-4198-826f-c685aee3cdc4" });
+                _context.Grade.Add(grade);
+
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            return View(grade);
+            return RedirectToRoute(new { action = "TeacherMain", controller = "Profiles" });
         }
 
         // GET: Grades/Edit/5

@@ -2,40 +2,37 @@
 
 @{
     ViewData["Title"] = "Create";
+    ViewBag.Title = "Create";
 }
 
-<h1>Create</h1>
+<h1>Нова забележка</h1>
 
-<h4>Note</h4>
+<h4>на @ViewBag.Student</h4>
+<h4>по @ViewBag.SubjectType</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" asp-route-studentId="@ViewBag.StudentId" asp-route-subjectId="@ViewBag.SubjectId">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Text" class="control-label"></label>
+                <label asp-for="Text" class="control-label">Причина</label>
                 <input asp-for="Text" class="form-control" />
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StudentId" class="control-label"></label>
-                <input asp-for="StudentId" class="form-control" />
-                <span asp-validation-for="StudentId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateTime" class="control-label"></label>
+                <label asp-for="DateTime" class="control-label">Дата и час</label>
                 <input asp-for="DateTime" class="form-control" />
                 <span asp-validation-for="DateTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Нанеси" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="NotesTeacherClass" asp-route-studentId="@ViewBag.StudentId" asp-route-subjectId="@ViewBag.SubjectId">Назад</a>
 </div>
 
 @section Scripts {
