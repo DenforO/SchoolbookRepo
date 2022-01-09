@@ -11,6 +11,9 @@ namespace SchoolbookApp.Models
         public DayOfWeek Day { get; set; }
         public TimeSpan Time { get; set; }
 
+        public int? RoomId { get; set; }
+        public Room Room { get; set; }
+
         public int? SubjectTypeId { get; set; }
         public SubjectType SubjectType { get; set; }
 
