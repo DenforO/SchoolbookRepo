@@ -85,9 +85,23 @@ namespace SchoolbookApp.Controllers
             return View(absence);
         }
 
-        // GET: Absences/Create
-        public IActionResult Create()
+        // Get: Grades/GradesTeacherClass
+        public async Task<IActionResult> AbsencesTeacherClass(string? studentId, int? subjectId)
         {
+            ViewBag.Student = _userManager.FindByIdAsync(studentId).Result;
+            ViewBag.StudentId = studentId;
+            ViewBag.SubjectId = subjectId;
+            var absences = _context.Absence.Where(x => x.StudentId == studentId && x.SubjectId == subjectId);
+            return View(absences);
+        }
+
+        // GET: Absences/Create
+        public IActionResult Create(string? studentId, int? subjectId)
+        {
+            ViewBag.Student = _userManager.FindByIdAsync(studentId).Result;
+            ViewBag.StudentId = studentId;
+            ViewBag.SubjectId = subjectId;
+            ViewBag.SubjectType = _context.SubjectType.Find(_context.Subject.Find(subjectId).SubjectTypeId).Name;
             return View();
         }
 
@@ -96,15 +110,18 @@ namespace SchoolbookApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Half,isExcused,Id,StudentId,DateTime")] Absence absence)
+        public async Task<IActionResult> Create([Bind("Half,isExcused,Id,DateTime")] Absence absence, string? studentId, int? subjectId)
         {
+            absence.StudentId = studentId;
+            absence.SubjectId = subjectId;
+
             if (ModelState.IsValid)
             {
-                _context.Add(absence);
+                _context.Absence.Add(absence);
+
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            return View(absence);
+            return RedirectToRoute(new { action = "TeacherMain", controller = "Profiles" });
         }
 
         // GET: Absences/Edit/5
