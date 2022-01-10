@@ -165,7 +165,7 @@ namespace SchoolbookApp.Controllers
         public IActionResult SaveChanges()
         {
 
-            return View("ParentMain");
+            return View();
 
         }
 

@@ -10,12 +10,12 @@
     <br />
     <br />
     <br />
-<div class="container">
-    <div class="row">
-        @**@
-        @foreach (var child in ViewBag.Children)
-        {
-            <div class="col-lg-4">
+    <div class="container">
+        <div class="row">
+            @**@
+            @foreach (var child in ViewBag.Children)
+            {
+                <div class="col-lg-4">
                 <div class="card card-margin">
                     <div class="card-header no-border">
                         <h5 class="card-title">@child.Name @child.Surname</h5>
@@ -26,13 +26,13 @@
                                 @foreach (var childClass in ViewBag.ChildrenClass)
                                 {
                                     
-                                    @if (childClass.Id == child.SchoolClassId)
-                                    {
-                                        <div class="widget-49-date-primary">
-                                            <span class="widget-49-date-day">@childClass.Num @childClass.Letter</span>
-                                            <span class="widget-49-date-month">Клас</span>
-                                        </div>
-                                    }
+                                        @if (childClass.Id == child.SchoolClassId)
+                                        {
+                                            <div class="widget-49-date-primary">
+                                                <span class="widget-49-date-day">@childClass.Num @childClass.Letter</span>
+                                                <span class="widget-49-date-month">Клас</span>
+                                            </div>
+                                        }
 
                                 }
 
@@ -68,9 +68,7 @@
                     </div>
                 </div>
             </div>
-        }
-    </div>
-</div>
-@**@ 
+            }
+            @**@ 
 </body>
 </html>
