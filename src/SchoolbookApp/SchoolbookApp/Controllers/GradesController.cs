@@ -218,7 +218,7 @@ namespace SchoolbookApp.Controllers
             var grade = await _context.Grade.FindAsync(id);
             _context.Grade.Remove(grade);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToRoute(new { action = "Index", controller = "Home" });
         }
 
         private bool GradeExists(int id)

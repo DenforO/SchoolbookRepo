@@ -137,6 +137,7 @@ namespace SchoolbookApp.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Student = _userManager.Users.Where(x => x.Id == note.StudentId).SingleOrDefault();
             return View(note);
         }
 
@@ -145,7 +146,7 @@ namespace SchoolbookApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Text,Id,StudentId,DateTime")] Note note)
+        public async Task<IActionResult> Edit(int id, [Bind("Text,Id,StudentId,DateTime,SubjectId")] Note note)
         {
             if (id != note.Id)
             {
@@ -170,7 +171,7 @@ namespace SchoolbookApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToRoute(new { action = "Index", controller = "Home" });
             }
             return View(note);
         }
@@ -201,7 +202,7 @@ namespace SchoolbookApp.Controllers
             var note = await _context.Note.FindAsync(id);
             _context.Note.Remove(note);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToRoute(new { action = "Index", controller = "Home" });
         }
 
         private bool NoteExists(int id)
