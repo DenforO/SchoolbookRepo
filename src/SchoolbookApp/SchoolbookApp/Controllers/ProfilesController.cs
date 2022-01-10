@@ -152,6 +152,7 @@ namespace SchoolbookApp.Controllers
             var classes = _context.Subject.Where(x => x.TeacherId == user.Id).ToList();
             foreach (var el in classes)
             {
+                el.Room = _context.Room.Where(x => x.Id == el.RoomId).FirstOrDefault();
                 el.SchoolClass = _context.SchoolClass.Where(x => x.Id == el.SchoolClassId).FirstOrDefault();
                 el.SubjectType = _context.SubjectType.Where(x => x.Id == el.SubjectTypeId).FirstOrDefault();
             }

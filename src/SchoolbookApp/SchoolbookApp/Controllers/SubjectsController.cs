@@ -88,10 +88,10 @@ namespace SchoolbookApp.Controllers
             {
                 return NotFound();
             }
-
             ViewBag.SchoolClass = _context.SchoolClass.Where(x => x.Id == _context.Subject.Find(id).SchoolClassId).Single();
             ViewBag.Teacher = _userManager.Users.Where(x => x.Id == _context.Subject.Find(id).TeacherId).Single();
             ViewBag.SubjectType = _context.SubjectType.Where(x => x.Id == _context.Subject.Find(id).SubjectTypeId).Single();
+            ViewBag.Room = _context.Room.Where(x=>x.Id== _context.Subject.Find(id).RoomId).Single();
 
             var subject = await _context.Subject
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -131,7 +131,8 @@ namespace SchoolbookApp.Controllers
             {
                 if (item.Time + TimeSpan.FromMinutes(40) > subject.Time 
                     && item.Time - TimeSpan.FromMinutes(40) < subject.Time
-                    && item.Room == subject.Room)
+                    && item.Room == subject.Room
+                    && item.Day == subject.Day)
                 {
                     invalid = true;
                     break;
