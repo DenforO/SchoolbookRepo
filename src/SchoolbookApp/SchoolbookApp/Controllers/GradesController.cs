@@ -149,6 +149,11 @@ namespace SchoolbookApp.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Student = _userManager.Users.Where(x => x.Id == grade.StudentId).SingleOrDefault();
+            ViewBag.Subject = _context.Subject.Where(x => x.Id == grade.SubjectId);
+           
+            ViewBag.SubjectType = _context.SubjectType.Find(_context.Subject.Find(grade.SubjectId).SubjectTypeId).Name;
             return View(grade);
         }
 
@@ -157,7 +162,7 @@ namespace SchoolbookApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Value,Basis,MyProperty,IsSemesterGrade,IsFinalGrade,Id,StudentId,DateTime")] Grade grade)
+        public async Task<IActionResult> Edit(int id, [Bind("Value,Basis,MyProperty,IsSemesterGrade,IsFinalGrade,Id,StudentId,DateTime,SubjectId")] Grade grade)
         {
             if (id != grade.Id)
             {
@@ -182,7 +187,7 @@ namespace SchoolbookApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToRoute(new { action = "Index", controller = "Home" });
             }
             return View(grade);
         }

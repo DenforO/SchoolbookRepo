@@ -2,11 +2,13 @@
 
 @{
     ViewData["Title"] = "Edit";
+    ViewBag.Title = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Поправка на оценка</h1>
 
-<h4>Grade</h4>
+<h4>на @ViewBag.Student</h4>
+<h4>по @ViewBag.SubjectType</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -22,21 +24,15 @@
                 <input asp-for="Basis" class="form-control" />
                 <span asp-validation-for="Basis" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsSemesterGrade" /> @Html.DisplayNameFor(model => model.IsSemesterGrade)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsFinalGrade" /> @Html.DisplayNameFor(model => model.IsFinalGrade)
-                </label>
-            </div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="StudentId" class="control-label"></label>
                 <input asp-for="StudentId" class="form-control" />
                 <span asp-validation-for="StudentId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="SubjectId" />
+            <div>
+
             </div>
             <div class="form-group">
                 <label asp-for="DateTime" class="control-label"></label>
@@ -51,7 +47,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-controller="Home">Back to List</a>
 </div>
 
 @section Scripts {
