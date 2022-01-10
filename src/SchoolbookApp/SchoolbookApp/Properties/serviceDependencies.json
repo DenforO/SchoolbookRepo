@@ -3,6 +3,9 @@
     "mssql1": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:DefaultConnection"
+    },
+    "secrets1": {
+      "type": "secrets"
     }
   }
 }
