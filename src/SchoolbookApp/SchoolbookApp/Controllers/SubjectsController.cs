@@ -146,8 +146,8 @@ namespace SchoolbookApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return NotFound();
-
+            ModelState.AddModelError(string.Empty, "Избраната стая е заета в избрания ден и час");
+            return Create();
         }
 
         // GET: Subjects/Edit/5
