@@ -101,7 +101,15 @@ namespace SchoolbookApp.Controllers
             ViewBag.Student = _userManager.FindByIdAsync(studentId).Result;
             ViewBag.StudentId = studentId;
             ViewBag.SubjectId = subjectId;
-            ViewBag.SubjectType = _context.SubjectType.Find(_context.Subject.Find(subjectId).SubjectTypeId).Name;
+            var subject = _context.Subject.Find(subjectId);
+            if(null != subject)
+            {
+                var subjectType = _context.SubjectType.Find(subject.SubjectTypeId);
+                if (null != subjectType)
+                {
+                    ViewBag.SubjectType = subjectType.Name;
+                }
+            }
             return View();
         }
 
@@ -133,6 +141,8 @@ namespace SchoolbookApp.Controllers
             }
 
             var absence = await _context.Absence.FindAsync(id);
+            ViewBag.Absence = absence;
+            ViewBag.Student = await _userManager.FindByIdAsync(absence.StudentId);
             if (absence == null)
             {
                 return NotFound();
@@ -170,7 +180,7 @@ namespace SchoolbookApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToRoute(new { action = "Index", controller = "Home" });
             }
             return View(absence);
         }

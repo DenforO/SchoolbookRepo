@@ -1,12 +1,12 @@
 ﻿@model SchoolbookApp.Models.Absence
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Редактиране на отсъствие";
 }
 
-<h1>Edit</h1>
-
-<h4>Absence</h4>
+<h1>Редактиране на отсъствие</h1>
+<h4>на @ViewBag.Student</h4>
+<h4>за @ViewBag.Absence.DateTime</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,21 +14,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Half" /> @Html.DisplayNameFor(model => model.Half)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="isExcused" /> @Html.DisplayNameFor(model => model.isExcused)
+                    @Html.DisplayNameFor(model => model.Half)
+                    <input class="form-check-input" asp-for="Half" />
                 </label>
             </div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
+            <div class="form-group" style="display: none">
                 <label asp-for="StudentId" class="control-label"></label>
                 <input asp-for="StudentId" class="form-control" />
                 <span asp-validation-for="StudentId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display: none">
                 <label asp-for="DateTime" class="control-label"></label>
                 <input asp-for="DateTime" class="form-control" />
                 <span asp-validation-for="DateTime" class="text-danger"></span>
@@ -41,7 +37,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-controller="Home">Back to List</a>
 </div>
 
 @section Scripts {
